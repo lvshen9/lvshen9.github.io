@@ -22,7 +22,8 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="">
+    #<meta name="keywords" content="">
+    <meta name="baidu-site-verification" content="VIVNdSiMZm" />
     <meta name="description" content="学如逆水行舟，不进则退">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lvshen&#39;s Blog">
@@ -170,6 +171,64 @@
 <div class="container body-wrap">
 
     <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="post-RESTful-架构风格概述"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-09-11 20:35:33" datetime="2017-09-11T12:35:33.000Z"  itemprop="datePublished">2017-09-11</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/09/11/RESTful-架构风格概述/">RESTful 架构风格概述</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <blockquote>
+<p>本文转载于<a href="http://blog.igevin.info/" target="_blank" rel="external">Gevin’s Blog</a><br><a href="http://blog.igevin.info/posts/restful-architecture-in-general/" target="_blank" rel="external">原文地址</a></p>
+</blockquote>
+<p>在移动互联网的大潮下，随着docker等技术的兴起，『微服务』的概念也越来越被大家接受并应用于实践，日益增多的web service逐渐统一于RESTful 架构风格，如果开发者对RESTful 架构风格不甚了解，则开发出的所谓RESTful API总会貌合神离，不够规范。</p>
+<p>本文是我对RESTful 架构风格的一些理解，和大家分享一下，如果有问题，欢迎讨论。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://upload-images.jianshu.io/upload_images/4041-41b9f1dd66be83b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Restful Style" title="">
+                </div>
+                <div class="image-caption">Restful Style</div>
+            </figure>
+    
+
+        <a href="/2017/09/11/RESTful-架构风格概述/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebService/">WebService</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/restful/">restful</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
     
         <li class="post-list-item fade">
             <article id="post-Why-We-Need-DI"
@@ -673,64 +732,6 @@
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-You-don-t-know-Js"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-09-03 22:56:21" datetime="2017-09-03T14:56:21.000Z"  itemprop="datePublished">2017-09-03</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/09/03/You-don-t-know-Js/">You don&#39;t know Js</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><blockquote>
-<p>一门语言需要一套设计良好的规则来存储变量，并且之后可以方便的找到这些变量，这逃规则被称为作用域。</p>
-</blockquote>
-<p>这也意味着当我们访问一个变量的时候，决定这个变量能否访问到的依据就是这个作用域。</p>
-<h5 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h5><p>作用域共有两种主要的工作模型，第一种是最为普通的，被大多数编程语言（包括javascript）采用的<code>词法作用域</code>，另一种叫做<code>动态作用域</code>。而我们平时所提及的作用域，就是这里所说的<code>词法作用域</code>。</p>
-<p>要了解词法作用域，必须要了解javascript引擎以及编译器的大概工作方式。一般程序中的源码在执行前会进行编译三步骤。</p>
-<ul>
-<li>分词/语法分析</li>
-<li>解析/语法分析</li>
-<li>代码生成</li>
-</ul>
-<p>而在分词/词法分析这个步骤，就已经确定了词法作用域。也就说作用域在我们书写代码的时候就已经确定了，引用书中的文字</p>
-    
-
-        <a href="/2017/09/03/You-don-t-know-Js/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/作用域/">作用域</a></li></ul>
 
     </div>
     
