@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>工作总结 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="CRM,Jstorm">
+    <meta name="description" content="一、我的收获部署CRM这次有个比较大的收获就是自己部署CRM系统，CRM系统很复杂，光部署的用户就有10多个。这次的系统部署中，部署的用户有deploy, web, app, cache, search, sec（权限缓存redis）, sna（Session缓存redis）,kafka, zk, proxy, nginx。 要启动系统，这些都要启动。比如：不启动nginx。就获取不到静态资源，登">
+<meta name="keywords" content="CRM,Jstorm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工作总结">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/09/01/工作总结/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="一、我的收获部署CRM这次有个比较大的收获就是自己部署CRM系统，CRM系统很复杂，光部署的用户就有10多个。这次的系统部署中，部署的用户有deploy, web, app, cache, search, sec（权限缓存redis）, sna（Session缓存redis）,kafka, zk, proxy, nginx。 要启动系统，这些都要启动。比如：不启动nginx。就获取不到静态资源，登">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1nLq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1Ke0.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1Vzj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1EWQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1io8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1kFS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1eQs.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1myn.png">
+<meta property="og:updated_time" content="2019-01-17T07:12:33.612Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="工作总结">
+<meta name="twitter:description" content="一、我的收获部署CRM这次有个比较大的收获就是自己部署CRM系统，CRM系统很复杂，光部署的用户就有10多个。这次的系统部署中，部署的用户有deploy, web, app, cache, search, sec（权限缓存redis）, sna（Session缓存redis）,kafka, zk, proxy, nginx。 要启动系统，这些都要启动。比如：不启动nginx。就获取不到静态资源，登">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kp1nLq.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">工作总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">工作总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-01T01:45:51.000Z" itemprop="datePublished" class="page-time">
+  2018-09-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工作/">工作</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#一、我的收获"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、我的收获</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#部署CRM"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">部署CRM</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Log4x部署学习"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Log4x部署学习</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Amber部署学习"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Amber部署学习</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#二、我对技术的一些了解"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、我对技术的一些了解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#关于redis"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">关于redis</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#直接启动"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">直接启动</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#指定配置文件启动"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">指定配置文件启动</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#关于redis消息订阅"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">关于redis消息订阅</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Redis3-0集群搭建"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Redis3.0集群搭建</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#关于Jstorm"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">关于Jstorm</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JStorm组件"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">JStorm组件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#spout"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">spout</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#bolt"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">bolt</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#tuple"><span class="post-toc-number">2.5.3.</span> <span class="post-toc-text">tuple</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#基于消息的流水线系统"><span class="post-toc-number">2.5.4.</span> <span class="post-toc-text">基于消息的流水线系统</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#JVM中的jstorm进程"><span class="post-toc-number">2.5.5.</span> <span class="post-toc-text">JVM中的jstorm进程</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Jstorm相关角色"><span class="post-toc-number">2.5.6.</span> <span class="post-toc-text">Jstorm相关角色</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Storm原理"><span class="post-toc-number">2.5.7.</span> <span class="post-toc-text">Storm原理</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#组件接口"><span class="post-toc-number">2.5.8.</span> <span class="post-toc-text">组件接口</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#调度执行"><span class="post-toc-number">2.5.9.</span> <span class="post-toc-text">调度执行</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#消息之间的通信"><span class="post-toc-number">2.5.10.</span> <span class="post-toc-text">消息之间的通信</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#ack机制"><span class="post-toc-number">2.5.11.</span> <span class="post-toc-text">ack机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#源码分析"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">源码分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Spout"><span class="post-toc-number">2.6.1.</span> <span class="post-toc-text">Spout</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Bolt"><span class="post-toc-number">2.6.2.</span> <span class="post-toc-text">Bolt</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#额外学习：《Java8实战》读书笔记"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">额外学习：《Java8实战》读书笔记</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Lambda-对苹果按重量排序"><span class="post-toc-number">2.7.1.</span> <span class="post-toc-text">Lambda-对苹果按重量排序</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Stream-筛选金额较高的交易"><span class="post-toc-number">2.7.2.</span> <span class="post-toc-text">Stream-筛选金额较高的交易</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Java8中的default关键字"><span class="post-toc-number">2.7.3.</span> <span class="post-toc-text">Java8中的default关键字</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#三、下一步学习方向"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、下一步学习方向</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#四、现有工作建议"><span class="post-toc-number">4.</span> <span class="post-toc-text">四、现有工作建议</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-工作总结"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">工作总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-01 09:45:51" datetime="2018-09-01T01:45:51.000Z"  itemprop="datePublished">2018-09-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工作/">工作</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="一、我的收获"><a href="#一、我的收获" class="headerlink" title="一、我的收获"></a>一、我的收获</h4><h5 id="部署CRM"><a href="#部署CRM" class="headerlink" title="部署CRM"></a>部署CRM</h5><p>这次有个比较大的收获就是自己部署CRM系统，CRM系统很复杂，光部署的用户就有10多个。这次的系统部署中，部署的用户有<code>deploy, web, app, cache, search, sec（权限缓存redis）, sna（Session缓存redis）,kafka, zk, proxy, nginx</code>。</p>
+<p>要启动系统，这些都要启动。比如：不启动<code>nginx</code>。就获取不到静态资源，登陆的js就会报错，点击登录按钮没反应；没有启动proxy，CRM的页面就不能访问，这个代理程序可以配置端口；还有redis也需要启动，不然登陆出现错误；</p>
+<p>其次学会了很多linux 命令操作，尤其是vi的操作。比如vi文件后，假如要删除里面某些内容，我以前通过退格键一个一个数据的删除，后来才知道 ：<code>dd --删除当前行</code>，<code>ndd --删除n行数据，dG --删除当前后之后的全部行</code>。<code>ESC+u --撤销操作</code>。</p>
+<a id="more"></a>
+<p>学会了简单的python脚本，shell脚本的编写</p>
+<p>shell脚本举例：<a href="https://app.yinxiang.com/shard/s64/nl/13785527/80dff77c-3039-4238-8210-f7f8e4a0d715" target="_blank" rel="external">linux 软件安装脚本</a></p>
+<p>python脚本举例: 远程发布文件 ——   <a href="https://app.yinxiang.com/shard/s64/nl/13785527/334355ad-6a58-457a-9fcd-02e6c1b47de2" target="_blank" rel="external">远程发布文件脚本</a></p>
+<p>python比较文件异同:  <a href="https://app.yinxiang.com/shard/s64/nl/13785527/73b268fc-7e16-423d-bacb-36aedde80004" target="_blank" rel="external">文件异同比较</a></p>
+<h5 id="Log4x部署学习"><a href="#Log4x部署学习" class="headerlink" title="Log4x部署学习"></a>Log4x部署学习</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">log4x@test186 ~/support $ ls</div><div class="line">elasticsearch  hadoop  hbase  jdk  jstorm  kafka  redis-4.0.9  zk</div></pre></td></tr></table></figure>
+<p>log4x需要安装 以上的软件，部署本身没啥难度，只要把配置文件的地址，路径配对。系统就可以启起来。</p>
+<p>工作流程：app，web的日志发送到kafka里，jstorm会从这里面取数据（实时计算），把处理后的数据存储到hbase，oracle，elasticsearch中。zk相当于一个公告板，告诉这些软件有哪些信息。</p>
+<h5 id="Amber部署学习"><a href="#Amber部署学习" class="headerlink" title="Amber部署学习"></a>Amber部署学习</h5><p>进行中…..</p>
+<h4 id="二、我对技术的一些了解"><a href="#二、我对技术的一些了解" class="headerlink" title="二、我对技术的一些了解"></a>二、我对技术的一些了解</h4><h5 id="关于redis"><a href="#关于redis" class="headerlink" title="关于redis"></a>关于redis</h5><p>Redis是一种<code>key/value</code>型数据库，我们存值时采用如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">redis&gt;</span><span class="bash">SET message <span class="string">"hello redis"</span></span></div></pre></td></tr></table></figure>
+<p>那么<code>key</code>为<code>message</code>，<code>value</code>为<code>“hello redis”</code>。这里的<code>value</code>为<code>string</code>类型的。redis的值还有其他类型。</p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>对象的名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REDIS_STRING</code></td>
+<td>字符串对象</td>
+</tr>
+<tr>
+<td><code>REDIS_LIST</code></td>
+<td>列表对象</td>
+</tr>
+<tr>
+<td><code>REDIS_HASH</code></td>
+<td>哈希对象</td>
+</tr>
+<tr>
+<td><code>REDIS_SET</code></td>
+<td>集合对象</td>
+</tr>
+<tr>
+<td><code>REDIS_ZSET</code></td>
+<td>有序集合对象</td>
+</tr>
+</tbody>
+</table>
+<h6 id="直接启动"><a href="#直接启动" class="headerlink" title="直接启动"></a>直接启动</h6><p>进入redis根目录，执行命令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-server &amp;</div></pre></td></tr></table></figure>
+<p>在工作中遇到过一个问题，就是当机器非正常断电关机时，无法直接启动redis。直接启动会报错，说进程已经存在。但是进程明明没有了。</p>
+<h6 id="指定配置文件启动"><a href="#指定配置文件启动" class="headerlink" title="指定配置文件启动"></a>指定配置文件启动</h6><p>这时候可以同过配置文件启动，假如我们redis的配置为：<code>etc/redis-7001.conf</code><br>进入redis根目录，输入命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-server etc/redis-7001.conf</div></pre></td></tr></table></figure>
+<p>这样就能启动redis。</p>
+<p>如果给redis配置了自定义的端口，使用<code>redis-cli</code>客户端连接时，也需要指定端口，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-cli -p 7001</div></pre></td></tr></table></figure>
+<h5 id="关于redis消息订阅"><a href="#关于redis消息订阅" class="headerlink" title="关于redis消息订阅"></a>关于redis消息订阅</h5><p>redis的发布订阅系统有点类似于我们生活中的电台，电台可以在某一个频率上发送广播，而我们可以接收任何一个频率的广播，这种消息订阅没有kafka高效。</p>
+<p>订阅消息的方式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:12001&gt; SUBSCRIBE c1 c2 c3</div><div class="line">Reading messages... (press Ctrl-C to quit)</div><div class="line">1) "subscribe"</div><div class="line">2) "c1"</div><div class="line">3) (integer) 1</div><div class="line">1) "subscribe"</div><div class="line">2) "c2"</div><div class="line">3) (integer) 2</div><div class="line">1) "subscribe"</div><div class="line">2) "c3"</div><div class="line">3) (integer) 3</div></pre></td></tr></table></figure>
+<p>这个表示接收c1，c2，c3三个频道传来的消息，发送消息的方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:12001&gt; PUBLISH c1 "I am lvshen"</div><div class="line">(integer) 1</div></pre></td></tr></table></figure>
+<p>当c1这个频道上有消息发出时，此时在消息订阅控制台可以看到如下输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1) "message"</div><div class="line">2) "c1"</div><div class="line">3) "I am lvshen"</div></pre></td></tr></table></figure>
+<p>在redis中，我们也可以使用模式匹配订阅，如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:12001&gt; PSUBSCRIBE c* </div><div class="line">Reading messages... (press Ctrl-C to quit)</div><div class="line">1) "psubscribe"</div><div class="line">2) "c*"</div><div class="line">3) (integer) 1</div></pre></td></tr></table></figure>
+<p>此时可以接收到所有以c开头的频道发来的消息。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1nLq.png" alt="创建c1频道" title="">
+                </div>
+                <div class="image-caption">创建c1频道</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1Ke0.png" alt="另一边在这个频道上发布一个消息" title="">
+                </div>
+                <div class="image-caption">另一边在这个频道上发布一个消息</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1Vzj.png" alt="这里接收到我发布的消息" title="">
+                </div>
+                <div class="image-caption">这里接收到我发布的消息</div>
+            </figure>
+<h5 id="Redis3-0集群搭建"><a href="#Redis3-0集群搭建" class="headerlink" title="Redis3.0集群搭建"></a>Redis3.0集群搭建</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">amber@test185 ~/support/redis/etc $ ls</div><div class="line">redis-7001.conf  redis-7002.conf  redis-7003.conf  redis-7004.conf  redis-7005.conf  redis-7006.conf  redis-7007.conf</div></pre></td></tr></table></figure>
+<p>假设我们要把<code>redis-7007.conf</code>,添加到之前的集群中，并作为<code>7001</code>的从属节点。</p>
+<p>先启动redis-7007，<code>sbin</code>目录下：<code>./redis-server ../etc/redis-7007.conf</code></p>
+<p><strong>将7007添加到7001上：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">amber@test185 ~/support/redis/sbin $ ./redis-trib.rb add-node 10.174.26.185:7007 10.174.26.185:7001</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; Adding node 10.174.26.185:7007 to cluster 10.174.26.185:7001</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; Performing Cluster Check (using node 10.174.26.185:7001)</span></div><div class="line">M: b43c58a7052cbe85e4b1118780874556ba70894c 10.174.26.185:7001</div><div class="line">   slots:0-5460 (5461 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">M: d30c4cde028c4480a4ab69c8b30d103377d36777 10.174.26.185:7002</div><div class="line">   slots:5461-10922 (5462 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: ed81aa0569744c8bb78d92480e69500d77536c6d 10.174.26.185:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 0c42214d66597845cc58da5fed9e17018adba246</div><div class="line">M: 0c42214d66597845cc58da5fed9e17018adba246 10.174.26.185:7003</div><div class="line">   slots:10923-16383 (5461 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: 79b4f97b36e62849028915752d2c5c117095a0d0 10.174.26.185:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates d30c4cde028c4480a4ab69c8b30d103377d36777</div><div class="line">S: 6e5eb750cae44b638cdc3372bc2a9146aff56df5 10.174.26.185:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b43c58a7052cbe85e4b1118780874556ba70894c</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; Check <span class="keyword">for</span> open slots...</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; Check slots coverage...</span></div><div class="line">[OK] All 16384 slots covered.</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; Send CLUSTER MEET to node 10.174.26.185:7007 to make it join the cluster.</span></div><div class="line">[OK] New node added correctly.</div></pre></td></tr></table></figure>
+<p><strong>查看集群信息：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">amber@test185 ~/support/redis/sbin $ ./redis-trib.rb info 10.174.26.185:7007</div><div class="line">10.174.26.185:7007 (ad0f484f...) -&gt; 0 keys | 0 slots | 0 slaves.</div><div class="line">10.174.26.185:7001 (b43c58a7...) -&gt; 0 keys | 5461 slots | 1 slaves.</div><div class="line">10.174.26.185:7003 (0c42214d...) -&gt; 0 keys | 5461 slots | 1 slaves.</div><div class="line">10.174.26.185:7002 (d30c4cde...) -&gt; 0 keys | 5462 slots | 1 slaves.</div><div class="line">[OK] 0 keys in 4 masters.</div><div class="line">0.00 keys per slot on average.</div></pre></td></tr></table></figure>
+<p><code>7007</code>并没有挂在<code>7001</code>上。</p>
+<p><strong>挂载从属节点：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">./redis-cli -h 10.174.26.185 -c -p 7007</div><div class="line">10.174.26.185:7007&gt; cluster nodes</div><div class="line">b43c58a7052cbe85e4b1118780874556ba70894c 10.174.26.185:7001@17001 master - 0 1536119538737 1 connected 0-5460</div><div class="line">ed81aa0569744c8bb78d92480e69500d77536c6d 10.174.26.185:7004@17004 slave 0c42214d66597845cc58da5fed9e17018adba246 0 1536119541000 3 connected</div><div class="line">6e5eb750cae44b638cdc3372bc2a9146aff56df5 10.174.26.185:7005@17005 slave b43c58a7052cbe85e4b1118780874556ba70894c 0 1536119540800 1 connected</div><div class="line">0c42214d66597845cc58da5fed9e17018adba246 10.174.26.185:7003@17003 master - 0 1536119541833 3 connected 10923-16383</div><div class="line">79b4f97b36e62849028915752d2c5c117095a0d0 10.174.26.185:7006@17006 slave d30c4cde028c4480a4ab69c8b30d103377d36777 0 1536119539789 2 connected</div><div class="line">ad0f484fc7b6399e0aa9e3b6d67d5771554a91aa 10.174.26.185:7007@17007 myself,master - 0 1536119539000 0 connected</div><div class="line">d30c4cde028c4480a4ab69c8b30d103377d36777 10.174.26.185:7002@17002 master - 0 1536119539000 2 connected 5461-10922</div><div class="line">10.174.26.185:7007&gt; cluster replicate b43c58a7052cbe85e4b1118780874556ba70894c</div><div class="line">OK</div><div class="line">10.174.26.185:7007&gt; quit</div></pre></td></tr></table></figure>
+<p><strong>查看结果：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">amber@test185 ~/support/redis/sbin $ ./redis-trib.rb info 10.174.26.185:7007</div><div class="line">10.174.26.185:7001 (b43c58a7...) -&gt; 0 keys | 5461 slots | 2 slaves.</div><div class="line">10.174.26.185:7003 (0c42214d...) -&gt; 0 keys | 5461 slots | 1 slaves.</div><div class="line">10.174.26.185:7002 (d30c4cde...) -&gt; 0 keys | 5462 slots | 1 slaves.</div><div class="line">[OK] 0 keys in 3 masters.</div><div class="line">0.00 keys per slot on average.</div></pre></td></tr></table></figure>
+<p>查看<code>nodes-7001.conf</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">amber@test185 ~/data/redis-data $ more nodes-7001.conf</div><div class="line">d30c4cde028c4480a4ab69c8b30d103377d36777 10.174.26.185:7002@17002 master - 0 1536130505000 2 connected 5461-10922</div><div class="line">ed81aa0569744c8bb78d92480e69500d77536c6d 10.174.26.185:7004@17004 slave 0c42214d66597845cc58da5fed9e17018adba246 0 1536130507000 4 connected</div><div class="line">0c42214d66597845cc58da5fed9e17018adba246 10.174.26.185:7003@17003 master - 0 1536130507099 3 connected 10923-16383</div><div class="line">79b4f97b36e62849028915752d2c5c117095a0d0 10.174.26.185:7006@17006 slave d30c4cde028c4480a4ab69c8b30d103377d36777 0 1536130507000 6 connected</div><div class="line">b43c58a7052cbe85e4b1118780874556ba70894c 10.174.26.185:7001@17001 myself,master - 0 1536130504000 1 connected 0-5460</div><div class="line">6e5eb750cae44b638cdc3372bc2a9146aff56df5 10.174.26.185:7005@17005 slave b43c58a7052cbe85e4b1118780874556ba70894c 0 1536130507000 5 connected</div><div class="line">ad0f484fc7b6399e0aa9e3b6d67d5771554a91aa 10.174.26.185:7007@17007 slave b43c58a7052cbe85e4b1118780874556ba70894c 0 1536130507912 1 connected</div></pre></td></tr></table></figure>
+<h5 id="关于Jstorm"><a href="#关于Jstorm" class="headerlink" title="关于Jstorm"></a>关于Jstorm</h5><p>Jstorm是阿里巴巴在storm上改造的软件，特点：24小时时时计算。用于数据分析，如分析日志。</p>
+<p>Jstorm用于海量数据计算，除此之外还有Hadoop的MapReduce编程模型。这个理论模型是由Google发表的。</p>
+<p>MapReduce可以分成<strong>Map</strong>和<strong>Reduce</strong>两部分理解。</p>
+<p>1.Map：映射过程，把一组数据按照某种Map函数映射成新的数据。</p>
+<p>2.Reduce：归约过程，把若干组映射结果进行汇总并输出。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1EWQ.png" alt="MapReduce" title="">
+                </div>
+                <div class="image-caption">MapReduce</div>
+            </figure>
+<p>但是hadoop的这中MapReduce job是执行完就结束，进程退出。而jstorm是执行一遍，又执行一边，24小时永久执行。JStorm之所以能源源不断的运行，是由于当Worker失效或机器出现故障时， 自动分配新的Worker替换失效Worker。使得JStorm具有良好的健壮性。</p>
+<h5 id="JStorm组件"><a href="#JStorm组件" class="headerlink" title="JStorm组件"></a>JStorm组件</h5><h6 id="spout"><a href="#spout" class="headerlink" title="spout"></a>spout</h6><p>spout代表输入的数据源（kafka，DB，HBase，HDFS）</p>
+<h6 id="bolt"><a href="#bolt" class="headerlink" title="bolt"></a>bolt</h6><p>bolt代表处理逻辑，bolt收到消息之后，对消息做处理（即执行用户的业务逻辑），处理完以后，既可以将处理后的消息继续发送到下游的bolt，这样会形成一个处理流水线（pipeline，不过更精确的应该是个有向图）；也可以直接结束。</p>
+<p>通常一个流水线的最后一个bolt，会做一些数据的存储工作，比如将<strong>实时计算出来的数据写入DB、HBase</strong>等，以供前台业务进行查询和展现。</p>
+<h6 id="tuple"><a href="#tuple" class="headerlink" title="tuple"></a>tuple</h6><p>在JStorm中有对于流stream的抽象，流是一个不间断的无界的连续tuple，注意JStorm在建模事件流时，把流中的事件抽象为tuple即元组。</p>
+<p>一个tuple就是一个值列表value list，list中的每个value都有一个name，并且该value可以是基本类型，字符类型，字节数组等，当然也可以是其他可序列化的类型。拓扑的每个节点都要说明它所发射出的元组的字段的name，其他节点只需要订阅该name就可以接收处理。</p>
+<blockquote>
+<p>可以抽象为：spout是一个水龙头，tuple就是水龙头流出的水，bolt就是一个水处理器。spout源头接收其他中间件吐出的数据，数据装配为tuple，流向bolt进行数据处理。处理后的数据存入数据库了。</p>
+</blockquote>
+<h6 id="基于消息的流水线系统"><a href="#基于消息的流水线系统" class="headerlink" title="基于消息的流水线系统"></a>基于消息的流水线系统</h6><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1io8.jpg" alt="流水线系统" title="">
+                </div>
+                <div class="image-caption">流水线系统</div>
+            </figure>
+<h6 id="JVM中的jstorm进程"><a href="#JVM中的jstorm进程" class="headerlink" title="JVM中的jstorm进程"></a>JVM中的jstorm进程</h6><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1kFS.png" alt="JVM中的JStorm进程" title="">
+                </div>
+                <div class="image-caption">JVM中的JStorm进程</div>
+            </figure>
+<h6 id="Jstorm相关角色"><a href="#Jstorm相关角色" class="headerlink" title="Jstorm相关角色"></a>Jstorm相关角色</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">–Nimbus：资源调度角色</div><div class="line">–Supervisor：接受nimubs 任务安排，启动任务</div><div class="line">–Worker：进程 </div><div class="line">–Executor：执行线程</div><div class="line">–Task：执行逻辑单元</div></pre></td></tr></table></figure>
+<h6 id="Storm原理"><a href="#Storm原理" class="headerlink" title="Storm原理"></a>Storm原理</h6><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1eQs.png" alt="Storm原理" title="">
+                </div>
+                <div class="image-caption">Storm原理</div>
+            </figure>
+<h6 id="组件接口"><a href="#组件接口" class="headerlink" title="组件接口"></a>组件接口</h6><p>JStorm框架对spout组件定义了一个接口：<code>nextTuple</code>，顾名思义，就是获取下一条消息。执行时，可以理解成JStorm框架会不停地调这个接口，以从数据源拉取数据并往bolt发送数据。</p>
+<p>同时，bolt组件定义了一个接口：<code>execute</code>，这个接口就是用户用来处理业务逻辑的地方。</p>
+<p>每一个topology，既可以有多个spout，代表同时从多个数据源接收消息，也可以多个bolt，来执行不同的业务逻辑。</p>
+<h6 id="调度执行"><a href="#调度执行" class="headerlink" title="调度执行"></a>调度执行</h6><p>接下来就是topology的调度和执行原理，对一个topology，JStorm最终会调度成一个或多个worker，每个worker即为一个真正的操作系统执行进程，分布到一个集群的一台或者多台机器上并行执行。</p>
+<p>而每个worker中，又可以有多个task，分别代表一个执行线程。每个task就是上面提到的组件(component)的实现，要么是spout要么是bolt。</p>
+<blockquote>
+<p>一个topology对应多个worker；每个worker，对应多个task；每个task，需要靠spout或bolt实现</p>
+</blockquote>
+<h6 id="消息之间的通信"><a href="#消息之间的通信" class="headerlink" title="消息之间的通信"></a>消息之间的通信</h6><blockquote>
+<p>spout与bolt，bolt与bolt之间是怎么通信的？</p>
+</blockquote>
+<p>首先，从spout发送消息的时候，JStorm会计算出消息要发送的目标task id列表，然后看目标task id是在本进程中，还是其他进程中，如果是本进程中，那么就可以直接走进程内部通信（如直接将这个消息放入本进程中目标task的执行队列中）；如果是跨进程，那么JStorm会使用netty来将消息发送到目标task中。</p>
+<h6 id="ack机制"><a href="#ack机制" class="headerlink" title="ack机制"></a>ack机制</h6><p>用于判断spout发出的消息是否被成功处理，或失败处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">在规定的时间内，spout收到Acker的ack响应，即认为该tuple 被后续bolt成功处理</div><div class="line">在规定的时间内，没有收到Acker的ack响应tuple，就触发fail动作，即认为该tuple处理失败，</div><div class="line">或者收到Acker发送的fail响应tuple，也认为失败，触发fail动作</div></pre></td></tr></table></figure>
+<h5 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h5><p>源码围绕Spout和Bolt构建</p>
+<h6 id="Spout"><a href="#Spout" class="headerlink" title="Spout"></a>Spout</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ISpout</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">open</span><span class="params">(Map conf, TopologyContext context, SpoutOutputCollector collector)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">activate</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">deactivate</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">nextTuple</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">ack</span><span class="params">(Object msgId)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">fail</span><span class="params">(Object msgId)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中注意：</p>
+<ul>
+<li>spout对象必须是继承Serializable， 因此要求spout内所有数据结构必须是可序列化的</li>
+<li>spout可以有构造函数，但构造函数只执行一次，是在提交任务时，创建spout对象，因此在task分配到具体worker之前的初始化工作可以在此处完成，一旦完成，初始化的内容将携带到每一个task内（因为提交任务时将spout序列化到文件中去，在worker起来时再将spout从文件中反序列化出来）。</li>
+<li>open是当task起来后执行的初始化动作</li>
+<li>close是当task被shutdown后执行的动作</li>
+<li>activate 是当task被激活时，触发的动作</li>
+<li>deactivate 是task被deactive时，触发的动作</li>
+<li>nextTuple 是spout实现核心， nextuple完成自己的逻辑，即每一次取消息后，用collector 将消息emit出去。</li>
+<li>ack， 当spout收到一条ack消息时，触发的动作</li>
+<li>fail， 当spout收到一条fail消息时，触发的动作</li>
+</ul>
+<h6 id="Bolt"><a href="#Bolt" class="headerlink" title="Bolt"></a>Bolt</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBolt</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">prepare</span><span class="params">(Map stormConf, TopologyContext context, OutputCollector collector)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Tuple input)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">cleanup</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>prepare是当task起来后执行的初始化动作</li>
+<li>cleanup是当task被shutdown后执行的动作</li>
+<li>execute是bolt实现核心， 完成自己的逻辑，即接受每一次取消息后，处理完，有可能用collector 将产生的新消息emit出去。在executor中，当程序处理一条消息时，需要执行collector.ack， 在executor中，当程序无法处理一条消息时或出错时，需要执行collector.fail。</li>
+</ul>
+<h5 id="额外学习：《Java8实战》读书笔记"><a href="#额外学习：《Java8实战》读书笔记" class="headerlink" title="额外学习：《Java8实战》读书笔记"></a>额外学习：《Java8实战》读书笔记</h5><p>Java8的两个新特性：Lambda表达式和stream()的使用，简化了我们的开发。举个例子：</p>
+<h6 id="Lambda-对苹果按重量排序"><a href="#Lambda-对苹果按重量排序" class="headerlink" title="Lambda-对苹果按重量排序"></a>Lambda-对苹果按重量排序</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Java8之前</span></div><div class="line">Collections.sort(inventory, <span class="keyword">new</span> Comparator&lt;Apple&gt;() &#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Apple a1, Apple a2)</span></span>&#123;</div><div class="line">  	<span class="keyword">return</span> a1.getWeight().compareTo(a2.getWeight());</div><div class="line">  &#125;	</div><div class="line">&#125;);</div><div class="line"><span class="comment">//Java8特性(方法引用)</span></div><div class="line">inventory.sort(comparing(Apple::getWeight));</div><div class="line"><span class="comment">//Lambda表达式</span></div><div class="line">Comparator&lt;Apple&gt; byWeight =</div><div class="line">(Apple a1, Apple a2) -&gt; a1.getWeight().compareTo(a2.getWeight());</div></pre></td></tr></table></figure>
+<h6 id="Stream-筛选金额较高的交易"><a href="#Stream-筛选金额较高的交易" class="headerlink" title="Stream-筛选金额较高的交易"></a>Stream-筛选金额较高的交易</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//未使用流</span></div><div class="line">Map&lt;Currency, List&lt;Transaction&gt;&gt; transactionsByCurrencies = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line"><span class="keyword">for</span> (Transaction transaction : transactions) &#123;</div><div class="line">  <span class="keyword">if</span>(transaction.getPrice() &gt; <span class="number">1000</span>)&#123;</div><div class="line">    Currency currency = transaction.getCurrency();</div><div class="line">    List&lt;Transaction&gt; transactionsForCurrency = transactionsByCurrencies.get(currency);</div><div class="line">  <span class="keyword">if</span> (transactionsForCurrency == <span class="keyword">null</span>) &#123;</div><div class="line">    transactionsForCurrency = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    transactionsByCurrencies.put(currency,transactionsForCurrency);</div><div class="line">  &#125;</div><div class="line">  transactionsForCurrency.add(transaction);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//使用流</span></div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.stream.Collectors.toList;</div><div class="line">Map&lt;Currency, List&lt;Transaction&gt;&gt; transactionsByCurrencies = transactions.stream().filter((Transaction t) -&gt; t.getPrice() &gt; <span class="number">1000</span>).collect(groupingBy(Transaction::getCurrency));</div></pre></td></tr></table></figure>
+<h6 id="Java8中的default关键字"><a href="#Java8中的default关键字" class="headerlink" title="Java8中的default关键字"></a>Java8中的default关键字</h6><p>用于在接口中扩充方法，而不影响子接口，或子类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//接口中的方法用default修饰后，可以有结构体</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DefaultTest</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Calling A.foo()"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//该类实现了DefaultTest接口，并不用实现foo(),因为foo()被default关键字修饰</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultTestImpl</span> <span class="keyword">implements</span> <span class="title">DefaultTest</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        DefaultTestImpl defaultTest = <span class="keyword">new</span> DefaultTestImpl();</div><div class="line">        defaultTest.foo();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="三、下一步学习方向"><a href="#三、下一步学习方向" class="headerlink" title="三、下一步学习方向"></a>三、下一步学习方向</h4><p>linux系统方面的，python编程，大数据（Hbase，kafka，zk等）尽量了解源码，了解他们的代码风格。学习学习。</p>
+<p>具体步骤：一看技术文章/书籍，二请教大佬，三动手实践操作。</p>
+<p><strong>Python Study方案：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1myn.png" alt="Python Study" title="">
+                </div>
+                <div class="image-caption">Python Study</div>
+            </figure>
+<p><strong>大数据学习：</strong></p>
+<p>扒源码，最近在看Jstorm的源码。</p>
+<p><strong>Linux系统学习：</strong></p>
+<p>命令，shell脚本等等                              红帽RHCE认证</p>
+<h4 id="四、现有工作建议"><a href="#四、现有工作建议" class="headerlink" title="四、现有工作建议"></a>四、现有工作建议</h4><ol>
+<li>自己工作主动性缺乏，需要改正</li>
+<li>工作内容不明确，有时候不知道我们的工作内容，哪些是需要我们做的。</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:12:33.612Z" itemprop="dateUpdated">2019-01-17 15:12:33</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/09/01/工作总结/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/09/01/工作总结/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CRM/">CRM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jstorm/">Jstorm</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/09/01/工作总结/&title=《工作总结》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/09/01/工作总结/&title=《工作总结》 — Lvshen's Blog&source=一、我的收获部署CRM这次有个比较大的收获就是自己部署CRM系统，CRM系统很复杂，光部署的用户就有10多个。这次的系统部署中，部署的用户有deploy,..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/09/01/工作总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《工作总结》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/09/01/工作总结/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/09/01/工作总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/05/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Redis3.0集群搭建</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/07/20/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">我在GitHub上的一个关于Python版打飞机的项目</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/09/01/工作总结/&title=《工作总结》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/09/01/工作总结/&title=《工作总结》 — Lvshen's Blog&source=一、我的收获部署CRM这次有个比较大的收获就是自己部署CRM系统，CRM系统很复杂，光部署的用户就有10多个。这次的系统部署中，部署的用户有deploy,..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/09/01/工作总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《工作总结》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/09/01/工作总结/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/09/01/工作总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/09/01/工作总结/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

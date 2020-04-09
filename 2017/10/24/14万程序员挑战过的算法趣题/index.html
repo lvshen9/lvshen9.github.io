@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>14万程序员挑战过的算法趣题 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="算法,趣题">
+    <meta name="description" content="计算机的世界每天都在发生着深刻的变化。新操作系统的发布、CPU性能的提升、智能手机和平板电脑的流行、存储介质的变化、云的普及……这样的变化数不胜数。 在这样日新月异的时代中，“算法”是不变的重要基石。要编写高效率的程序，就需要优化算法。无论开发工具如何进化，熟识并能灵活运用算法仍然是对程序员的基本要求。 本文为那些已经学习过排序、搜索等知名算法，并想要学习更多有趣的算法，进一步提升编程技巧的工程师">
+<meta name="keywords" content="算法,趣题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="14万程序员挑战过的算法趣题">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="计算机的世界每天都在发生着深刻的变化。新操作系统的发布、CPU性能的提升、智能手机和平板电脑的流行、存储介质的变化、云的普及……这样的变化数不胜数。 在这样日新月异的时代中，“算法”是不变的重要基石。要编写高效率的程序，就需要优化算法。无论开发工具如何进化，熟识并能灵活运用算法仍然是对程序员的基本要求。 本文为那些已经学习过排序、搜索等知名算法，并想要学习更多有趣的算法，进一步提升编程技巧的工程师">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/71334060.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/44346810.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/74930651.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/90507726.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/45616565.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/38935689.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/77994041.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/49675842.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/58612513.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/2059845.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/54839112.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/6996719.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/87399135.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/4621942.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/81013092.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/90797855.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/32476460.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/92603536.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/29475399.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/68599120.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/94571480.jpg">
+<meta property="og:updated_time" content="2017-10-24T14:58:04.881Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="14万程序员挑战过的算法趣题">
+<meta name="twitter:description" content="计算机的世界每天都在发生着深刻的变化。新操作系统的发布、CPU性能的提升、智能手机和平板电脑的流行、存储介质的变化、云的普及……这样的变化数不胜数。 在这样日新月异的时代中，“算法”是不变的重要基石。要编写高效率的程序，就需要优化算法。无论开发工具如何进化，熟识并能灵活运用算法仍然是对程序员的基本要求。 本文为那些已经学习过排序、搜索等知名算法，并想要学习更多有趣的算法，进一步提升编程技巧的工程师">
+<meta name="twitter:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/71334060.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">14万程序员挑战过的算法趣题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">14万程序员挑战过的算法趣题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-24T07:54:28.000Z" itemprop="datePublished" class="page-time">
+  2017-10-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优秀的扫地机器人"><span class="post-toc-number">1.</span> <span class="post-toc-text">优秀的扫地机器人</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#朋友的朋友也是朋友吗"><span class="post-toc-number">2.</span> <span class="post-toc-text">朋友的朋友也是朋友吗</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优雅的IP-地址"><span class="post-toc-number">3.</span> <span class="post-toc-text">优雅的IP 地址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#异性相邻的座次安排"><span class="post-toc-number">4.</span> <span class="post-toc-text">异性相邻的座次安排</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#答案及解析"><span class="post-toc-number">5.</span> <span class="post-toc-text">答案及解析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q1解题思路"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">Q1解题思路</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q1答案"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">Q1答案</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q2解题思路"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">Q2解题思路</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q2答案"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">Q2答案</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q3解题思路"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">Q3解题思路</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q3答案"><span class="post-toc-number">5.6.</span> <span class="post-toc-text">Q3答案</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q4解题思路"><span class="post-toc-number">5.7.</span> <span class="post-toc-text">Q4解题思路</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Q4答案"><span class="post-toc-number">5.8.</span> <span class="post-toc-text">Q4答案</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-14万程序员挑战过的算法趣题"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">14万程序员挑战过的算法趣题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-24 15:54:28" datetime="2017-10-24T07:54:28.000Z"  itemprop="datePublished">2017-10-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>计算机的世界每天都在发生着深刻的变化。新操作系统的发布、CPU性能的提升、智能手机和平板电脑的流行、存储介质的变化、云的普及……这样的变化数不胜数。</p>
+<p>在这样日新月异的时代中，“算法”是不变的重要基石。要编写高效率的程序，就需要优化算法。无论开发工具如何进化，熟识并能灵活运用算法仍然是对程序员的基本要求。</p>
+<p>本文为那些已经学习过排序、搜索等知名算法，并想要学习更多有趣的算法，进一步提升编程技巧的工程师准备了四道数学谜题形式的问题。这四道趣题分入门、初级、中级、高级，四种级别。</p>
+<p><strong>程序员都想挑战这四道算法趣题！通过挑战你也可以看到自己大体处于哪个级别。</strong></p>
+<a id="more"></a>
+<p>在挑战之前，先介绍下问题的具体形式：</p>
+<p>每个问题大致分为“问题”和“详解”两部分。</p>
+<p>请各位先通读问题描述，并动手编写程序尝试解题。在这个过程中，具体的实现方法是其次，更重要的是思考“通过哪些步骤来实现才能够解决问题”。</p>
+<p>每个问题都有思路讲解和源代码示例。请留意自己编程时在处理速度、可读性等方面进行的优化，和本文的源代码示例有什么不同。如果事先看了思路讲解和答案，就会失去解题的乐趣，所以这里建议大家先编程解题，再看讲解。</p>
+<p>为了大家更好的享受解题乐趣，把“详解”和“答案”放在了最后。</p>
+<p>准备好了吗？我们开始答题吧！</p>
+<p>$Q1$：入门</p>
+<p>尝试用编程解决问题</p>
+<p>难度系数：★</p>
+<h4 id="优秀的扫地机器人"><a href="#优秀的扫地机器人" class="headerlink" title="优秀的扫地机器人"></a>优秀的扫地机器人</h4><p>（IQ：80    目标时间：20分钟）</p>
+<p>现在有很多制造商都在卖扫地机器人，它非常有用，能为忙碌的我们分担家务负担。不过我们也很难理解为什么扫地机器人有时候会反复清扫某一个地方。</p>
+<p>假设有一款不会反复清扫同一个地方的机器人，它只能前后左右移动。举个例子，如果第1 次向后移动，那么连续移动3 次时，就会有以下9 种情况（ 图6 ）。又因为第1 次移动可以是前后左右4 种情况，所以移动3 次时全部路径有$9×4 ＝ 36 $种。</p>
+<p>※ 最初的位置用0 表示，其后的移动位置用数字表示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/71334060.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>问题：</strong></p>
+<p>求这个机器人移动12 次时，有多少种移动路径？</p>
+<p><img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/44346810.jpg" alt=""></p>
+<p>$Q2$：初级</p>
+<p>解决简单问题体会算法效果</p>
+<p>难度系数：★★</p>
+<h4 id="朋友的朋友也是朋友吗"><a href="#朋友的朋友也是朋友吗" class="headerlink" title="朋友的朋友也是朋友吗"></a>朋友的朋友也是朋友吗</h4><p>（IQ：90    目标时间：25分钟）</p>
+<p>“六度空间理论”非常有名。大概的意思是1 个人只需要通过6 个中间人就可以和世界上任何1 个人产生间接联系。本题将试着找出数字的好友（这里并不考虑亲密指数）。</p>
+<p>假设拥有同样约数（不包括1）的数字互为“好友”，也就是说，如果两个数字的最大公约数不是1，那么称这两个数互为好友。</p>
+<p>从1~N 中任意选取一个“合数”，求从它开始，要经历几层好友，才能和其他所有的数产生联系（所谓的“合数”是指“有除1 以及自身以外的约数的自然数”）。</p>
+<p>举个例子，$N ＝ 10$ 时，1~10 的合数是4、6、8、9、10 这5 个。</p>
+<p>如果选取的是10，那么10 的好友数字就是公约数为2 的4、6、8这3 个。而9 是6 的好友数字（公约数为3），所以10 只需要经过2 层就可以和9 产生联系（图5 ）。如果选取的是6，则只需经过1 层就可以联系到4、8、9、10 这些数字。因此$N ＝ 10 $时，无论最初选取的合数是什么，最多经过2 层就可以与其他所有数产生联系。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/74930651.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>问题：</strong></p>
+<p>求从1~N 中选取7 个合数时，最多经过6 层就可以与其他所有数产生联系的最小的N。</p>
+<p>$Q3$：中级</p>
+<p>优化算法实现高速处理</p>
+<p>难度系数：★★★</p>
+<h4 id="优雅的IP-地址"><a href="#优雅的IP-地址" class="headerlink" title="优雅的IP 地址"></a>优雅的IP 地址</h4><p>（IQ：100    目标时间：30分钟）</p>
+<p>可能大部分读者都清楚，IPv4 中的IP 地址是二进制的32 位数值。不过，这样的数值对我们人类而言可读性比较差，所以我们通常会以8 位为1 组分割，用类似$192.168.1.2 $这种十进制数来表示它（ 图12 ）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/90507726.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这里，我们思考一下十进制数0~9 这10 个数字各出现1 次的IP 地址（像正常情况一样，省略每组数字首位的0。也就是说，不能像$192.168.001.002 $这样表示，而要像192.168.1.2 这样来表示）</p>
+<p><strong>问题：</strong></p>
+<p>求用二进制数表示上述形式的IP 地址时，能使二进制数左右对称的IP 地址的个数（用二进制数表示时不省略0，用完整的32 位数表示）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/45616565.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>$Q4$：高级</p>
+<p>改变思路让程序速度更快</p>
+<p>难度系数：★★★★</p>
+<h4 id="异性相邻的座次安排"><a href="#异性相邻的座次安排" class="headerlink" title="异性相邻的座次安排"></a>异性相邻的座次安排</h4><p>（IQ：130    目标时间：60分钟）</p>
+<p>回想起学生时期调座位的时候，我们的心里总是会小鹿乱撞。想必很多人都对谁会坐自己旁边这件事莫名地激动吧？</p>
+<p>这里我们考虑一种“前后左右的座位上一定都是异性”的座次安排。也就是说，像图26 右侧那样，前后左右都是同性的座次安排是不符合要求的（男生用蓝色表示，女生用灰色表示）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/38935689.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>问题：</strong></p>
+<p>假设有一个男生和女生分别有15 人的班级，要像图26 那样，排出一个6×5的座次。求满足上述条件的座次安排共多少种（前后或者左右镜像的座次也看作不同的安排。另外，这里不在意具体某个学生坐哪里，只看男生和女生的座次安排）？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/77994041.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="答案及解析"><a href="#答案及解析" class="headerlink" title="答案及解析"></a>答案及解析</h4><p>Q1-Q4</p>
+<h5 id="Q1解题思路"><a href="#Q1解题思路" class="headerlink" title="Q1解题思路"></a>Q1解题思路</h5><p>用坐标(0, 0) 表示最初的位置。从这个原点开始，避开已经走过的坐标，使机器人前进。用深度优先搜索就可以实现逻辑，如代码清单08.01 所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/49675842.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="Q1答案"><a href="#Q1答案" class="headerlink" title="Q1答案"></a>Q1答案</h5><p>324932种。</p>
+<h5 id="Q2解题思路"><a href="#Q2解题思路" class="headerlink" title="Q2解题思路"></a>Q2解题思路</h5><p>要解决这个问题，首先要正确理解问题中出现的词。首先是“合数”。</p>
+<p><img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/58612513.jpg" alt=""></p>
+<p>其次是“公约数”这个词。小学的时候，我们就做过求最大公约数的题。公约数的意思就是“共同的约数”。这里，拥有共同约数的数字互为“好友”，那么就需要求最大公约数非1 的情况。</p>
+<p>从1~N 中选取7 个合数，且“最多经过6 层”，那么可以得知，我们要找的是“由2 个数相乘得到的数字”的组合。这样的话，乘法运算中的这2 个数就会成为公约数。</p>
+<p>举个例子，选出a~h 这些数。简单地说就是，当7 个数字分别是以下的形式时，经过6 层就能与其他所有数产生联系。</p>
+<p>$a × b, b× c, c× d, d × e, e × f, f× g, g ×h$</p>
+<p>※这里a~h 这些数字必须“互质”。</p>
+<p><img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/2059845.jpg" alt=""></p>
+<p><strong>Point！</strong></p>
+<blockquote>
+<p>更进一步考虑，也可以像本题中的例子一样，把第1 个数字设置成“平方数”（即4），也就是说变成下面这样的组合更好。</p>
+<p>$a × a, a × b, b × c, c × d, d × e, e × f, f × g$</p>
+<p>末尾如果同样设置成平方数就会变得更小，也就是变成下面这样的组合。</p>
+<p>$a × a, a × b, b × c, c × d, d × e, e × f, f × f$</p>
+<p>用Ruby 可以像代码清单19.01 这样实现。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/54839112.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="Q2答案"><a href="#Q2答案" class="headerlink" title="Q2答案"></a>Q2答案</h5><p>55</p>
+<p>满足条件的组合为：</p>
+<p>$[4, 26, 39, 33, 55, 35, 49]$</p>
+<h5 id="Q3解题思路"><a href="#Q3解题思路" class="headerlink" title="Q3解题思路"></a>Q3解题思路</h5><p>按照题意，用十进制数表示时要使用0~9 这10 个数字各1 次，那么最高位是除0 以外的9 种情况，而其他各个数位可分别使用0~9 这10个数字各1 次，其排列组合一共9!（9 的阶乘）种，所以总共要遍历$9×9!$ 种，也就是3265920 种情况。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/6996719.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>要想求左右对称的二进制数，可以通过把16 位的二进制数逆序排列，并将结果与该16 位的二进制数本身拼合，即生成32 位数来求得。因为是16 位，所以全量搜索时只需要遍历65536 种情况即可。</p>
+<p>然后，把这个二进制数转换成十进制数，分别使用0~9 这10 个数字各1 次即可。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/87399135.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>用Ruby 实现时，代码如代码清单40.01 所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/4621942.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>执行程序可得到正确答案“8”，因而符合条件的IP 地址有8 个，如表4 所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/81013092.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>Point！</strong></p>
+<blockquote>
+<p>用十进制数表示的时候，如果以点号分割的各部分左右对称，那么整体也就左右对称，因而只需要调查0~255 这些数对应的二进制数中左右对称的数就可以了。也就是说，A.B.C.D 这种形式中，A 要和D 对称，B 要和C 对称。</p>
+<p>下面我们试着找出A~D 的各种组合中，0~9 这10 个数字各使用1次的组合。每组（A, D）,（ B, C）生成的IP地址有8 种情况，所以用组合数乘以8 就可以求出结果。</p>
+</blockquote>
+<p>用Ruby 实现时，代码如代码清单40.02 所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/90797855.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="Q3答案"><a href="#Q3答案" class="headerlink" title="Q3答案"></a>Q3答案</h5><p>8个。</p>
+<h5 id="Q4解题思路"><a href="#Q4解题思路" class="headerlink" title="Q4解题思路"></a>Q4解题思路</h5><p>如果完全按照问题描述实现，只需要遍历30 个座位中15 个男生的座次，满足条件就OK 了。如果不考虑可扩展性、处理速度等，只需要把不符合条件的情况排除就可以了，并不是很难。</p>
+<p>这里，我们事先准备好要排除的座次安排，统计不在这个范围内的座次安排即可。用Ruby 实现时，如代码清单68.01 所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/32476460.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>要想改善处理速度，就要考虑“如何缩小搜索范围”。基本的办法不外乎“剪枝”和“内存化”。</p>
+<p>这里，我们事先准备前2 排的座次安排，然后生成下一排可能的安排，并递归地搜索下去。同时，把已经搜索过的结果保存到内存中，避免重复搜索（代码清单68.02）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/92603536.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/29475399.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>上面这个程序可以在2 秒左右求出正确答案。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/68599120.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="Q4答案"><a href="#Q4答案" class="headerlink" title="Q4答案"></a>Q4答案</h5><p>13374192种。</p>
+<p><strong>最后介绍一下文中出场人物：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-24/94571480.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>参考书籍：程序员的算法趣题      作者：增井敏克</p>
+<p>欢迎关注：<a href="https://lvshen9.github.io/" target="_blank" rel="external">Lvshen’s Blog</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-10-24T14:58:04.881Z" itemprop="dateUpdated">2017-10-24 22:58:04</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/10/24/14万程序员挑战过的算法趣题/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/趣题/">趣题</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/&title=《14万程序员挑战过的算法趣题》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/&title=《14万程序员挑战过的算法趣题》 — Lvshen's Blog&source=计算机的世界每天都在发生着深刻的变化。新操作系统的发布、CPU性能的提升、智能手机和平板电脑的流行、存储介质的变化、云的普及……这样的变化数不胜数。
+在这..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《14万程序员挑战过的算法趣题》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/25/红黑树学习/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">红黑树学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/19/【算法】字符串是否包含问题/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【算法】字符串是否包含问题</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/&title=《14万程序员挑战过的算法趣题》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/&title=《14万程序员挑战过的算法趣题》 — Lvshen's Blog&source=计算机的世界每天都在发生着深刻的变化。新操作系统的发布、CPU性能的提升、智能手机和平板电脑的流行、存储介质的变化、云的普及……这样的变化数不胜数。
+在这..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《14万程序员挑战过的算法趣题》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/10/24/14万程序员挑战过的算法趣题/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

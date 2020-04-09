@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>SQL语句优化问题 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="sql,Oracle">
+    <meta name="description" content="​        系统优化中一个很重要的方面就是SQL语句的优 化。对于海量数据，劣质SQL语句和优质SQL语句之间的速度差别可以达到上百倍，可见对于一个系统不是简单地能实现其功能就可，而是要写出高质量的 SQL语句，提高系统的可用性。 ​       在多数情况下，Oracle使用索引来更快地遍历表，优化器主要根据定义的索引来提高性能。但是，如果在SQL语句的where子句中写的 SQL代码不合">
+<meta name="keywords" content="sql,Oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL语句优化问题">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/08/24/sql/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="​        系统优化中一个很重要的方面就是SQL语句的优 化。对于海量数据，劣质SQL语句和优质SQL语句之间的速度差别可以达到上百倍，可见对于一个系统不是简单地能实现其功能就可，而是要写出高质量的 SQL语句，提高系统的可用性。 ​       在多数情况下，Oracle使用索引来更快地遍历表，优化器主要根据定义的索引来提高性能。但是，如果在SQL语句的where子句中写的 SQL代码不合">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-24T06:24:20.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL语句优化问题">
+<meta name="twitter:description" content="​        系统优化中一个很重要的方面就是SQL语句的优 化。对于海量数据，劣质SQL语句和优质SQL语句之间的速度差别可以达到上百倍，可见对于一个系统不是简单地能实现其功能就可，而是要写出高质量的 SQL语句，提高系统的可用性。 ​       在多数情况下，Oracle使用索引来更快地遍历表，优化器主要根据定义的索引来提高性能。但是，如果在SQL语句的where子句中写的 SQL代码不合">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SQL语句优化问题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SQL语句优化问题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-24T00:23:35.000Z" itemprop="datePublished" class="page-time">
+  2017-08-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、造成索引失效的情况"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、造成索引失效的情况</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-IS-NULL-与-IS-NOT-NULL"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.IS NULL 与 IS NOT NULL</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-联接列"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.联接列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-带通配符-的like语句"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3.带通配符(%)的like语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Order-by语句"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">4.Order by语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-NOT"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">5.NOT</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二、SQL语句优化总结笔记"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、SQL语句优化总结笔记</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-sql"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SQL语句优化问题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-24 08:23:35" datetime="2017-08-24T00:23:35.000Z"  itemprop="datePublished">2017-08-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>​        系统优化中一个很重要的方面就是SQL语句的优 化。对于海量数据，劣质SQL语句和优质SQL语句之间的速度差别可以达到上百倍，可见对于一个系统不是简单地能实现其功能就可，而是要写出高质量的 SQL语句，提高系统的可用性。</p>
+<p>​       在多数情况下，Oracle使用索引来更快地遍历表，优化器主要根据定义的索引来提高性能。但是，如果在SQL语句的where子句中写的 SQL代码不合理，就会造成优化器删去索引而使用全表扫描，一般就这种SQL语句就是所谓的劣质SQL语句。在编写SQL语句时我们应清楚优化器根据何种 原则来删除索引，这有助于写出高性能的SQL语句。</p>
+<h2 id="一、造成索引失效的情况"><a href="#一、造成索引失效的情况" class="headerlink" title="一、造成索引失效的情况"></a>一、造成索引失效的情况</h2><h3 id="1-IS-NULL-与-IS-NOT-NULL"><a href="#1-IS-NULL-与-IS-NOT-NULL" class="headerlink" title="1.IS NULL 与 IS NOT NULL"></a>1.IS NULL 与 IS NOT NULL</h3><a id="more"></a>
+<p>​        不能用null作索引，任何包含null值的列都将不会被包含在索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。也就是说如果某列存在空值，即使对该列建索引也不会提高性能。</p>
+<p>​      任何在where子句中使用is null或is not null的语句优化器是不允许使用索引的。</p>
+<h3 id="2-联接列"><a href="#2-联接列" class="headerlink" title="2.联接列"></a>2.联接列</h3><p>​        对于有联接的列，即使最后的联接值为一个静态值，优化器是不会使用索引的。我们一起来看一个例子，假定有一个职工表(employee)，对于 一个职工的姓和名分成两列存放(FIRST_NAME和LAST_NAME)，现在要查询一个叫比尔.克林顿(Bill Cliton)的职工。</p>
+<p>​      下面是一个采用联接查询的SQL语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employss <span class="keyword">where</span> first_name || last_name = ’Beill Cliton<span class="string">';</span></div></pre></td></tr></table></figure>
+<p>​      上面这条语句完全可以查询出是否有Bill Cliton这个员工，但是这里需要注意，系统优化器对基于last_name创建的索引没有使用。</p>
+<p>​    当采用下面这种SQL语句的编写，Oracle系统就可以采用基于last_name创建的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">where first_name =’Beill’ and last_name = ’Cliton';</div></pre></td></tr></table></figure>
+<h3 id="3-带通配符-的like语句"><a href="#3-带通配符-的like语句" class="headerlink" title="3.带通配符(%)的like语句"></a>3.带通配符(%)的like语句</h3><p>​        同样以上面的例子来看这种情况。目前的需求是这样的，要求在职工表中查询名字中包含cliton的人。可以采用如下的查询SQL语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> last_name <span class="keyword">like</span> ‘%cliton%<span class="string">';</span></div></pre></td></tr></table></figure>
+<p>​       这里由于通配符(%)在搜寻词首出现，所以Oracle系统不使用last_name的索引。在很多情况下可能无法避免这种情况，但是一定要心中有底，通 配符如此使用会降低查询速度。然而当通配符出现在字符串其他位置时，优化器就能利用索引。在下面的查询中索引得到了使用:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span>  *  <span class="keyword">from</span> employee <span class="keyword">where</span> last_name <span class="keyword">like</span> ‘c%<span class="string">';</span></div></pre></td></tr></table></figure>
+<h3 id="4-Order-by语句"><a href="#4-Order-by语句" class="headerlink" title="4.Order by语句"></a>4.Order by语句</h3><p>​        仔细检查order by语句以找出非索引项或者表达式，它们会降低性能。解决这个问题的办法就是重写order<br>by语句以使用索引，也可以为所使用的列建立另外一个索引，同时应绝对避免在order by子句中使用表达式。</p>
+<h3 id="5-NOT"><a href="#5-NOT" class="headerlink" title="5.NOT"></a>5.NOT</h3><p>列子:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">… where not (status =’VALID’)</div></pre></td></tr></table></figure>
+<p>​        如果要使用NOT，则应在取反的短语前面加上括号，并在短语前面加上NOT运算符。NOT运算符包含在另外一个逻辑运算符中，这就是不等于(&lt;&gt;)运算符。换句话说，即使不在查询where子句中显式地加入NOT词，NOT仍在运算符中，见下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">… where status &lt;&gt;’INVALID';</div></pre></td></tr></table></figure>
+<p>对这个查询，可以改写为不使用NOT，例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> salary&lt;<span class="number">3000</span> <span class="keyword">or</span> salary&gt;<span class="number">3000</span>;</div></pre></td></tr></table></figure>
+<p>​        虽然这两种查询的结果一样，但是第二种查询方案会比第一种查询方案更快些。第二种查询允许Oracle对salary列使用索引，而第一种查询则不能使用索引。</p>
+<h2 id="二、SQL语句优化总结笔记"><a href="#二、SQL语句优化总结笔记" class="headerlink" title="二、SQL语句优化总结笔记"></a>二、SQL语句优化总结笔记</h2><p>（1） 选择最有效率的表名顺序(只在基于规则的优化器中有效)：</p>
+<p>​          ORACLE 的解析器按照从<strong>右到左</strong>的顺序处理FROM子句中的表名，FROM子句中写在最后的表(基础表 driving table)将被最先处理，在FROM子句中包含多个表的情况下，你必须选择记录条数最少的表作为基础表。如果有3个以上的表连接查询, 那就需要选择交叉表(intersection table)作为基础表, 交叉表是指那个被其他表所引用的表。</p>
+<p>（2）WHERE子句中的连接顺序．：</p>
+<p>​         ORACLE采用自下而上的顺序解析WHERE子句，根据这个原理,表之间的连接必须写在其他WHERE条件之前， 那些可以过滤掉最大数量记录的条件必须写在WHERE子句的末尾。</p>
+<p>（3）SELECT子句中避免使用 ‘ * ‘：</p>
+<p>​       ORACLE在解析的过程中，会将’*’ 依次转换成所有的列名，这个工作是通过查询数据字典完成的，这意味着将耗费更多的时间。</p>
+<p>（4） 删除重复记录：</p>
+<p>最高效的删除重复记录方法 ( 因为使用了ROWID)例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span>  EMP E  <span class="keyword">WHERE</span>  E.ROWID &gt; (<span class="keyword">SELECT</span> <span class="keyword">MIN</span>(X.ROWID)</div><div class="line"></div><div class="line"><span class="keyword">FROM</span> EMP X  <span class="keyword">WHERE</span>  X.EMP_NO = E.EMP_NO);</div></pre></td></tr></table></figure>
+<p>（5）用TRUNCATE替代DELETE：</p>
+<p>​         当删除表中的记录时，在通常情况下， 回滚段(rollback segments ) 用来存放可以被恢复的信息。 如果你没有COMMIT事务，ORACLE会将数据恢复到删除之前的状态(准确地说是恢复到执行删除命令之前的状况) 而当运用TRUNCATE时， 回滚段不再存放任何可被恢复的信息，当命令运行后,数据不能被恢复。因此很少的资源被调用，执行时间也会很短。(译者按:TRUNCATE只在删除全表适用，TRUNCATE是DDL不是DML)。</p>
+<p>（6） 用Where子句替换HAVING子句：</p>
+<p>​       避免使用HAVING子句, HAVING 只会在检索出所有记录之后才对结果集进行过滤. 这个处理需要排序,总计等操作. 如果能通过WHERE子句限制记录的数目,那就能减少这方面的开销. (非oracle中)on、where、having这三个都可以加条件的子句中，on是最先执行，where次之，having最后，因为on是先把不 符合条件的记录过滤后才进行统计，它就可以减少中间运算要处理的数据，按理说应该速度是最快的，where也应该比having快点的，因为它过滤数据后 才进行sum，在两个表联接时才用on的，所以在一个表的时候，就剩下where跟having比较了。在这单表查询统计的情况下，如果要过滤的条件没有涉及到要计算字段，那它们的结果是一样的，只是where可以使用rushmore技术，而having就不能，在速度上后者要慢如果要涉及到计算的字 段，就表示在没计算之前，这个字段的值是不确定的，根据上篇写的工作流程，where的作用时间是在计算之前就完成的，而having就是在计算后才起作用的，所以在这种情况下，两者的结果会不同。在多表联接查询时，on比where更早起作用。系统首先根据各个表之间的联接条件，把多个表合成一个临时表后，再由where进行过滤，然后再计算，计算完后再由having进行过滤。由此可见，要想过滤条件起到正确的作用，首先要明白这个条件应该在什么时候起作用，然后再决定放在那里。</p>
+<p>（7） 使用表的别名(Alias)：</p>
+<p>当在SQL语句中连接多个表时， 请使用表的别名并把别名前缀于每个Column上.这样一来，就可以减少解析的时间并减少那些由Column歧义引起的语法错误。</p>
+<p>（8） 用EXISTS替代IN、用NOT EXISTS替代NOTIN：</p>
+<p>​        在许多基于基础表的查询中,为了满足一个条件,往往需要对另一个表进行联接.在这种情况下, 使用EXISTS(或NOT EXISTS)通常将提高查询的效率. 在子查询中,NOT IN子句将执行一个内部的排序和合并. 无论在哪种情况下,NOT IN都是最低效的 (因为它对子查询中的表执行了一个全表遍历). 为了避免使用NOT IN ,我们可以把它改写成外连接(Outer Joins)或NOT EXISTS.</p>
+<p>例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">（高效）<span class="keyword">SELECT</span>* <span class="keyword">FROM</span>  EMP (基础表)  <span class="keyword">WHERE</span>  EMPNO &gt;<span class="number">0</span>  <span class="keyword">AND</span>  <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> ‘X’  <span class="keyword">FROM</span> DEPT  <span class="keyword">WHERE</span>  DEPT.DEPTNO= EMP.DEPTNO  <span class="keyword">AND</span>  LOC = ‘MELB’)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(低效)<span class="keyword">SELECT</span>  * <span class="keyword">FROM</span>  EMP (基础表) <span class="keyword">WHERE</span>  EMPNO &gt; <span class="number">0</span>  <span class="keyword">AND</span>  DEPTNO <span class="keyword">IN</span>(<span class="keyword">SELECT</span> DEPTNO <span class="keyword">FROM</span>  DEPT  <span class="keyword">WHERE</span>  LOC = ‘MELB’)</div></pre></td></tr></table></figure>
+<p>（9） 用索引提高效率：</p>
+<p>索引是表的一个概念部分，用来提高检索数据的效率，ORACLE使用了一个复杂的自平衡B-tree结构。 通常,通过索引查询数据比全表扫描要快。当ORACLE找出执行查询和Update语句的最佳路径时， ORACLE优化器将使用索引。 同样在联结多个表时使用索引也可以提高效率。 另一个使用索引的好处是,它提供了主键(primarykey)的唯一性验证。那些LONG或LONG RAW数据类型， 你可以索引几乎所有的列。 通常, 在大型表中使用索引特别有效。当然，你也会发现，在扫描小表时，使用索引同样能提高效率。 虽然使用索引能得到查询效率的提高，但是我们也必须注意到它的代价。 索引需要空间来存储,也需要定期维护，每当有记录在表中增减或索引列被修改时， 索引本身也会被修改。这意味着每条记录的INSERT , DELETE , UPDATE将为此多付出4 , 5 次的磁盘I/O 。 因为索引需要额外的存储空间和处理,那些不必要的索引反而会使查询反应时间变慢。定期的重构索引是有必要的：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">INDEX</span> &lt;INDEXNAME&gt; <span class="keyword">REBUILD</span> &lt;TABLESPACENAME&gt;</div></pre></td></tr></table></figure>
+<p>（10） 用EXISTS替换DISTINCT：</p>
+<p>​     当提交一个包含一对多表信息(比如部门表和雇员表)的查询时,避免在SELECT子句中使用DISTINCT。 一般可以考虑用EXIST替换，EXISTS 使查询更为迅速,因为RDBMS核心模块将在子查询的条件一旦满足后，立刻返回结果。 例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">  (低效):</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span>  DEPT_NO,DEPT_NAME  <span class="keyword">FROM</span>  DEPT D , EMP E</div><div class="line"></div><div class="line"><span class="keyword">WHERE</span> D.DEPT_NO = E.DEPT_NO;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(高效):</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> DEPT_NO,DEPT_NAME  <span class="keyword">FROM</span>  DEPT D  <span class="keyword">WHERE</span>  <span class="keyword">EXISTS</span> ( <span class="keyword">SELECT</span> ‘X’</div><div class="line"></div><div class="line"><span class="keyword">FROM</span> EMP E  <span class="keyword">WHERE</span> E.DEPT_NO = D.DEPT_NO);</div></pre></td></tr></table></figure>
+<p>​        关于sql的优化先写到这里，sql的优化可以说是深不见底，根具不同的环境，所做的优化处理也不同，本人能力有限，暂时想到这么多。如果后续又想到的会继续添加。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-24T06:24:20.105Z" itemprop="dateUpdated">2017-08-24 14:24:20</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/08/24/sql/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/08/24/sql/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/24/sql/&title=《SQL语句优化问题》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/24/sql/&title=《SQL语句优化问题》 — Lvshen's Blog&source=​        系统优化中一个很重要的方面就是SQL语句的优 化。对于海量数据，劣质SQL语句和优质SQL语句之间的速度差别可以达到上百倍，可见对于一个..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/24/sql/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SQL语句优化问题》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/24/sql/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/24/sql/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/24/springmvc/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SpringMVC的执行流程</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/22/hashmap/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">HashMap的底层实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/24/sql/&title=《SQL语句优化问题》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/24/sql/&title=《SQL语句优化问题》 — Lvshen's Blog&source=​        系统优化中一个很重要的方面就是SQL语句的优 化。对于海量数据，劣质SQL语句和优质SQL语句之间的速度差别可以达到上百倍，可见对于一个..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/24/sql/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SQL语句优化问题》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/24/sql/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/24/sql/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/08/24/sql/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

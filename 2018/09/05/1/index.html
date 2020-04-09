@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Redis3.0集群搭建 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Redis,集群">
+    <meta name="description" content="Redis3.0 及其之后的版本提供了redis-cluster 集群支持，用于在多个redis节点间共享数据，以提高服务的可用性。 构建 redis-cluster 集群可以通过 redis-trib.rb 工具来完成。redis-trib.rb 是redis官方提供的一个集群管理工具，集成在redis安装包的 src 目录下。redis-trib.rb 封装了redis提供的集群命令，使用简单">
+<meta name="keywords" content="Redis,集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis3.0集群搭建">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/09/05/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="Redis3.0 及其之后的版本提供了redis-cluster 集群支持，用于在多个redis节点间共享数据，以提高服务的可用性。 构建 redis-cluster 集群可以通过 redis-trib.rb 工具来完成。redis-trib.rb 是redis官方提供的一个集群管理工具，集成在redis安装包的 src 目录下。redis-trib.rb 封装了redis提供的集群命令，使用简单">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8hRg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpJoEq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8cZt.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp84zQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8yqI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp82If.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8Wi8.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8IMj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8gdP.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp8fJS.png">
+<meta property="og:updated_time" content="2019-01-17T07:08:26.489Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis3.0集群搭建">
+<meta name="twitter:description" content="Redis3.0 及其之后的版本提供了redis-cluster 集群支持，用于在多个redis节点间共享数据，以提高服务的可用性。 构建 redis-cluster 集群可以通过 redis-trib.rb 工具来完成。redis-trib.rb 是redis官方提供的一个集群管理工具，集成在redis安装包的 src 目录下。redis-trib.rb 封装了redis提供的集群命令，使用简单">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kp8hRg.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Redis3.0集群搭建</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Redis3.0集群搭建</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-05T02:57:07.000Z" itemprop="datePublished" class="page-time">
+  2018-09-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#redis-cluster集群"><span class="post-toc-number">1.</span> <span class="post-toc-text">redis-cluster集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1、配置"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1、配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2、创建集群"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2、创建集群</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3、查看集群"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3、查看集群</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#主从复制模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">主从复制模型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#客户端连接-redis-cluster"><span class="post-toc-number">3.</span> <span class="post-toc-text">客户端连接 redis-cluster</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#单独连接集群上的节点"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">单独连接集群上的节点</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Spring集成-redis-cluster"><span class="post-toc-number">4.</span> <span class="post-toc-text">Spring集成 redis-cluster</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#spring-cache集成"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">spring-cache集成</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Redis3.0集群搭建</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-05 10:57:07" datetime="2018-09-05T02:57:07.000Z"  itemprop="datePublished">2018-09-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Redis3.0 及其之后的版本提供了<code>redis-cluster</code> 集群支持，用于在多个redis节点间共享数据，以提高服务的可用性。</p>
+<p>构建 <em>redis-cluster</em> 集群可以通过 <em>redis-trib.rb</em> 工具来完成。<em>redis-trib.rb</em> 是redis官方提供的一个集群管理工具，集成在redis安装包的 <em>src</em> 目录下。<em>redis-trib.rb</em> 封装了redis提供的集群命令，使用简单、便捷。</p>
+<p>因为 <em>redis-trib.rb</em> 是由ruby语言编写的，所以使用该工具需要ruby语言环境的支持。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> ruby -v</span></div><div class="line">ruby 2.3.1p112 (2016-04-26) [x86_64-linux-gnu]</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="redis-cluster集群"><a href="#redis-cluster集群" class="headerlink" title="redis-cluster集群"></a>redis-cluster集群</h4><h5 id="1、配置"><a href="#1、配置" class="headerlink" title="1、配置"></a>1、配置</h5><p>要启用redis-cluster集群，需要先修改redis配置文件集群配置部分的内容</p>
+<p><em>redis.conf</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"><span class="comment">############################### REDIS CLUSTER  ###############################</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> 启用redis-cluster集群</span></div><div class="line">cluster-enabled yes</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash"> 集群节点配置文件</span></div><div class="line"><span class="meta">#</span><span class="bash"> 该文件无需手工修改，由redis自动维护（创建和更新）</span></div><div class="line"><span class="meta">#</span><span class="bash"> 需要注意，单机运行多实例时，确保该文件没有被其他实例覆盖（不允许重名）</span></div><div class="line">cluster-config-file nodes-6377.conf</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash"> 节点超时时长（毫秒）</span></div><div class="line">cluster-node-timeout 150001234567891011</div></pre></td></tr></table></figure>
+<p>为了方便进行演示，这里分别以端口 <em>6377</em>、<em>6378</em>、<em>6379</em> 各启用一个实例来代表不同的redis服务器</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8hRg.png" alt="ps aux | grep redis" title="">
+                </div>
+                <div class="image-caption">ps aux | grep redis</div>
+            </figure>
+<h5 id="2、创建集群"><a href="#2、创建集群" class="headerlink" title="2、创建集群"></a>2、创建集群</h5><p>创建集群使用 <em>redis-trib</em> 的 <code>create</code> 命令完成，<code>create</code> 命令的格式为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create host1:port1 ... hostN:portN1</div></pre></td></tr></table></figure>
+<p>默认情况下，ruby 是无法识别redis的，直接执行 <code>redis-trib.rb create IP:PORT</code> 将会报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> ./redis-trib.rb create 192.168.206.128:6377 192.168.206.128:6378 192.168.206.128:6379</span></div><div class="line">/usr/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require': cannot load such file -- redis (LoadError)</div><div class="line">    from /usr/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:55:in `require'</div><div class="line">    from ./redis-trib.rb:25:in `&lt;main&gt;'1234</div></pre></td></tr></table></figure>
+<p>所以需要先为ruby安装redis第三方接口，执行命令 <code>gem install redis</code> 即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sudo gem install redis</span></div><div class="line">[sudo] password for zhangcs: </div><div class="line">Fetching: redis-4.0.1.gem (100%)</div><div class="line">Successfully installed redis-4.0.1</div><div class="line">Parsing documentation for redis-4.0.1</div><div class="line">Installing ri documentation for redis-4.0.1</div><div class="line">Done installing documentation for redis after 1 seconds</div><div class="line">1 gem installed12345678</div></pre></td></tr></table></figure>
+<p>此时再使用 <code>create</code> 就可以将<em>6377</em>、<em>6378</em>、<em>6379</em> 这3台服务器构建成一个集群了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpJoEq.png" alt="创建集群" title="">
+                </div>
+                <div class="image-caption">创建集群</div>
+            </figure>
+<p>有一点需要注意的是，redis-cluster集群至少需要3个可用节点。</p>
+<h5 id="3、查看集群"><a href="#3、查看集群" class="headerlink" title="3、查看集群"></a>3、查看集群</h5><p>使用 <code>info</code> 命令指定集群上任一节点的地址便可以查看集群状态</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8cZt.png" alt="集群状态" title="">
+                </div>
+                <div class="image-caption">集群状态</div>
+            </figure>
+<h4 id="主从复制模型"><a href="#主从复制模型" class="headerlink" title="主从复制模型"></a>主从复制模型</h4><p>刚才说到，redis-cluster至少需要保证3个节点可用。那么为了避免节点宕机导致服务不可用，我们就需要添加主从配置，为集群中的节点增加从节点；使其在主节点宕机时，能够将从节点提升为主节点代替原来的主节点进行工作。</p>
+<p>在非集群的单节点环境中，配置主从关系的方法大致有 2 种：</p>
+<p>1、修改从服务器配置文件 <em>redis.conf</em> 的 <code>slaveof &lt;masterip&gt; &lt;masterport&gt;</code> 选项；</p>
+<p>2、在从服务器上使用<code>slaveof</code> 命令直接指定主服务器。</p>
+<p>然而在redis-cluster集群环境中，启用了cluster配置的情况下<code>slaveof</code> 是不可用的。</p>
+<p>假定有 <em>6381</em> 服务器配置 <code>slaveof</code> 指定主服务器 <em>6377</em> ，同时该服务器启用了redis-cluster配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"><span class="comment">################################ REPLICATION #################################</span></span></div><div class="line">slaveof 192.168.206.128 6377</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash"><span class="comment">############################### REDIS CLUSTER  ###############################</span></span></div><div class="line">cluster-enabled yes</div><div class="line">cluster-config-file nodes-6381.conf</div><div class="line">cluster-node-timeout 150001234567</div></pre></td></tr></table></figure>
+<p>那么此时 <em>6381</em> 端口的服务器将无法成功启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> ./redis-server /usr/<span class="built_in">local</span>/redis/6381/redis.conf </span></div><div class="line">*** FATAL CONFIG FILE ERROR ***</div><div class="line">Reading the configuration file, at line 283</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="string">'slaveof 192.168.206.128 6377'</span></span></div><div class="line">slaveof directive not allowed in cluster mode12345</div></pre></td></tr></table></figure>
+<p>显然我们无法使用原有的主从配置方法对集群进行配置。此时我们需要借助于 redis-trib.rb 工具来进行从节点的添加操作，先将节点加入集群中，然后再声明节点为原有节点的从节点。</p>
+<p>1、启用服务后先将该节点加入集群，直接使用redis-trib.rb的 <code>add-node</code> 命令即可实现：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-trib add-node new_host:new_port existing_host:existing_port1</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp84zQ.png" alt="添加节点" title="">
+                </div>
+                <div class="image-caption">添加节点</div>
+            </figure>
+<p>此时通过 <code>redis-trib info</code> 能够查看到该节点已经成功加入了集群中，并且该节点并没有分配哈希槽</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8yqI.png" alt="集群状态2" title="">
+                </div>
+                <div class="image-caption">集群状态2</div>
+            </figure>
+<p>2、声明该节点为集群中某一节点的从节点，需要使用客户端进入该节点（此处即为新增的从节点 <em>6381</em>）进行设置，使用 <code>cluster replicate</code> 命令指定所属主节点ID。</p>
+<p>主节点ID可以使用客户端连接到集群后通过命令 <code>cluster nodes</code> 查看 ：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp82If.png" alt="节点信息" title="">
+                </div>
+                <div class="image-caption">节点信息</div>
+            </figure>
+<p>使用客户端连接新增的从节点 <em>6381</em> ，指定主节点 <em>6377</em> 在集群中的ID ，声明为 <em>6377</em> 节点的从节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> ./redis-cli -h 192.168.206.128 -c -p 6381</span></div><div class="line">192.168.206.128:6381&gt; cluster replicate e10dde558fb46fe8ae6fe66e54ef56032fbcce0f</div><div class="line">OK</div></pre></td></tr></table></figure>
+<p>至此就完成了集群中一个节点的主从配置，查看 <em>6377</em> 节点能够看到其包含一个从节点：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8Wi8.png" alt="集群状态3" title="">
+                </div>
+                <div class="image-caption">集群状态3</div>
+            </figure>
+<p>查询出 <em>6377</em> 端口服务对应的PID，然后通过 kill 将服务关闭，使该节点在集群上不可用；此时查看集群信息，能够发现从节点 <em>6381</em> 自动提升为主节点，顶替了不可用的 <em>6377</em> 节点。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8IMj.png" alt="关闭服务" title="">
+                </div>
+                <div class="image-caption">关闭服务</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8gdP.png" alt="集群状态4" title="">
+                </div>
+                <div class="image-caption">集群状态4</div>
+            </figure>
+<p>重新启动已宕机的服务后，该节点将会被当做从节点添加到管理原先的哈希槽分配范围的节点上。这里也就是添加到了 <em>6381</em> 节点上，<em>6381</em> 节点管理的哈希槽就是原先由 <em>6377</em> 节点所管理的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp8fJS.png" alt="重启宕机的服务器" title="">
+                </div>
+                <div class="image-caption">重启宕机的服务器</div>
+            </figure>
+<h4 id="客户端连接-redis-cluster"><a href="#客户端连接-redis-cluster" class="headerlink" title="客户端连接 redis-cluster"></a>客户端连接 redis-cluster</h4><p>客户端在连接 <em>redis</em> 服务器时带上参数 <strong>-c</strong> 即为连接到cluster集群</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> redis-cli -h 192.168.206.128 -c -p 6377</span></div><div class="line">192.168.206.128:6377&gt; set name zhangcs</div><div class="line"><span class="meta">-&gt;</span><span class="bash"> Redirected to slot [5798] located at 192.168.206.128:6378</span></div><div class="line">OK</div><div class="line">192.168.206.128:6378&gt;12345</div></pre></td></tr></table></figure>
+<p>可以看到，在 <em>6377</em> 端口的服务器上存储一个<em>string</em>类型的键值对 <code>name = zhangsan</code> 的时，操作被重定向到了 <em>6378</em> 端口的服务器上，而 <code>name = zhangsan</code> 这个键值对最终也被存储在了 <em>6378</em> 端口的服务器里。</p>
+<p>同理，在获取数据时，也会重定向到对应数据实际存储的服务器上，然后在该服务器上进行操作。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> ./redis-cli -h 192.168.206.128 -c -p 6377</span></div><div class="line">192.168.206.128:6378&gt; get name</div><div class="line">"zhangcs"</div><div class="line">192.168.206.128:6378&gt;1234</div></pre></td></tr></table></figure>
+<h5 id="单独连接集群上的节点"><a href="#单独连接集群上的节点" class="headerlink" title="单独连接集群上的节点"></a>单独连接集群上的节点</h5><p>需要注意的是，节点在加入集群后，如果不声明参数 <strong>-c</strong> 连接集群而是单独连接集群上的节点，那么在操作时如果需要重定向到其他的服务器，是无法成功重定向然后完成操作的。</p>
+<p>例如键值对 <code>name = zhangsan</code> 存储在 <em>6378</em> 端口的服务器上，此时如果我们单独连接到 <em>6377</em> 端口的服务器上进行操作，那么该操作是无法成功的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> redis-cli -h 127.0.0.1 -p 6377</span></div><div class="line">127.0.0.1:6377&gt; get name</div><div class="line">(error) MOVED 5798 127.0.0.1:6378</div><div class="line">127.0.0.1:6377&gt; set name lisi</div><div class="line">(error) MOVED 5798 127.0.0.1:6378</div><div class="line">127.0.0.1:6377&gt;123456</div></pre></td></tr></table></figure>
+<p>而如果无需重定向，则能成功完成操作。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> redis-cli -h 127.0.0.1 -p 6378</span></div><div class="line">127.0.0.1:6378&gt; get name</div><div class="line">"zhangsan"</div><div class="line">127.0.0.1:6378&gt;1234</div></pre></td></tr></table></figure>
+<h4 id="Spring集成-redis-cluster"><a href="#Spring集成-redis-cluster" class="headerlink" title="Spring集成 redis-cluster"></a>Spring集成 redis-cluster</h4><p>1、连接池配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="function"><span class="keyword">public</span> JedisPoolConfig <span class="title">jedisPoolConfig</span><span class="params">()</span> </span>&#123;</div><div class="line">  JedisPoolConfig jedisPoolConfig = <span class="keyword">new</span> JedisPoolConfig();</div><div class="line">  jedisPoolConfig.setMaxTotal(<span class="number">100</span>);</div><div class="line">  jedisPoolConfig.setMaxIdle(<span class="number">10</span>);</div><div class="line">  jedisPoolConfig.setMaxWaitMillis(<span class="number">1500</span>);</div><div class="line">  <span class="keyword">return</span> jedisPoolConfig;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2、JedisCluster对象配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="function"><span class="keyword">public</span> JedisCluster <span class="title">jedisCluster</span><span class="params">()</span> </span>&#123;</div><div class="line">  Set&lt;HostAndPort&gt; nodes = <span class="keyword">new</span> HashSet&lt;HostAndPort&gt;();</div><div class="line">  nodes.add(<span class="keyword">new</span> HostAndPort(<span class="string">"192.168.206.128"</span>, <span class="number">6377</span>));</div><div class="line">  nodes.add(<span class="keyword">new</span> HostAndPort(<span class="string">"192.168.206.128"</span>, <span class="number">6378</span>));</div><div class="line">  nodes.add(<span class="keyword">new</span> HostAndPort(<span class="string">"192.168.206.128"</span>, <span class="number">6379</span>));</div><div class="line">  nodes.add(<span class="keyword">new</span> HostAndPort(<span class="string">"192.168.206.128"</span>, <span class="number">6381</span>));</div><div class="line">  JedisCluster jedisCluster = <span class="keyword">new</span> JedisCluster(nodes, jedisPoolConfig());</div><div class="line">  <span class="keyword">return</span> jedisCluster;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3、JedisCluster对象的使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Autowired</span></div><div class="line"><span class="keyword">private</span> JedisCluster jedisCluster;</div><div class="line"></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCluster</span><span class="params">()</span> </span>&#123;</div><div class="line">    Assert.assertNotNull(jedisCluster);</div><div class="line"></div><div class="line">    String result = jedisCluster.set(<span class="string">"name"</span>, <span class="string">"zhangsan"</span>);</div><div class="line">    Assert.assertNotNull(result);</div><div class="line">    Assert.assertEquals(<span class="string">"OK"</span>, result);</div><div class="line"></div><div class="line">    String name = jedisCluster.get(<span class="string">"name"</span>);</div><div class="line">    Assert.assertNotNull(name);</div><div class="line">    Assert.assertEquals(<span class="string">"zhangsan"</span>, name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="spring-cache集成"><a href="#spring-cache集成" class="headerlink" title="spring-cache集成"></a>spring-cache集成</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span>(basePackages = &#123;<span class="string">"org.pro.service"</span>&#125;)</div><div class="line"><span class="comment">// 启用缓存</span></div><div class="line"><span class="meta">@EnableCaching</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RootConfig</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * jedis连接池配置</span></div><div class="line"><span class="comment">     * */</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> JedisPoolConfig <span class="title">jedisPoolConfig</span><span class="params">()</span> </span>&#123;</div><div class="line">        JedisPoolConfig jedisPoolConfig = <span class="keyword">new</span> JedisPoolConfig();</div><div class="line">        jedisPoolConfig.setMaxTotal(<span class="number">1000</span>);</div><div class="line">        jedisPoolConfig.setMaxIdle(<span class="number">10</span>);</div><div class="line">        jedisPoolConfig.setMaxWaitMillis(<span class="number">1500</span>);</div><div class="line">        <span class="keyword">return</span> jedisPoolConfig;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * redis-cluster配置</span></div><div class="line"><span class="comment">     * */</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RedisClusterConfiguration <span class="title">redisClusterConfiguration</span><span class="params">()</span> </span>&#123;</div><div class="line">        RedisClusterConfiguration redisClusterConfiguration = <span class="keyword">new</span> RedisClusterConfiguration();</div><div class="line"></div><div class="line">        Set&lt;RedisNode&gt; nodes = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">        nodes.add( <span class="keyword">new</span> RedisNode(<span class="string">"127.0.0.1"</span>, <span class="number">6377</span>));</div><div class="line">        nodes.add( <span class="keyword">new</span> RedisNode(<span class="string">"127.0.0.1"</span>, <span class="number">6378</span>));</div><div class="line">        nodes.add( <span class="keyword">new</span> RedisNode(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>));</div><div class="line">        redisClusterConfiguration.setClusterNodes(nodes);</div><div class="line">        redisClusterConfiguration.setMaxRedirects(<span class="number">4</span>);</div><div class="line">        <span class="keyword">return</span> redisClusterConfiguration;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * jedis连接工厂</span></div><div class="line"><span class="comment">     * */</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> JedisConnectionFactory <span class="title">jedisConnectionFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        JedisConnectionFactory jedisConnectionFactory = <span class="keyword">new</span> JedisConnectionFactory(redisClusterConfiguration(), jedisPoolConfig());</div><div class="line">        jedisConnectionFactory.setTimeout(<span class="number">15000</span>);</div><div class="line">        <span class="keyword">return</span> jedisConnectionFactory;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * redis模板</span></div><div class="line"><span class="comment">     * */</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate <span class="title">redisTemplate</span><span class="params">()</span> </span>&#123;</div><div class="line">        RedisTemplate redisTemplate = <span class="keyword">new</span> RedisTemplate();</div><div class="line">        redisTemplate.setConnectionFactory(jedisConnectionFactory());</div><div class="line"></div><div class="line">        StringRedisSerializer stringRedisSerializer = <span class="keyword">new</span> StringRedisSerializer();</div><div class="line">        redisTemplate.setKeySerializer(stringRedisSerializer);</div><div class="line">        redisTemplate.setValueSerializer(stringRedisSerializer);</div><div class="line">        redisTemplate.setHashKeySerializer(stringRedisSerializer);</div><div class="line">        redisTemplate.setHashValueSerializer(stringRedisSerializer);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> redisTemplate;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * redis缓存管理器</span></div><div class="line"><span class="comment">     * */</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RedisCacheManager <span class="title">redisCacheManager</span><span class="params">()</span> </span>&#123;</div><div class="line">        RedisCacheManager redisCacheManager = <span class="keyword">new</span> RedisCacheManager(redisTemplate());</div><div class="line">        <span class="keyword">return</span> redisCacheManager;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:08:26.489Z" itemprop="dateUpdated">2019-01-17 15:08:26</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/09/05/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/09/05/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/集群/">集群</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/09/05/1/&title=《Redis3.0集群搭建》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/09/05/1/&title=《Redis3.0集群搭建》 — Lvshen's Blog&source=Redis3.0 及其之后的版本提供了redis-cluster 集群支持，用于在多个redis节点间共享数据，以提高服务的可用性。
+构建 redis-c..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/09/05/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis3.0集群搭建》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/09/05/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/09/05/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/28/Log4X统一日志平台部署记录/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Log4X统一日志平台部署记录</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/01/工作总结/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">工作总结</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/09/05/1/&title=《Redis3.0集群搭建》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/09/05/1/&title=《Redis3.0集群搭建》 — Lvshen's Blog&source=Redis3.0 及其之后的版本提供了redis-cluster 集群支持，用于在多个redis节点间共享数据，以提高服务的可用性。
+构建 redis-c..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/09/05/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis3.0集群搭建》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/09/05/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/09/05/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/09/05/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>我所用到的Java8-续 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java8,Stream">
+    <meta name="description" content="工作之余，总结了下Java8的相关运用，主要是关于Stream流的。还有一些工作总结笔记。                                                                                              Java8">
+<meta name="keywords" content="Java8,Stream">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我所用到的Java8-续">
+<meta property="og:url" content="http://lvshen9.gitee.io/2019/08/16/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="工作之余，总结了下Java8的相关运用，主要是关于Stream流的。还有一些工作总结笔记。                                                                                              Java8">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GRd5H1.md.jpg">
+<meta property="og:updated_time" content="2020-04-08T03:42:22.916Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我所用到的Java8-续">
+<meta name="twitter:description" content="工作之余，总结了下Java8的相关运用，主要是关于Stream流的。还有一些工作总结笔记。                                                                                              Java8">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/04/08/GRd5H1.md.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">我所用到的Java8-续</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">我所用到的Java8-续</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-16T11:16:22.000Z" itemprop="datePublished" class="page-time">
+  2019-08-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Stream流操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">Stream流操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Example条件查询"><span class="post-toc-number">2.</span> <span class="post-toc-text">Example条件查询</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用SecureRandom"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用SecureRandom</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#arthas命令"><span class="post-toc-number">4.</span> <span class="post-toc-text">arthas命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#自动化脚本模拟并发"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">自动化脚本模拟并发</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#时间差计算"><span class="post-toc-number">5.</span> <span class="post-toc-text">时间差计算</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Java8-Duration"><span class="post-toc-number">6.</span> <span class="post-toc-text">Java8 Duration</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#微信接口调用实例"><span class="post-toc-number">7.</span> <span class="post-toc-text">微信接口调用实例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RestTemplate调用接口示列"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">RestTemplate调用接口示列</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#httpclient调用实例"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">httpclient调用实例</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#获取Json数据"><span class="post-toc-number">8.</span> <span class="post-toc-text">获取Json数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Json与VO相互转换"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">Json与VO相互转换</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#微信发送图文消息举例"><span class="post-toc-number">9.</span> <span class="post-toc-text">微信发送图文消息举例</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#mybatis的Sql使用"><span class="post-toc-number">10.</span> <span class="post-toc-text">mybatis的Sql使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#xml配置"><span class="post-toc-number">10.1.</span> <span class="post-toc-text">xml配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#java使用"><span class="post-toc-number">10.2.</span> <span class="post-toc-text">java使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Java-ES-api相关使用"><span class="post-toc-number">11.</span> <span class="post-toc-text">Java ES api相关使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#parseInt与valueOf"><span class="post-toc-number">12.</span> <span class="post-toc-text">parseInt与valueOf</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Arrays-asList-与Collections-singletonList"><span class="post-toc-number">13.</span> <span class="post-toc-text">Arrays.asList()与Collections.singletonList()</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Transient"><span class="post-toc-number">14.</span> <span class="post-toc-text">@Transient</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地导出文件测试"><span class="post-toc-number">15.</span> <span class="post-toc-text">本地导出文件测试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Kafka操作"><span class="post-toc-number">16.</span> <span class="post-toc-text">Kafka操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#判断小程序或h5"><span class="post-toc-number">17.</span> <span class="post-toc-text">判断小程序或h5</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#InitializingBean"><span class="post-toc-number">18.</span> <span class="post-toc-text">InitializingBean</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#kafka重试"><span class="post-toc-number">19.</span> <span class="post-toc-text">kafka重试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ArrayDeque方法（双队列）"><span class="post-toc-number">20.</span> <span class="post-toc-text">ArrayDeque方法（双队列）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#addFirst-E-e"><span class="post-toc-number">20.1.</span> <span class="post-toc-text">addFirst(E e)</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#时间单位转换"><span class="post-toc-number">21.</span> <span class="post-toc-text">时间单位转换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事务结束后代码处理逻辑"><span class="post-toc-number">22.</span> <span class="post-toc-text">事务结束后代码处理逻辑</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#地址路径为方法参数"><span class="post-toc-number">23.</span> <span class="post-toc-text">地址路径为方法参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#批量操作tips"><span class="post-toc-number">24.</span> <span class="post-toc-text">批量操作tips</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#java"><span class="post-toc-number">24.0.1.</span> <span class="post-toc-text">java</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#sql"><span class="post-toc-number">24.0.2.</span> <span class="post-toc-text">sql</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#锁查询"><span class="post-toc-number">25.</span> <span class="post-toc-text">锁查询</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MySQL死锁模拟"><span class="post-toc-number">26.</span> <span class="post-toc-text">MySQL死锁模拟</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用Mybatis操作"><span class="post-toc-number">27.</span> <span class="post-toc-text">使用Mybatis操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#删除"><span class="post-toc-number">27.1.</span> <span class="post-toc-text">删除</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#更新"><span class="post-toc-number">27.2.</span> <span class="post-toc-text">更新</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#linux命令"><span class="post-toc-number">28.</span> <span class="post-toc-text">linux命令</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">我所用到的Java8-续</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-16 19:16:22" datetime="2019-08-16T11:16:22.000Z"  itemprop="datePublished">2019-08-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>工作之余，总结了下Java8的相关运用，主要是关于Stream流的。还有一些工作总结笔记。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GRd5H1.md.jpg" alt="Java8" title="">
+                </div>
+                <div class="image-caption">Java8</div>
+            </figure>
+<a id="more"></a>
+<h4 id="Stream流操作"><a href="#Stream流操作" class="headerlink" title="Stream流操作"></a>Stream流操作</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//map集合获取value  获取新方式</span></div><div class="line">map.getOrDefault(goodsId, <span class="number">0L</span>)</div><div class="line"><span class="function"><span class="keyword">default</span> V <span class="title">getOrDefault</span><span class="params">(Object key, V defaultValue)</span> </span>&#123;</div><div class="line">   V v;</div><div class="line">   <span class="keyword">return</span> (((v = get(key)) != <span class="keyword">null</span>) || containsKey(key)) ? v : defaultValue;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//flatMap使用</span></div><div class="line">List&lt;OrderSetDetail&gt; setDetails = order.getDetails().stream()</div><div class="line">                .filter(x -&gt; CollectionUtils.isNotEmpty(x.getOrderSetDetails()))</div><div class="line">                .flatMap(orderDetail -&gt; orderDetail.getOrderSetDetails().stream())</div><div class="line">                .collect(Collectors.toList());</div><div class="line"></div><div class="line"><span class="comment">//distinct</span></div><div class="line">distinct主要用来去重，以下代码片段使用 distinct 对元素进行去重：</div><div class="line">List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">3</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">5</span>);</div><div class="line">numbers.stream().distinct().forEach(System.out::println);</div><div class="line"><span class="comment">//3,2,7,5</span></div><div class="line"></div><div class="line"><span class="comment">//groupingBy&amp;count分组统计</span></div><div class="line">Map&lt;String, Long&gt; collect = lists.stream().collect(Collectors</div><div class="line">                .groupingBy(Student::getName, Collectors.counting()));</div><div class="line"></div><div class="line"><span class="comment">//Java8 Map集合遍历</span></div><div class="line"> Map&lt;String, Integer&gt; updateStockMap = Optional.ofNullable(updateActivityStockList).orElseGet(ArrayList::<span class="keyword">new</span>)</div><div class="line">                .stream().collect(Collectors.groupingBy(UpdateActivityStock::getId,</div><div class="line">                        Collectors.reducing(Integer.valueOf(<span class="number">0</span>), UpdateActivityStock::getStock, Integer::sum)));</div><div class="line"></div><div class="line">updateStockMap.forEach((id, stockNum) -&gt; &#123;</div><div class="line">    ActivityStock oldStock = stockMap.get(id);</div><div class="line">    <span class="keyword">if</span> (oldStock != <span class="keyword">null</span>) &#123;</div><div class="line">        ActivityStock stock = <span class="keyword">new</span> ActivityStock();</div><div class="line">        stock.setId(id);</div><div class="line">        stock.setStock(stockNum);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//Java8 Map集合遍历2</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IterateHashMapExample</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        Map &lt; Integer, String &gt; coursesMap = <span class="keyword">new</span> HashMap &lt; Integer, String &gt; ();  </div><div class="line">        coursesMap.put(<span class="number">1</span>, <span class="string">"C"</span>);  </div><div class="line">        coursesMap.put(<span class="number">2</span>, <span class="string">"C++"</span>);  </div><div class="line">        coursesMap.put(<span class="number">3</span>, <span class="string">"Java"</span>);  </div><div class="line">        coursesMap.put(<span class="number">4</span>, <span class="string">"Spring Framework"</span>);  </div><div class="line">        coursesMap.put(<span class="number">5</span>, <span class="string">"Hibernate ORM framework"</span>);  </div><div class="line"></div><div class="line">        <span class="comment">// 5. 使用 Stream API 遍历 HashMap  </span></div><div class="line">        coursesMap.entrySet().stream().forEach((entry) - &gt; &#123;  </div><div class="line">            System.out.println(entry.getKey());  </div><div class="line">            System.out.println(entry.getValue());  </div><div class="line">        &#125;);  </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// java8之后。上面的操作可以简化为一行，若key对应的value为空，会将第二个参数的返回值存入并返回</span></div><div class="line">Object key2 = map.computeIfAbsent(<span class="string">"key"</span>, k -&gt; <span class="keyword">new</span> Object());</div><div class="line"></div><div class="line"><span class="comment">//相当于：</span></div><div class="line">  <span class="keyword">if</span>(map.get(<span class="string">"key"</span>) == <span class="keyword">null</span>) &#123;</div><div class="line">      map.put(<span class="string">"key"</span>, <span class="keyword">new</span> Object());</div><div class="line">  &#125; </div><div class="line"></div><div class="line"><span class="comment">//List转Map(key去重)</span></div><div class="line">Map&lt;String, Student&gt; studentMap = list1.stream().collect(Collectors.toMap(Student::getName, value -&gt; value, (a1, a2) -&gt; a1));</div></pre></td></tr></table></figure>
+<h4 id="Example条件查询"><a href="#Example条件查询" class="headerlink" title="Example条件查询"></a>Example条件查询</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Activity <span class="title">getEffectiveActivity</span><span class="params">()</span> </span>&#123;</div><div class="line">   Date now = <span class="keyword">new</span> Date();</div><div class="line">   Example example = <span class="keyword">new</span> Example(Activity.class);</div><div class="line">   example.createCriteria().andEqualTo(<span class="string">"isEnable"</span>, SystemConstants.YES)</div><div class="line">         .andEqualTo(<span class="string">"activityType"</span>, ActivityType.RUN)</div><div class="line">         .andLessThanOrEqualTo(<span class="string">"startDate"</span>, now)</div><div class="line">         .andGreaterThanOrEqualTo(<span class="string">"endDate"</span>, now);</div><div class="line"></div><div class="line">   List&lt;Activity&gt; activities = listAllByExample(example);</div><div class="line">   <span class="keyword">if</span>(!activities.isEmpty()) &#123;</div><div class="line">      <span class="keyword">return</span> activities.get(<span class="number">0</span>);</div><div class="line">   &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//单一计算</span></div><div class="line">SpokesmanUser entity = <span class="keyword">new</span> SpokesmanUser();</div><div class="line">entity.setParentId(userId);</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>.dao.selectCount(entity);<span class="comment">// 租户之间用户id保证唯一</span></div><div class="line"></div><div class="line"><span class="comment">//多条件统计</span></div><div class="line">Example example = <span class="keyword">new</span> Example(SpokesmanUser.class);</div><div class="line">Example.Criteria criteria = example.createCriteria();</div><div class="line">criteria.andEqualTo(<span class="string">"parentId"</span>, userId);</div><div class="line">criteria.andNotEqualTo(<span class="string">"id"</span>, excludChildId);</div><div class="line"><span class="keyword">return</span> <span class="keyword">this</span>.dao.selectCountByExample(example);<span class="comment">// 租户之间用户id保证唯一</span></div><div class="line"></div><div class="line"><span class="comment">//sql拼接</span></div><div class="line"><span class="keyword">if</span> (query.getStartTime() != <span class="keyword">null</span> &amp;&amp; query.getEndTime() != <span class="keyword">null</span></div><div class="line">      &amp;&amp; query.getEndTime().after(query.getStartTime())) &#123;</div><div class="line">   String startTime = DateTimeUtils.formatDateTime(query.getStartTime());</div><div class="line">   String endTime = DateTimeUtils.formatDateTime(query.getEndTime());</div><div class="line">   criteria.andCondition(String.format(</div><div class="line">         <span class="string">"((start_time &gt;= '%s' AND '%s' &gt;= start_time) OR ('%s' &gt;= start_time AND end_time &gt;= '%s') OR (end_time &gt;= '%s' AND '%s' &gt;= end_time))"</span>,</div><div class="line">         startTime, endTime, startTime, endTime, startTime, endTime));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;Entity&gt; <span class="title">listByCsId</span><span class="params">(String csId)</span> </span>&#123;</div><div class="line">    Example example = <span class="keyword">new</span> Example(Entity.class);</div><div class="line">    example.createCriteria().andEqualTo(<span class="string">"csId"</span>, csId)</div><div class="line">            .andEqualTo(<span class="string">"isAssignCs"</span>, SystemConstants.YES)</div><div class="line">            .andEqualTo(<span class="string">"isEndSession"</span>, SystemConstants.NO);</div><div class="line">    example.setOrderByClause(<span class="string">"update_date DESC"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.listAllByExample(example);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//updateByExample使用</span></div><div class="line">ChatSession updateEntity = <span class="keyword">new</span> ChatSession();</div><div class="line">updateEntity.setId(chatSession.getId());</div><div class="line">updateEntity.setServiceEndDate(<span class="keyword">new</span> Date());</div><div class="line">updateEntity.setIsEndSession(SystemConstants.YES);</div><div class="line">updateEntity.setRemark(remark);</div><div class="line">updateEntity.setUpdateDate(<span class="keyword">new</span> Date());</div><div class="line">updateEntity.setUpdateBy(operator);</div><div class="line">Example example = <span class="keyword">new</span> Example(ChatSession.class);</div><div class="line">example.createCriteria().andEqualTo(<span class="string">"id"</span>, chatSession.getId()).andEqualTo(<span class="string">"isEndSession"</span>, SystemConstants.NO);</div><div class="line"><span class="keyword">int</span> result = chatSessionRepository.updateByExample(updateEntity, example);</div></pre></td></tr></table></figure>
+<h4 id="使用SecureRandom"><a href="#使用SecureRandom" class="headerlink" title="使用SecureRandom"></a>使用SecureRandom</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">由于java.util.Random类依赖于伪随机数生成器，因此该类和相关的java.lang.Math.random（）方法不应用于安全关键应用程序或保护敏感数据。 在这种情况下，应该使用依赖于加密强随机数生成器（RNG）的java.security.SecureRandom类。</div><div class="line"></div><div class="line">PRNG(伪随机数)：</div><div class="line">伪随机数， 计算机不能生成真正的随机数，而是通用一定的方法来模拟随机数。伪随机数有一部分遵守一定的规律，另一部分不遵守任何规律。</div><div class="line"></div><div class="line">RNG(随机数)：</div><div class="line">随机数是由“随机种子”产生的，“随机种子”是一个无符号整形数。</div><div class="line"></div><div class="line">反例：</div><div class="line">Random random = <span class="keyword">new</span> Random(); <span class="comment">// Questionable use of Random</span></div><div class="line"><span class="keyword">byte</span> bytes[] = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">20</span>];</div><div class="line">random.nextBytes(bytes);</div><div class="line">正例：</div><div class="line">SecureRandom random = <span class="keyword">new</span> SecureRandom(); </div><div class="line"><span class="keyword">byte</span> bytes[] = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">20</span>];</div></pre></td></tr></table></figure>
+<h4 id="arthas命令"><a href="#arthas命令" class="headerlink" title="arthas命令"></a>arthas命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">wget https://alibaba.github.io/arthas/arthas-boot.jar</div><div class="line"></div><div class="line"><span class="meta">#</span>启动示例</div><div class="line">java -jar arthas-boot.jar</div><div class="line"></div><div class="line"><span class="meta">#</span>获取trace调用链</div><div class="line">trace -j com.xxx.xxx.application.command.WechatLotteryRunService drawPrize '#cost &gt; 300'</div><div class="line"></div><div class="line"><span class="meta">#</span> 获取Servlet调用路径，并过滤掉JDK的函数</div><div class="line">trace -j javax.servlet.Servlet * &gt;&gt; test.log</div><div class="line"></div><div class="line"><span class="meta">#</span> 获取Filter调用路径，并过滤掉JDK的函数</div><div class="line">trace -j javax.servlet.Filter * &gt;&gt; test.log</div><div class="line"></div><div class="line">trace -j org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient * &gt;&gt; test.log</div><div class="line">watch org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient execute "&#123;params,target,throwExp,returnObj&#125;" -e -x 2 -b -s -n 2</div><div class="line"></div><div class="line">trace -j com.xxx.erp.action.autocalculate.WarehouseAction | com.xxx.erp.action.autocalculate.ExpressAction * '#cost &gt; 100'</div><div class="line"></div><div class="line"><span class="meta">#</span> 录制重放</div><div class="line">tt -t -n 2 org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient execute</div><div class="line"><span class="meta">#</span> 查看id</div><div class="line">tt -l</div><div class="line"><span class="meta">#</span> 详情</div><div class="line">tt -i 1000</div><div class="line"><span class="meta">#</span> 重放</div><div class="line">tt -i 1000 -p</div><div class="line"></div><div class="line"><span class="meta">#</span> 获取spring 容器</div><div class="line">tt -t org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter invokeHandlerMethod</div><div class="line">tt -i 1000 -w 'target.getApplicationContext()'</div><div class="line">tt -i 1000 -w 'target.getApplicationContext().getBean("helloWorldService").getHelloMessage()'</div><div class="line"></div><div class="line">ognl '#context=@com.yjh.mushroom.common.spring.SpringContextHolder@applicationContext, #context.getBean("idGenerator").nextId()'</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#</span> 快速排查Spring Boot应用404/401问题</div><div class="line">stack -E javax.servlet.http.HttpServletResponse sendError|setStatus params[0]==404</div><div class="line"></div><div class="line"><span class="meta">#</span> 800错误排查</div><div class="line">watch com.xxx.xxx.framework.spring.web.GlobalExceptionHandler handleUncatchedException params[2]</div><div class="line"></div><div class="line"><span class="meta">#</span>oms 异常排查</div><div class="line">watch com.xxx.xxx.main.order.web.OrderController * "&#123;clazz.name, params[0],throwExp&#125;" -e -x 2</div><div class="line"></div><div class="line"><span class="meta">#</span>oms调用eureka地址检查</div><div class="line">watch com.netflix.client.ClientRequest replaceUri "params[0]"</div><div class="line"></div><div class="line"><span class="meta">#</span>oms数据库连接排查</div><div class="line">watch com.mysql.jdbc.MysqlIO doHandshake "&#123;params[0],params[1],params[2],target.host&#125;" -b</div><div class="line"></div><div class="line"><span class="meta">#</span>oms订单任务判断</div><div class="line">watch com.xxx.oms.sync.domain.service.PlatformDomainEventService handlePendingEvent params[0]</div></pre></td></tr></table></figure>
+<h5 id="自动化脚本模拟并发"><a href="#自动化脚本模拟并发" class="headerlink" title="自动化脚本模拟并发"></a>自动化脚本模拟并发</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd wrk/wrk-master/</div><div class="line"></div><div class="line">wrk -t4 -c1000 -d60s -T10s --latency http://localhost:9016 --script=scripts/20190621/方法名.lua</div></pre></td></tr></table></figure>
+<h4 id="时间差计算"><a href="#时间差计算" class="headerlink" title="时间差计算"></a>时间差计算</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> diffMinutes = ChronoUnit.MINUTES.between(Instant.now(), sendDate.toInstant());</div></pre></td></tr></table></figure>
+<h4 id="Java8-Duration"><a href="#Java8-Duration" class="headerlink" title="Java8 Duration"></a>Java8 Duration</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Duration duration = Duration.ofDays(verifyDays * -1);</div><div class="line">Instant lastValidDate = Instant.now().plus(duration);</div></pre></td></tr></table></figure>
+<h4 id="微信接口调用实例"><a href="#微信接口调用实例" class="headerlink" title="微信接口调用实例"></a>微信接口调用实例</h4><h5 id="RestTemplate调用接口示列"><a href="#RestTemplate调用接口示列" class="headerlink" title="RestTemplate调用接口示列"></a>RestTemplate调用接口示列</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">JSONObject param = <span class="keyword">new</span> JSONObject();</div><div class="line">param.put(<span class="string">"type"</span>, request.getData()); <span class="comment">// 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）</span></div><div class="line">param.put(<span class="string">"offset"</span>, (request.getPageNo() - <span class="number">1</span>) * request.getPageSize()); <span class="comment">// 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回</span></div><div class="line">param.put(<span class="string">"count"</span>, request.getPageSize()); <span class="comment">// 返回素材的数量，取值在1到20之间</span></div><div class="line">RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</div><div class="line">restTemplate.getMessageConverters().set(<span class="number">1</span>, <span class="keyword">new</span> StringHttpMessageConverter(StandardCharsets.UTF_8)); <span class="comment">// 处理中文乱码</span></div><div class="line">ResponseEntity&lt;String&gt; re = restTemplate.postForEntity(<span class="string">"https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token="</span> + token, param, String.class);</div><div class="line"><span class="keyword">if</span> (HttpStatus.OK.equals(re.getStatusCode()) &amp;&amp; re.getBody() != <span class="keyword">null</span>) &#123;</div><div class="line">    JSONObject result = JSONObject.parseObject(re.getBody());</div><div class="line">    <span class="keyword">if</span> (!result.containsKey(<span class="string">"errcode"</span>)) &#123;</div><div class="line">        pageInfo.setTotal(result.getLong(<span class="string">"total_count"</span>));</div><div class="line">        List&lt;MpMaterialVO&gt; list = Lists.newArrayList();</div><div class="line">        JSONArray itemArr = result.getJSONArray(<span class="string">"item"</span>);</div><div class="line">        itemArr.forEach(item -&gt; list.add(<span class="keyword">new</span> MpMaterialVO((JSONObject) item)));</div><div class="line">        pageInfo.setList(list);</div><div class="line">        <span class="keyword">return</span> pageInfo;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="httpclient调用实例"><a href="#httpclient调用实例" class="headerlink" title="httpclient调用实例"></a>httpclient调用实例</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">sendGet</span><span class="params">(String url, PayAccountBizCodeType bizCodeType)</span> </span>&#123;</div><div class="line">        HttpGet httpGet = <span class="keyword">new</span> HttpGet(url);</div><div class="line">        httpGet.setHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/json;charset=UTF-8"</span>);</div><div class="line">        httpGet.setHeader(<span class="string">"Accept"</span>, <span class="string">"application/json"</span>);</div><div class="line">        httpGet.setHeader(<span class="string">"User-Agent"</span>, getUserAgent());</div><div class="line">        httpGet.setHeader(<span class="string">"Authorization"</span>, getAuthorization(<span class="string">"GET"</span>, url, <span class="string">""</span>, bizCodeType));</div><div class="line">        String result = executeRequest(httpGet);</div><div class="line">        logger.info(<span class="string">"调用微信GET接口，url:&#123;&#125; ,result:&#123;&#125;"</span>, url, result);</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">executeRequest</span><span class="params">(HttpUriRequest request)</span> </span>&#123;</div><div class="line">    CloseableHttpClient client = HttpClients.createDefault();</div><div class="line">    String result = <span class="string">""</span>;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        CloseableHttpResponse response = client.execute(request);</div><div class="line">        HttpEntity entity = response.getEntity();</div><div class="line">        result = EntityUtils.toString(entity, <span class="string">"UTF-8"</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">        logger.error(<span class="string">"调用微信接口失败，失败原因："</span> + e.getMessage(), e);</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            client.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            logger.error(<span class="string">"关闭httpclient失败，失败原因:&#123;&#125;"</span>, e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="获取Json数据"><a href="#获取Json数据" class="headerlink" title="获取Json数据"></a>获取Json数据</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">MpMaterialVO</span><span class="params">(JSONObject jsonObject)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.mediaId = jsonObject.getString(<span class="string">"media_id"</span>);</div><div class="line">    JSONObject news = (JSONObject) jsonObject.getJSONObject(<span class="string">"content"</span>).getJSONArray(<span class="string">"news_item"</span>).get(<span class="number">0</span>);</div><div class="line">    <span class="keyword">this</span>.title = news.getString(<span class="string">"title"</span>);</div><div class="line">    <span class="keyword">this</span>.digest = news.getString(<span class="string">"digest"</span>);</div><div class="line">    <span class="keyword">this</span>.thumbUrl = news.getString(<span class="string">"thumb_url"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="Json与VO相互转换"><a href="#Json与VO相互转换" class="headerlink" title="Json与VO相互转换"></a>Json与VO相互转换</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 对应VO转为内容json</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">voToJson</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (type == MaterialTemplateTypeEnum.MINI_CARD) &#123;</div><div class="line">        contentJson = JsonUtils.toJsonString(miniCardVO);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == MaterialTemplateTypeEnum.ADVANCED_IMAGE_TEXT) &#123;</div><div class="line">        contentJson = JsonUtils.toJsonString(advancedImageTextVO);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        contentJson = JsonUtils.toJsonString(content);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 内容json转为对应VO</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">jsonToVO</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (type == MaterialTemplateTypeEnum.MINI_CARD) &#123;</div><div class="line">        miniCardVO = JsonUtils.toBean(contentJson, MiniCardVO.class);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == MaterialTemplateTypeEnum.ADVANCED_IMAGE_TEXT) &#123;</div><div class="line">        advancedImageTextVO = JsonUtils.toBean(contentJson, AdvancedImageTextVO.class);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        content = JsonUtils.toBean(contentJson, String.class);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="微信发送图文消息举例"><a href="#微信发送图文消息举例" class="headerlink" title="微信发送图文消息举例"></a>微信发送图文消息举例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"touser"</span>:<span class="string">"OPENID"</span>,</div><div class="line">    <span class="string">"msgtype"</span>:<span class="string">"news"</span>,</div><div class="line">    <span class="string">"news"</span>:&#123;</div><div class="line">        <span class="string">"articles"</span>: [</div><div class="line">         &#123;</div><div class="line">             <span class="string">"title"</span>:<span class="string">"Happy Day"</span>,</div><div class="line">             <span class="string">"description"</span>:<span class="string">"Is Really A Happy Day"</span>,</div><div class="line">             <span class="string">"url"</span>:<span class="string">"URL"</span>,</div><div class="line">             <span class="string">"picurl"</span>:<span class="string">"PIC_URL"</span></div><div class="line">         &#125;</div><div class="line">         ]</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> JSONObject <span class="title">initAdvancedImageText</span><span class="params">(AdvancedImageTextVO advancedImageTextVO)</span> </span>&#123;</div><div class="line">    JSONObject param = <span class="keyword">new</span> JSONObject();</div><div class="line">    param.put(MSG_TYPE, <span class="string">"news"</span>);</div><div class="line">    JSONObject news = <span class="keyword">new</span> JSONObject();</div><div class="line">    JSONArray articles = <span class="keyword">new</span> JSONArray();</div><div class="line">    JSONObject article = <span class="keyword">new</span> JSONObject();</div><div class="line">    article.put(TITLE, advancedImageTextVO.getTitle());</div><div class="line">    article.put(<span class="string">"description"</span>, advancedImageTextVO.getDescription());</div><div class="line">    article.put(<span class="string">"url"</span>, advancedImageTextVO.getHref());</div><div class="line">    article.put(<span class="string">"picurl"</span>, advancedImageTextVO.getUrl());</div><div class="line">    articles.add(article);</div><div class="line">    news.put(<span class="string">"articles"</span>, articles);</div><div class="line">    param.put(<span class="string">"news"</span>, news);</div><div class="line">    <span class="keyword">return</span> param;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="mybatis的Sql使用"><a href="#mybatis的Sql使用" class="headerlink" title="mybatis的Sql使用"></a>mybatis的Sql使用</h4><h5 id="xml配置"><a href="#xml配置" class="headerlink" title="xml配置"></a>xml配置</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&lt;sql id="memberColumns"&gt;</div><div class="line">              a.id AS "id",</div><div class="line">   a.card_no AS "cardNo",</div><div class="line">   a.mobile AS "mobile",</div><div class="line">   a.login_name AS "loginName",</div><div class="line">   a.password AS "password",</div><div class="line">   a.status AS "status",</div><div class="line">   a.sex AS "sex",</div><div class="line">   a.birthday AS "birthday",</div><div class="line">   a.nick_name AS "nickName",</div><div class="line">   a.icon AS "icon",</div><div class="line">   a.is_created_order AS "isCreatedOrder",</div><div class="line">   a.binding_status AS "bindingStatus",</div><div class="line">   a.province AS "province",</div><div class="line">   a.city AS "city",</div><div class="line">   a.create_date AS "createDate",</div><div class="line">   a.create_by AS "createBy",</div><div class="line">   a.update_date AS "updateDate",</div><div class="line">   a.update_by AS "updateBy",</div><div class="line">   a.del_flag AS "delFlag",</div><div class="line">   a.remarks AS "remarks",</div><div class="line">   a.tenant_id AS "tenantId",</div><div class="line">   a.ext_tenant_id AS "extTenantId"</div><div class="line">&lt;/sql&gt;</div><div class="line"></div><div class="line">   &lt;select id="listMember" resultMap="memberCO"&gt;</div><div class="line">       <span class="keyword">SELECT</span> b.channel,</div><div class="line">       &lt;<span class="keyword">include</span> refid=<span class="string">"memberColumns"</span>/&gt;</div><div class="line">       ....</div><div class="line">   &lt;/<span class="keyword">select</span>&gt;</div></pre></td></tr></table></figure>
+<h5 id="java使用"><a href="#java使用" class="headerlink" title="java使用"></a>java使用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">List&lt;memberCO&gt; list = memberChannelExtRepository.listMember(<span class="string">"参数"</span>);</div></pre></td></tr></table></figure>
+<h4 id="Java-ES-api相关使用"><a href="#Java-ES-api相关使用" class="headerlink" title="Java ES api相关使用"></a>Java ES api相关使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//范围查询</span></div><div class="line"><span class="keyword">if</span> (<span class="keyword">null</span> != query.getCancelTimeStart()) &#123;</div><div class="line">    RangeQueryBuilder cancelTimeStartQuery = QueryBuilders.rangeQuery(<span class="string">"cancelTime"</span>)</div><div class="line">    .gte(DateTimeUtils.formatDateTime(query.getCancelTimeStart()));</div><div class="line">    filter.must(cancelTimeStartQuery);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">null</span> != query.getCancelTimeEnd()) &#123;</div><div class="line">    RangeQueryBuilder cancelTimeEndQuery = QueryBuilders.rangeQuery(<span class="string">"cancelTime"</span>)</div><div class="line">    .lte(DateTimeUtils.formatDateTime(query.getCancelTimeEnd()));</div><div class="line">    filter.must(cancelTimeEndQuery);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//集合查询</span></div><div class="line"><span class="keyword">if</span> (ValidateUtils.isNotEmptyCollection(query.getPaymentStatuses())) &#123;</div><div class="line">    List&lt;String&gt; paymentStatuses = query.getPaymentStatuses().stream()</div><div class="line">        .map(paymentStatus -&gt; paymentStatus.toString()).collect(Collectors.toList());</div><div class="line">    TermsQueryBuilder paymentStatusesQuery = QueryBuilders.termsQuery(<span class="string">"paymentStatus"</span>, paymentStatuses);</div><div class="line">    filter.must(paymentStatusesQuery);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//精确查询</span></div><div class="line"> TermsQueryBuilder originalExpressIdQuery = QueryBuilders</div><div class="line">                    .termsQuery(<span class="string">"originalExpressId"</span>, query.getOriginalExpressId());</div><div class="line">            filter.must(originalExpressIdQuery);</div><div class="line"></div><div class="line"><span class="comment">//</span></div><div class="line">QueryBuilder queryBuilder = QueryBuilders.wildcardQuery(<span class="string">"user"</span>, <span class="string">"ki*hy"</span>);</div><div class="line"></div><div class="line"><span class="comment">//模糊查询</span></div><div class="line">RegexpQueryBuilder externalCodeQuery = QueryBuilders.regexpQuery(<span class="string">"externalCode"</span>,</div><div class="line">                    “*”+ query.getExternalCode() + “*”);</div><div class="line"></div><div class="line">WildcardQueryBuilder externalCodeQuery = QueryBuilders.wildcardQuery(<span class="string">"externalCode"</span>,</div><div class="line">                    <span class="string">"*"</span>+query.getExternalCode()+<span class="string">"*"</span>);</div></pre></td></tr></table></figure>
+<h4 id="parseInt与valueOf"><a href="#parseInt与valueOf" class="headerlink" title="parseInt与valueOf"></a>parseInt与valueOf</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Integer dailySignPointToInt = Integer.parseInt(resultData);</div><div class="line">//推荐2，有缓存</div><div class="line">Integer dailySignPointToInt = Integer.valueOf(resultData);</div></pre></td></tr></table></figure>
+<h4 id="Arrays-asList-与Collections-singletonList"><a href="#Arrays-asList-与Collections-singletonList" class="headerlink" title="Arrays.asList()与Collections.singletonList()"></a>Arrays.asList()与Collections.singletonList()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Arrays.asList(strArray)返回值是仍然是一个可变的集合，但是返回值是其内部类，不具有add方法，可以通过set方法进行增加值，默认长度是10</div><div class="line">Collections.singletonList()返回的同样是不可变的集合，但是这个长度的集合只有1，可以减少内存空间。但是返回的值依然是Collections的内部实现类，同样没有add的方法，调用add，set方法会报错</div></pre></td></tr></table></figure>
+<h4 id="Transient"><a href="#Transient" class="headerlink" title="@Transient"></a>@Transient</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Transient表示该属性并非一个到数据库表的字段的映射,ORM框架将忽略该属性. 如果一个属性并非数据库表的字段映射,就务必将其标示为@Transient,否则,ORM框架默认其注解为@Basic</div></pre></td></tr></table></figure>
+<h4 id="本地导出文件测试"><a href="#本地导出文件测试" class="headerlink" title="本地导出文件测试"></a>本地导出文件测试</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/octet-stream' --header 'X-Client-Id: swagger' --header 'X-Client-Token: 852311eac642cbf8059928c371784461' --header 'X-Tenant-Id: newretail' --header 'X-Ext-Tenant-Id: 1275854953286784' -d '&#123;&#125;' 'http://localhost:9017/api/earningRuleRetail/exportExcel' -o aa.xlsx</div></pre></td></tr></table></figure>
+<h4 id="Kafka操作"><a href="#Kafka操作" class="headerlink" title="Kafka操作"></a>Kafka操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//消费者</div><div class="line">bin/windows/kafka-console-consumer.bat --zookeeper localhost:2181 --topic lvshen_demo_test --from-beginning</div><div class="line"></div><div class="line">//生产者</div><div class="line">bin/windows/kafka-console-producer.bat --broker-list localhost:9092 --topic lvshen_demo_test</div></pre></td></tr></table></figure>
+<h4 id="判断小程序或h5"><a href="#判断小程序或h5" class="headerlink" title="判断小程序或h5"></a>判断小程序或h5</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String clientType = ServletUtils.getRequest().getHeader(&quot;X-Client-Type&quot;);</div></pre></td></tr></table></figure>
+<h4 id="InitializingBean"><a href="#InitializingBean" class="headerlink" title="InitializingBean"></a>InitializingBean</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">InitializingBean接口为bean提供了初始化方法的方式，它只包括afterPropertiesSet方法，凡是继承该接口的类，在初始化bean的时候都会执行该方法。</div><div class="line"></div><div class="line"><span class="comment">//示例</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensitiveWordFilterHelper</span> <span class="keyword">implements</span> <span class="title">InitializingBean</span> </span>&#123;		</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		refreshAllWord();</div><div class="line">	&#125;</div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="kafka重试"><a href="#kafka重试" class="headerlink" title="kafka重试"></a>kafka重试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1. new KafkaProducer()后创建一个后台线程KafkaThread扫描RecordAccumulator中是否有消息； </div><div class="line">2. 调用KafkaProducer.send()发送消息，实际上只是把消息保存到RecordAccumulator中； </div><div class="line">3. 后台线程KafkaThread扫描到RecordAccumulator中有消息后，将消息发送到kafka集群； </div><div class="line">4. 如果发送成功，那么返回成功； </div><div class="line">5. 如果发送失败，那么判断是否允许重试。如果不允许重试，那么返回失败的结果；如果允许重试，把消息再保存到RecordAccumulator中，等待后台线程KafkaThread扫描再次发送；</div></pre></td></tr></table></figure>
+<h4 id="ArrayDeque方法（双队列）"><a href="#ArrayDeque方法（双队列）" class="headerlink" title="ArrayDeque方法（双队列）"></a>ArrayDeque方法（双队列）</h4><h5 id="addFirst-E-e"><a href="#addFirst-E-e" class="headerlink" title="addFirst(E e)"></a>addFirst(E e)</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//addFirst(E e)</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>)<span class="comment">//不允许放入null</span></div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    elements[head = (head - <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>)] = e;<span class="comment">//2.下标是否越界</span></div><div class="line">    <span class="keyword">if</span> (head == tail)<span class="comment">//1.空间是否够用</span></div><div class="line">    doubleCapacity();<span class="comment">//扩容</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="时间单位转换"><a href="#时间单位转换" class="headerlink" title="时间单位转换"></a>时间单位转换</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//3600分钟 转换成 小时 是多少</span></div><div class="line">System.out.println(TimeUnit.HOURS.convert(<span class="number">3600</span>, TimeUnit.MINUTES));</div><div class="line"></div><div class="line"><span class="comment">//3600分钟 转换成 天 是多少</span></div><div class="line">System.out.println(TimeUnit.DAYS.convert(<span class="number">3600</span>, TimeUnit.MINUTES));</div><div class="line"></div><div class="line"><span class="comment">//3600分钟 转换成 秒 是多少</span></div><div class="line">System.out.println(TimeUnit.SECONDS.convert(<span class="number">3600</span>, TimeUnit.MINUTES));</div></pre></td></tr></table></figure>
+<h4 id="事务结束后代码处理逻辑"><a href="#事务结束后代码处理逻辑" class="headerlink" title="事务结束后代码处理逻辑"></a>事务结束后代码处理逻辑</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">afterTransactionExecutor.execute(() -&gt; clearCacheCommodityByIds(ids));</div></pre></td></tr></table></figure>
+<h4 id="地址路径为方法参数"><a href="#地址路径为方法参数" class="headerlink" title="地址路径为方法参数"></a>地址路径为方法参数</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@PostMapping</span>(<span class="string">"/changeSort/&#123;id&#125;/&#123;type&#125;"</span>)</div><div class="line"><span class="meta">@ApiOperation</span>(value = <span class="string">"调整排序 TOTOP/UP"</span>, tags = TagConstant.PC)</div><div class="line"><span class="meta">@RequiresPermissions</span>(<span class="string">"xxx-commodity:commodityParam:edit"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSort</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> String id, @<span class="title">PathVariable</span><span class="params">(<span class="string">"type"</span>)</span> String type) </span>&#123;</div><div class="line">    Assert.hasLength(id, <span class="string">"属性id有误"</span>);</div><div class="line">    commodityParamQueryService.get(id);</div><div class="line">    commodityParamService.changeSort(id, type);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="批量操作tips"><a href="#批量操作tips" class="headerlink" title="批量操作tips"></a>批量操作tips</h4><h6 id="java"><a href="#java" class="headerlink" title="java"></a>java</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//批量操作时，先将索引字段排序，有利于避免死锁.按顺序加锁不会产生锁环</span></div><div class="line">stockAllocateList.sort(Comparator.comparing(StockAllocate::getSkuId));</div><div class="line">stockAllocateList.forEach(item -&gt; &#123;</div><div class="line">    <span class="keyword">int</span> size = <span class="keyword">this</span>.dao.updateSubAllocateStock(item);</div><div class="line">    <span class="keyword">if</span> (size &lt;= <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BusinessException(<span class="string">"stockSubAllocate_error"</span>, stockAllocateVOS.toString());</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h6 id="sql"><a href="#sql" class="headerlink" title="sql"></a>sql</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;update id="updateSubAllocateStock" &gt;</div><div class="line">   <span class="keyword">update</span> stock <span class="keyword">set</span> allocate_stock = allocate_stock - #&#123;commodityNumber&#125;</div><div class="line">   <span class="keyword">where</span> sku_id=#&#123;skuId&#125; <span class="keyword">and</span> allocate_stock &gt;= #&#123;commodityNumber&#125;</div><div class="line">&lt;/<span class="keyword">update</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="锁查询"><a href="#锁查询" class="headerlink" title="锁查询"></a>锁查询</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_locks;</div><div class="line"><span class="keyword">show</span> <span class="keyword">engine</span> <span class="keyword">innodb</span> <span class="keyword">status</span>;</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> information_schema.innodb_lock_waits;</div><div class="line"></div><div class="line"><span class="keyword">SHOW</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'optimizer_trace'</span>;</div><div class="line"><span class="keyword">SET</span> optimizer_trace=<span class="string">"enabled=on"</span>;</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> student <span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">'fly'</span>;</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> information_schema.OPTIMIZER_TRACE;</div><div class="line"></div><div class="line"><span class="comment">--MySQL监控</span></div><div class="line"><span class="comment">-- 开启标准监控</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> innodb_monitor (a <span class="built_in">INT</span>) <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span>;</div><div class="line"><span class="comment">-- 关闭标准监控</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> innodb_monitor;</div><div class="line"><span class="comment">-- 开启锁监控</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> innodb_lock_monitor (a <span class="built_in">INT</span>) <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span>; </div><div class="line"><span class="comment">-- 关闭锁监控</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> innodb_lock_monitor;</div><div class="line"></div><div class="line"><span class="comment">--在 MySQL 5.6.16 之后，可以通过设置系统参数来开启锁监控</span></div><div class="line"><span class="comment">-- 开启标准监控</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">GLOBAL</span> innodb_status_output=<span class="keyword">ON</span>;</div><div class="line"><span class="comment">-- 关闭标准监控</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">GLOBAL</span> innodb_status_output=<span class="keyword">OFF</span>;</div><div class="line"><span class="comment">-- 开启锁监控</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">GLOBAL</span> innodb_status_output_locks=<span class="keyword">ON</span>;</div><div class="line"><span class="comment">-- 关闭锁监控</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">GLOBAL</span> innodb_status_output_locks=<span class="keyword">OFF</span>;</div><div class="line"><span class="comment">--MySQL 提供了一个系统参数 innodb_print_all_deadlocks 专门用于记录死锁日志，当发生死锁时，死锁日志会记录到 MySQL 的错误日志文件中</span></div><div class="line"><span class="keyword">set</span> <span class="keyword">GLOBAL</span> innodb_print_all_deadlocks=<span class="keyword">ON</span>;</div></pre></td></tr></table></figure>
+<h4 id="MySQL死锁模拟"><a href="#MySQL死锁模拟" class="headerlink" title="MySQL死锁模拟"></a>MySQL死锁模拟</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--事务A</span></div><div class="line">mysql&gt; begin;</div><div class="line">Query OK, 0 rows affected</div><div class="line"></div><div class="line"><span class="comment">--执行顺序 1</span></div><div class="line">mysql&gt; update student set age=31</div><div class="line"> where name = 'fly';</div><div class="line">Query OK, 1 row affected</div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0</div><div class="line"></div><div class="line"><span class="comment">--执行顺序 3</span></div><div class="line">mysql&gt; update student set age=32 where name = 'alan';</div><div class="line">Query OK, 1 row affected</div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">--事务B</span></div><div class="line">mysql&gt; begin;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div><div class="line"></div><div class="line"><span class="comment">--执行顺序 2</span></div><div class="line">mysql&gt; update student set age=31 where name = 'alan';</div><div class="line">Query OK, 1 row affected (0.00 sec)</div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0</div><div class="line"></div><div class="line"><span class="comment">--执行顺序 4</span></div><div class="line">mysql&gt; update student set age=21 where name = 'fly';</div><div class="line">ERROR 1213 (40001): Deadlock found when trying to get <span class="keyword">lock</span>; try restarting transaction</div></pre></td></tr></table></figure>
+<h4 id="使用Mybatis操作"><a href="#使用Mybatis操作" class="headerlink" title="使用Mybatis操作"></a>使用Mybatis操作</h4><p>注意不要先查询再操作</p>
+<h5 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//推荐</span></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> </span>&#123;</div><div class="line">   Student student = <span class="keyword">new</span> Student();</div><div class="line">   student.setName(<span class="string">"Hare"</span>);</div><div class="line">   <span class="keyword">int</span> delete = studentRepository.delete(student);</div><div class="line">   log.info(<span class="string">"删除&#123;&#125;条数据"</span>,delete);</div><div class="line">&#125;</div><div class="line"><span class="comment">//不推荐</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> </span>&#123;</div><div class="line">   Student student = studentRepositoryg.getByName(<span class="string">"Hare"</span>);</div><div class="line">   <span class="keyword">int</span> delete = studentRepository.delete(student);</div><div class="line">   log.info(<span class="string">"删除&#123;&#125;条数据"</span>,delete);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//更新</span></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdate</span><span class="params">()</span> </span>&#123;</div><div class="line">   Student student = <span class="keyword">new</span> Student();</div><div class="line">   student.setId(<span class="string">"2073678416402304"</span>);</div><div class="line">   student.setAge(<span class="number">26</span>);</div><div class="line">   studentRepository.update(student);</div><div class="line">   log.info(<span class="string">"test is success!!!"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//按条件更新</span></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdateByExample</span><span class="params">()</span> </span>&#123;</div><div class="line">   <span class="comment">//修改内容</span></div><div class="line">   Student student = <span class="keyword">new</span> Student();</div><div class="line">   student.setAge(<span class="number">27</span>);</div><div class="line">   <span class="comment">//修改条件</span></div><div class="line">   Example example = <span class="keyword">new</span> Example(Student.class);</div><div class="line">   Example.Criteria criteria = example.createCriteria();</div><div class="line">   criteria.andIn(<span class="string">"name"</span>, ImmutableList.of(<span class="string">"fly"</span>,<span class="string">"lvshen"</span>));</div><div class="line">   <span class="keyword">int</span> i = studentRepository.updateByExample(student, example);</div><div class="line">   log.info(<span class="string">"test is success!!!&#123;&#125;"</span>,i);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//不推荐</span></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdate</span><span class="params">()</span> </span>&#123;</div><div class="line">   Student student = studentRepository.get(<span class="string">"2073678416402304"</span>);</div><div class="line">   studentRepository.update(student);</div><div class="line">   log.info(<span class="string">"test is success!!!"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="linux命令"><a href="#linux命令" class="headerlink" title="linux命令"></a>linux命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>内存信息</div><div class="line">jmap -F -dump:format=b,file=test.bin 22829（pid）</div><div class="line"></div><div class="line"><span class="meta">#</span>堆信息</div><div class="line">jstat -gcutil 22829（pid）</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-04-08T03:42:22.916Z" itemprop="dateUpdated">2020-04-08 11:42:22</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/08/16/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2019/08/16/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java8/">Java8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stream/">Stream</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/08/16/1/&title=《我所用到的Java8-续》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/08/16/1/&title=《我所用到的Java8-续》 — Lvshen's Blog&source=工作之余，总结了下Java8的相关运用，主要是关于Stream流的。还有一些工作总结笔记。
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/08/16/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《我所用到的Java8-续》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/08/16/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/08/16/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/08/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Redis进阶</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/06/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">我所用到的Java8</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/08/16/1/&title=《我所用到的Java8-续》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/08/16/1/&title=《我所用到的Java8-续》 — Lvshen's Blog&source=工作之余，总结了下Java8的相关运用，主要是关于Stream流的。还有一些工作总结笔记。
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/08/16/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《我所用到的Java8-续》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/08/16/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/08/16/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2019/08/16/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

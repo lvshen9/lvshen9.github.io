@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Redis进阶 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Redis,缓存">
+    <meta name="description" content="Redis为什么快？项目中会用到redis，因为redis可做缓存，并发每秒能处理10w条数据。但你知道为什么redis存取那么快么，你可能会说redis基于内存，基于K-V存储，单线程….。等等，为什么单线程反而会快了呢？ 其实Redis是基于NIO的多路复用模型。Windows环境下是select的多路复用，Linux环境下是epoll的多路复用。可能有人会问，什么是多路复用。">
+<meta name="keywords" content="Redis,缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis进阶">
+<meta property="og:url" content="http://lvshen9.gitee.io/2020/04/08/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="Redis为什么快？项目中会用到redis，因为redis可做缓存，并发每秒能处理10w条数据。但你知道为什么redis存取那么快么，你可能会说redis基于内存，基于K-V存储，单线程….。等等，为什么单线程反而会快了呢？ 其实Redis是基于NIO的多路复用模型。Windows环境下是select的多路复用，Linux环境下是epoll的多路复用。可能有人会问，什么是多路复用。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GW81yt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GWGUHK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GWunv8.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/Gfe6pV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GfudmD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GfG9aT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GftRTP.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GfNDA0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/Gfh8UK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/Gf4ui8.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/Ghezin.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/08/GhKNWR.png">
+<meta property="og:updated_time" content="2020-04-08T14:34:43.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis进阶">
+<meta name="twitter:description" content="Redis为什么快？项目中会用到redis，因为redis可做缓存，并发每秒能处理10w条数据。但你知道为什么redis存取那么快么，你可能会说redis基于内存，基于K-V存储，单线程….。等等，为什么单线程反而会快了呢？ 其实Redis是基于NIO的多路复用模型。Windows环境下是select的多路复用，Linux环境下是epoll的多路复用。可能有人会问，什么是多路复用。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/04/08/GW81yt.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Redis进阶</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Redis进阶</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-08T11:31:09.000Z" itemprop="datePublished" class="page-time">
+  2020-04-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis为什么快？"><span class="post-toc-number">1.</span> <span class="post-toc-text">Redis为什么快？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#多路复用"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">多路复用</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis-value结构"><span class="post-toc-number">2.</span> <span class="post-toc-text">Redis value结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用场景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#String"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">String</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Bitmap"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Bitmap</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Hash"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">Hash</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#List"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">List</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Set"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Set</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Stream"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">Stream</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis集群"><span class="post-toc-number">4.</span> <span class="post-toc-text">Redis集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#关于集群关心的问题"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">关于集群关心的问题</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Redis可用性"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">Redis可用性</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis缓存失效问题"><span class="post-toc-number">5.</span> <span class="post-toc-text">Redis缓存失效问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#缓存一致性模型"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">缓存一致性模型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#缓存击穿"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">缓存击穿</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#布隆过滤器优缺点"><span class="post-toc-number">5.2.1.</span> <span class="post-toc-text">布隆过滤器优缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#缓存雪崩"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">缓存雪崩</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Semaphore信号量限流"><span class="post-toc-number">5.3.1.</span> <span class="post-toc-text">Semaphore信号量限流</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#容错降级"><span class="post-toc-number">5.3.2.</span> <span class="post-toc-text">容错降级</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#redis集群方案"><span class="post-toc-number">5.3.3.</span> <span class="post-toc-text">redis集群方案</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#高并发下缓存不一致问题"><span class="post-toc-number">6.</span> <span class="post-toc-text">高并发下缓存不一致问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#解决方法"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">解决方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis持久化"><span class="post-toc-number">7.</span> <span class="post-toc-text">Redis持久化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#使用"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">使用</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Redis进阶</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-04-08 19:31:09" datetime="2020-04-08T11:31:09.000Z"  itemprop="datePublished">2020-04-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="Redis为什么快？"><a href="#Redis为什么快？" class="headerlink" title="Redis为什么快？"></a>Redis为什么快？</h4><p>项目中会用到redis，因为redis可做缓存，并发每秒能处理10w条数据。但你知道为什么redis存取那么快么，你可能会说redis基于内存，基于K-V存储，单线程….。等等，为什么单线程反而会快了呢？</p>
+<p>其实Redis是基于NIO的多路复用模型。Windows环境下是select的多路复用，Linux环境下是epoll的多路复用。可能有人会问，什么是多路复用。</p>
+<a id="more"></a>
+<h5 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h5><p>简单来说，Redis将数据的读取交给内核去做</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GW81yt.png" alt="多路复用" title="">
+                </div>
+                <div class="image-caption">多路复用</div>
+            </figure>
+<p>redis会将n个客户端连接放入一个集合中（这里就是一个进程），然后再调用epoll（Windows下没有这个函数）或者select函数将集合放入操作系统内核kernel中进行处理，通过事件驱动，内核会获取有数据的连接并循环读取，时间复杂度为O(1)。</p>
+<p>如果你问什么是NIO？你需要额外的补充NIO的知识。</p>
+<h4 id="Redis-value结构"><a href="#Redis-value结构" class="headerlink" title="Redis value结构"></a>Redis value结构</h4><p>常见5种结构</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GWGUHK.png" alt="value结构" title="">
+                </div>
+                <div class="image-caption">value结构</div>
+            </figure>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><h5 id="String"><a href="#String" class="headerlink" title="String"></a>String</h5><p>比如微信公众号统计阅读数量就可以使用value为String</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INCR article:readcount:&#123;文章id&#125;</div><div class="line">GET article:readcount:&#123;文章id&#125;</div></pre></td></tr></table></figure>
+<p>可以做分布式系统全局的序列号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INCRBY orderId 1000         //一次性生成1000个id,可以存入队列中，按需获取</div></pre></td></tr></table></figure>
+<blockquote>
+<p>tips: 可以用setnx命令 + 超时时间做 分布式锁 ，github上有关于我的redis分布式锁的项目：<a href="https://github.com/lvshen9/demo/tree/lvshen-dev/src/main/java/com/lvshen/demo/redis/dislock" target="_blank" rel="external">dislock</a></p>
+</blockquote>
+<p>除了redis可以做分布式锁外，zookeeper也可以做分布式锁(基于节点名唯一，watcher机制)，相比于redis，zookeeper在最终一致性上强于redis，但性能会弱于redis。github分布式锁项目：<a href="https://github.com/lvshen9/demo/tree/lvshen-dev/src/main/java/com/lvshen/demo/distributelock" target="_blank" rel="external">distributelock</a></p>
+<h5 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h5><p>可以统计用户 任意时间窗口登录了几次</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GWunv8.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>bitmap是一个二进制的数组，长度不限（当长度为20亿时，占用内存200多MB）。数组内的值为0或1。如上图，用户sean第4天登录，则为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0001</div></pre></td></tr></table></figure>
+<p>第9天登录为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">000100001</div></pre></td></tr></table></figure>
+<p>以此类推。最后一行为统计第一个索引到最后一个索引之间值为1的次数。</p>
+<p>我们还可以用bitmap统计活跃用户数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>第一天7号用户登录一次</div><div class="line">127.0.0.1:6379&gt; setbit 20200101 7 1</div><div class="line">( integer ) 0</div><div class="line"><span class="meta">#</span>第一天3号用户登录一次</div><div class="line">127.0.0.1:6379&gt;set bit 20200101 3 1</div><div class="line">( integer ) 0</div><div class="line"><span class="meta">#</span>第二天3号用户登录一次</div><div class="line">127.0.0.1:6379&gt; setbit 20200102 3 1</div><div class="line">( integer ) 0</div><div class="line"><span class="meta">#</span>或运算</div><div class="line">127.0.0.1:6379&gt; BITOP or res 20200101 20200102</div><div class="line"><span class="meta">#</span>统计活跃用户</div><div class="line">127.0.0.1:6379&gt; BITCOUNT res</div><div class="line">( integer ) 2</div><div class="line">2人</div></pre></td></tr></table></figure>
+<p>tips：大名鼎鼎的布隆过滤器就可以用bitmap是实现</p>
+<h5 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h5><p>hash可以存购物车相关信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/Gfe6pV.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如上图：以用户id为key，商品id为filed，商品数量为value存储。可以展示购物车信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; hset cart:1001 10088 1</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; hincrby cart:1001 10088 1</div><div class="line">(integer)2</div><div class="line">127.0.0.1:6379&gt; hget cart:1001 10088</div><div class="line">"2"</div><div class="line">127.0.0.1:6379&gt; hset cart:1001 10088 1</div><div class="line">(integer)0</div><div class="line">127.0.0.1:6379&gt; hset cart:1001 20088 1</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; hlen cart:1001</div><div class="line">(integer) 2</div><div class="line">127.0.0.1:6379&gt; hdel cart:1001 20088</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; hlen cart:1001</div><div class="line">(integer)1</div><div class="line">127.0.0.1:6379&gt; hset cart:1001 30088 1</div><div class="line">(integer) 1</div><div class="line">127.0.0.1:6379&gt; hgetall cart:1001</div><div class="line">1)"10088"</div><div class="line">2)"1"</div><div class="line">3)"30088"I</div><div class="line">4)"1"</div><div class="line">127.0.0.1:6379&gt;</div></pre></td></tr></table></figure>
+<p>hash结构有以下优缺点：</p>
+<p><strong>优点</strong></p>
+<blockquote>
+<p>1)同类数据归类整合储存，方便数据管理<br>2)相比string操作消耗内存与cpu更小<br>3)相比string储存更节省空间</p>
+</blockquote>
+<p><strong>缺点</strong></p>
+<blockquote>
+<p>1)过期功能不能使用在field上，只能用在key上<br>2)Redis集群架构下不适合大规模使用</p>
+</blockquote>
+<p>总的来说hash可用于存储 详情页聚合，数据来自不同的库的聚合。</p>
+<h5 id="List"><a href="#List" class="headerlink" title="List"></a>List</h5><p>list可用于作队列，栈等数据结构</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GfudmD.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>微博消息和公众号消息场景</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">lvshen关注了MacTalk,备胎说车等大V</div><div class="line">1)MacTalk发微博，消息ID为10018</div><div class="line">LPUSH msg:(lvshen-ID&#125; 10018</div><div class="line">2)备胎说车发微博，消息ID为10086</div><div class="line">LPUSH msg:(lvshen-ID) 10086</div><div class="line">3)查看最新微博消息</div><div class="line">LRANGE msg:(lvshen-ID&#125; 0 5</div></pre></td></tr></table></figure>
+<p>list常用操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">LPUSH key value [value ...]  //将一个或多个值value插入到key列表的表头（最左边）</div><div class="line">RPUSH key value [value ...]  //将一个或多个值value插入到key列表的表尾（最右边）</div><div class="line">LPOP key //移除并返回key列表的头元素</div><div class="line">RPOP key //移除并返回key列表的尾元素</div><div class="line">LRANGE key start stop //返回列表key中指定区间内的元素，区间以偏移量start和stop指定</div><div class="line">BLPOP key [key ...] timeout //从key列表表头弹出一个元素，若列表中没有元素，阻塞等待timeout秒，如果timeout=0,一直阻塞等待</div><div class="line">BRPOP key [key ...] timeout //从key列表表尾弹出一元素，若列表中没有元素，阻塞等待timeout秒，如果timeout=0,一直阻塞等待</div></pre></td></tr></table></figure>
+<h5 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h5><p>set可以用作微信抽奖小程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1)点击【参与抽奖】加入集合</div><div class="line">SADD key &#123;userlD&#125;</div><div class="line">2)查看参与抽奖所有用户</div><div class="line">SMEMBERS key</div><div class="line">3)抽取count名中奖者</div><div class="line">SRANDMEMBER key [count]    /SPOP key [count]</div></pre></td></tr></table></figure>
+<p>也可以用于微信微博点赞</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1)点赞</div><div class="line">SADD like:&#123;消息ID&#125; &#123;用户ID&#125;</div><div class="line">2)取消点赞</div><div class="line">SREM like:&#123;消息ID&#125; &#123;用户ID&#125;</div><div class="line">3)检查用户是否点过赞</div><div class="line">SISMEMBER like:&#123;消息ID&#125; &#123;用户ID&#125;</div><div class="line">4)获取点赞的用户列表</div><div class="line">SMEMBERS like:&#123;消息ID&#125;</div><div class="line">5)获取点赞用户数</div><div class="line">SCARD like:&#123;消息ID&#125;</div></pre></td></tr></table></figure>
+<p>可以通过集合操作实现微博微信关注模型</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">1)Lvshen(我)关注的人：</div><div class="line"><span class="meta">#</span>lvshenSet-&gt; &#123;A, B, C&#125;</div><div class="line">192.168.42.128:6379&gt; sadd lvshenSet A B C</div><div class="line">(integer) 3</div><div class="line"></div><div class="line">2)A关注的人：I</div><div class="line"><span class="meta">#</span>aSet--&gt; &#123;lvshen, B, C, guojia&#125;</div><div class="line">192.168.42.128:6379&gt; sadd aSet lvshen B C guojia</div><div class="line">(integer) 4</div><div class="line"></div><div class="line">3)B关注的人：</div><div class="line"><span class="meta">#</span>bSet-&gt; &#123;lvshen, A, guojia, C, xunyu)</div><div class="line">192.168.42.128:6379&gt; sadd bSet lvshen A guojia C xunyu</div><div class="line">(integer) 5</div><div class="line"></div><div class="line">4)我和A共同关注：</div><div class="line">SINTER lvshenSet aSet--&gt; &#123;B, C&#125;</div><div class="line">5)我关注的人也关注他（A）:</div><div class="line">SISMEMBER bSet A</div><div class="line">SISMEMBER cSet A</div><div class="line">6)我可能认识的人：</div><div class="line">SDIFF aSet lvshenSet--&gt; (lvshen, guojia)</div></pre></td></tr></table></figure>
+<p>set常用操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Set常用操作</span></div><div class="line">SADD key member [member...] <span class="comment">//往集合key中存入元素，元素存在则忽略，若key不存在则新建</span></div><div class="line">SREM key member [member...] <span class="comment">//从集合key中删除元素</span></div><div class="line">SMEMBERS key <span class="comment">//获取集合key中所有元素</span></div><div class="line">SCARD key <span class="comment">//获取集合key的元素个数</span></div><div class="line">SISMEMBER key member <span class="comment">//判断member元素是否存在于集合key中</span></div><div class="line">SRANDMEMBER key [count] <span class="comment">//从集合key中选出count个元素，元素不从key中删除</span></div><div class="line">SPOP key [count] <span class="comment">//从集合key中选出count个元素，元素从key中删除</span></div><div class="line"></div><div class="line"><span class="comment">//Set运算操作</span></div><div class="line">SINTER key [key...] <span class="comment">//交集运算</span></div><div class="line">SINTERSTORE destination key [key..] <span class="comment">//将交集结果存入新集合destination中</span></div><div class="line">SUNION key [key..] <span class="comment">//并集运算</span></div><div class="line">SUNIONSTORE destination key [key...] <span class="comment">//将并集结果存入新集合destination中</span></div><div class="line">SDIFF key [key...] <span class="comment">//差集运算</span></div><div class="line">SDIFFSTORE destination key [key...] <span class="comment">//将差集结果存入新集合destination中</span></div></pre></td></tr></table></figure>
+<p>总的来说set可以用于去重，抽奖等操作</p>
+<p>Zset</p>
+<p>zset为有序的去重集合，可用于实现排行榜</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GfG9aT.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>总结：zset可以用于排行榜，翻页等场景。zset可以用于作延迟队列，score为延迟的时间点，获取时顺序获取端口的值，如果当前时间戳等于score则可取出。</p>
+<p>zset的底层数据结构为跳表，一种特殊的链表，同时查找和增删都很优秀，具体知识可以参考文章:</p>
+<p><a href="https://mp.weixin.qq.com/s/NOsXdrMrWwq4NTm180a6vw" target="_blank" rel="external">Redis—跳跃表</a></p>
+<p>GEO</p>
+<p>redis还可以支持地理位置查询，适用与LBS的开发</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GftRTP.png" alt="常用命令" title="">
+                </div>
+                <div class="image-caption">常用命令</div>
+            </figure>
+<h5 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h5><blockquote>
+<p>Stream 5.0版本开始的新结构“流”。使用场景：消费者生产者场景（类似MQ)</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GfNDA0.png" alt="常用命令" title="">
+                </div>
+                <div class="image-caption">常用命令</div>
+            </figure>
+<p>示例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; xadd room:msg:1001 * userId tony content hello</div><div class="line">"1568106742941-0"</div><div class="line">127.0.0.1:6379&gt; xadd room:msg:1001 * userId tony content hello2</div><div class="line">"1568106753764-0"</div><div class="line">127.0.0.1:6379&gt; type room:msg:1001</div><div class="line">stream</div><div class="line">127.0.0.1:6379&gt; xlen room:msg:1001</div><div class="line">(integer)2</div><div class="line">127.0.0.1:6379&gt; xrange room:msg:1001 - +</div><div class="line">1) 1)"1568106742941-0"</div><div class="line">   2) 1)"userId"</div><div class="line">      2)"tony"</div><div class="line">      3)"content"</div><div class="line">      4)"hello"</div><div class="line">2) 1)"1568106753764-0"</div><div class="line">   2) 1)"userId"</div><div class="line">      2)"tony"</div><div class="line">      3)"content"</div><div class="line">      4)"hello2"</div><div class="line">127.0.0.1:6379&gt;</div><div class="line"></div><div class="line">127.0.0.1:6379&gt; xread count streams room:msg:1001 0</div><div class="line">1) 1)"room:msg:1001"</div><div class="line">   2) 1) 1)"1568106742941-0"</div><div class="line">         2) 1)"userId"</div><div class="line">            2)"tony"</div><div class="line">            3)"content"</div><div class="line">            4)"hello"</div><div class="line">      2) 1)"1568106753764-0"</div><div class="line">         2) 1)"userId"</div><div class="line">            2)"tony"</div><div class="line">            3)"content"</div><div class="line">            4)"hello2"</div><div class="line">127.0.0.1:6379&gt; xread count 2 streams room:msg:1001 $</div><div class="line">(nil)</div><div class="line">127.0.0.1:6379&gt; xread count 2 streams room:msg:1001 $</div><div class="line">(nil)</div><div class="line">127.0.0.1:6379&gt; xread count 2 block 10000 streams room:msg:1001 $</div></pre></td></tr></table></figure>
+<p>现在redis普遍用的都是3.x，list也可用于消息队列。所以很少有人用stream。</p>
+<h4 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h4><p>有关集群的搭建可以参考：<a href="https://lvshen9.gitee.io/2018/09/05/1/">Redis3.0集群搭建</a></p>
+<h5 id="关于集群关心的问题"><a href="#关于集群关心的问题" class="headerlink" title="关于集群关心的问题"></a>关于集群关心的问题</h5><p><strong>1、增加了slot槽的计算，是不是比单机性能差？</strong><br>共16384个槽，slots槽计算方式公开的，HASH_SLOT=CRC16(key)mod16384。<br>为了避免每次都需要服务器计算重定向，优秀的java客户端都实现了本地计算，并且缓存服务器slots分配，有变动时再更新本地内容，从而避免了多次重定向带来的性能损耗。</p>
+<p><strong>2、redis集群大小，到底可以装多少数据？</strong><br>理论是可以做到16384个槽，每个槽对应一个实例，但是redis官方建议是最大1000个实例。存储足够大了。</p>
+<p><strong>3、ask和moved重定向的区别</strong><br>重定向包括两种情况<br>    a.若确定slot不属于当前节点，redis会返回moved。<br>    b.若当前redis节点正在处理slot迁移，则代表此处请求对应的key暂时不在此节点，返回ask,告诉客户端本次请求重定向。</p>
+<p><strong>4、数据倾斜和访问倾斜的问题</strong><br>倾斜导致集群中部分节点数据多，压力大。解决方案分为前期和后期：前期是业务层面提前预测，哪些key是热点，在设计的过程中规避。后期是slot迁移，尽量将压力分摊（slot调整有自动rebalance、reshard和手动）。</p>
+<p><strong>5、读写分离</strong><br>redis cluster默认所有从节点上的读写，都会重定向到key对接槽的主节点上。<br>可以通过readonly设置当前连接可读，通过readwrite取消当前连接的可读状态。<br>注意：主从节点依然存在数据不一致的问题</p>
+<h5 id="Redis可用性"><a href="#Redis可用性" class="headerlink" title="Redis可用性"></a>Redis可用性</h5><p>通过主从集群实现高可用，slave节点向master节点发送syn请求同步命令。master节点会通过bgsave命令创建rdb文件将数据以二进制形式存储其中，然后将文件分发给slave节点。</p>
+<blockquote>
+<p>tips: 1.bgsave是创建了子线程工作，不影响主线程; 2.主从结构以线性链表部署，不要图状结构部署</p>
+</blockquote>
+<h4 id="Redis缓存失效问题"><a href="#Redis缓存失效问题" class="headerlink" title="Redis缓存失效问题"></a>Redis缓存失效问题</h4><h5 id="缓存一致性模型"><a href="#缓存一致性模型" class="headerlink" title="缓存一致性模型"></a>缓存一致性模型</h5><p>查询信息时，先从缓存中获取信息；缓存中没有则从数据库中获取；将值塞到缓存。</p>
+<h5 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h5><p>查询一个不存在的key，查询会直接落到数据库上。如果黑客用不存在的key查询，很可能搞垮数据库。</p>
+<p>解决思路：查询之前先判断目标数据是否存在，不存在的直接忽略。将流量拦截于缓存和数据库之前。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/Gfh8UK.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这里使用布隆过滤器：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/Gf4ui8.png" alt="布隆过滤器" title="">
+                </div>
+                <div class="image-caption">布隆过滤器</div>
+            </figure>
+<p>demo示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBit</span><span class="params">()</span> </span>&#123;</div><div class="line">    String userId = <span class="string">"1001"</span>;</div><div class="line">    <span class="keyword">int</span> hasValue = Math.abs(userId.hashCode()); <span class="comment">//key 做hash运算</span></div><div class="line">    <span class="keyword">long</span> index = (<span class="keyword">long</span>) (hasValue % Math.pow(<span class="number">2</span>, <span class="number">32</span>)); <span class="comment">//hash值与数组长度取模</span></div><div class="line">    Boolean bloomFilter = redisTemplate.opsForValue().setBit(<span class="string">"user_bloom_filter"</span>, index, <span class="keyword">true</span>);</div><div class="line">    log.info(<span class="string">"user_bloom_filter:&#123;&#125;"</span>,bloomFilter);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//缓存击穿解决方法</span></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUnEffactiveCache</span><span class="params">()</span> </span>&#123;</div><div class="line">    String userId = <span class="string">"1001"</span>;</div><div class="line">    <span class="comment">//1.系统初始化是init 布隆过滤器，将所有数据存于redis bitmap中</span></div><div class="line">    <span class="comment">//2.查询是先做判断，该key是否存在与redis中</span></div><div class="line">    <span class="keyword">int</span> hasValue = Math.abs(userId.hashCode()); <span class="comment">//key 做hash运算</span></div><div class="line">    <span class="keyword">long</span> index = (<span class="keyword">long</span>) (hasValue % Math.pow(<span class="number">2</span>, <span class="number">32</span>)); <span class="comment">//hash值与数组长度取模</span></div><div class="line">    Boolean result = redisTemplate.opsForValue().getBit(<span class="string">"user_bloom_filter"</span>, index);</div><div class="line">    <span class="keyword">if</span> (!result) &#123;</div><div class="line">        log.info(<span class="string">"该userId在数据库中不存在：&#123;&#125;"</span>,userId);</div><div class="line">        <span class="comment">//return null;</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//3.从缓存中获取</span></div><div class="line">    <span class="comment">//4.缓存中没有，从数据库中获取，并存放于redis中</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h6 id="布隆过滤器优缺点"><a href="#布隆过滤器优缺点" class="headerlink" title="布隆过滤器优缺点"></a>布隆过滤器优缺点</h6><p>优点：</p>
+<blockquote>
+<p>内存空间占用少</p>
+</blockquote>
+<p>缺点：</p>
+<blockquote>
+<p>布隆过滤器需要不断维护，带来新的工作<br>布隆过滤器并不能精准过滤。(布隆过滤器判定不存在，100%不存在，判断为存在，则可能不存在的。）理论上Hash计算值是有碰撞的（不同的内容hash计算出同样的值）,导致不存在的元素可能<br>会被判断为存在</p>
+</blockquote>
+<p>为了减少hash碰撞，可以将key用几个hash算法获取index值。然而布隆过滤器并非需要拦截所有的请求，只需要将缓存击穿控制在一定的量即可。</p>
+<h5 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h5><p>当大量的key在统一时间过期，而这时又有大量的访问key，请求落到数据上，导致数据库崩溃。</p>
+<p>解决办法：</p>
+<h6 id="Semaphore信号量限流"><a href="#Semaphore信号量限流" class="headerlink" title="Semaphore信号量限流"></a>Semaphore信号量限流</h6><p>J.U.C包重要的并发编程工具类，又称“信号量”，控制多个线程争抢许可。<br><strong>核心方法</strong><br>acquire:获取一个许可，如果没有就等待，<br>release:释放一个许可。<br><strong>典型场景</strong><br>1、代码并发处理限流；</p>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.lvshen.demo.semaphore;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CyclicBarrier;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Description:信号量机制</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Lvshen</span></div><div class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></div><div class="line"><span class="comment"> * <span class="doctag">@date</span>: 2020/3/21 20:34</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> JDK 1.8</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SemaphoreDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SemaphoreDemo semaphoreDemo = <span class="keyword">new</span> SemaphoreDemo();</div><div class="line">        <span class="keyword">int</span> count = <span class="number">9</span>;    <span class="comment">//数量</span></div><div class="line"></div><div class="line">        <span class="comment">//循环屏障</span></div><div class="line">        CyclicBarrier cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(count);</div><div class="line"></div><div class="line">        Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">5</span>);<span class="comment">//限制请求数量</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">            String vipNo = <span class="string">"vip-00"</span> + i;</div><div class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    cyclicBarrier.await();</div><div class="line">                    <span class="comment">//semaphore.acquire();//获取令牌</span></div><div class="line">                    <span class="keyword">boolean</span> tryAcquire = semaphore.tryAcquire(<span class="number">3000L</span>, TimeUnit.MILLISECONDS);</div><div class="line">                    <span class="keyword">if</span> (!tryAcquire) &#123;</div><div class="line">                        System.out.println(<span class="string">"获取令牌失败："</span> + vipNo);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="comment">//执行操作逻辑</span></div><div class="line">                    System.out.println(<span class="string">"当前线程："</span> + Thread.currentThread().getName());</div><div class="line">                    semaphoreDemo.service(vipNo);</div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    semaphore.release();</div><div class="line">                &#125;</div><div class="line">            &#125;).start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 限流控制5个线程同时访问</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(String vipNo)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        System.out.println(<span class="string">"楼上出来迎接贵宾一位，贵宾编号"</span> + vipNo + <span class="string">",..."</span>);</div><div class="line">        Thread.sleep(<span class="keyword">new</span> Random().nextInt(<span class="number">3000</span>));</div><div class="line">        System.out.println(<span class="string">"欢送贵宾出门，贵宾编号"</span> + vipNo);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h6 id="容错降级"><a href="#容错降级" class="headerlink" title="容错降级"></a>容错降级</h6><p>如果令牌被抢完（并发时还没来的及释放令牌），线程执行到这里时可以返回一个异常码。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/Ghezin.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h6 id="redis集群方案"><a href="#redis集群方案" class="headerlink" title="redis集群方案"></a>redis集群方案</h6><p>还有一种可能，如果哦redis key来不及删除，由于内存淘汰策略。会删除一些key，导致缓存失效。集群方案可以解决内存不足问题。</p>
+<h4 id="高并发下缓存不一致问题"><a href="#高并发下缓存不一致问题" class="headerlink" title="高并发下缓存不一致问题"></a>高并发下缓存不一致问题</h4><p>根据缓存一致性模型：</p>
+<blockquote>
+<p>查询信息时，a.1:先从缓存中获取信息；a.2:缓存中没有则从数据库中获取；a.3:将值塞到缓存。</p>
+<p>更新数据时，b.1:更新数据库；b.2:删除缓存</p>
+</blockquote>
+<p>如果查询和更新是两个线程，由于以上执行并非原子性，b.2可能会先于a.3执行。导致redis里面数据和数据库数据不一致。</p>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><p>可以先将数据预热到redis中，去掉查询时存入redis的操作。再部署一个mysql服务，收集mysql日志。数据库数据发生变化的时候，通知缓存维护程序，把变化后的数据更到到缓存里面。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s1.ax1x.com/2020/04/08/GhKNWR.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>关于数据库监听，阿里有一套开源框架 Canal ,可以监听mysql的数据变化。</p>
+<h4 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h4><p>1.RDB快照：将数据以二进制形式写到文件中</p>
+<p>2.AOF:将写命令以追加的形式写入到aof文件中</p>
+<p>关于aof有下面几种形式：</p>
+<p>a. redis没操作一次，写一次文件。优点时保证完整性，缺点是一致性会下降</p>
+<p>b. 每秒钟将写命令写入到一个buffer中，当buffer中存满一定的数据，再写入到文件中（aof默认采用此种写入）</p>
+<p>c.每次操作将写命令存入buffer中，之后再写入文件中</p>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>默认是使用rdb恢复数据，如果开启aof，重启之后会加载aof文件恢复。当然生产环境上是混合使用。比如8点之前我使用rdb恢复，8点之后我是用aof恢复。</p>
+<p>欢迎收藏我的Blog:<a href="https://lvshen9.gitee.io/">Lvshen’s Blog</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-04-08T14:34:43.500Z" itemprop="dateUpdated">2020-04-08 22:34:43</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2020/04/08/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2020/04/08/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2020/04/08/1/&title=《Redis进阶》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2020/04/08/1/&title=《Redis进阶》 — Lvshen's Blog&source=Redis为什么快？项目中会用到redis，因为redis可做缓存，并发每秒能处理10w条数据。但你知道为什么redis存取那么快么，你可能会说redis..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2020/04/08/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis进阶》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2020/04/08/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2020/04/08/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/16/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">我所用到的Java8-续</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2020/04/08/1/&title=《Redis进阶》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2020/04/08/1/&title=《Redis进阶》 — Lvshen's Blog&source=Redis为什么快？项目中会用到redis，因为redis可做缓存，并发每秒能处理10w条数据。但你知道为什么redis存取那么快么，你可能会说redis..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2020/04/08/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis进阶》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2020/04/08/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2020/04/08/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2020/04/08/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

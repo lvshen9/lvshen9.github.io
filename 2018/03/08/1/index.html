@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>CSF云化框架服务治理平台搭建笔记 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="服务治理,CSF">
+    <meta name="description" content="CSF是一个远程服务管理平台，其平台搭建过程如下。 用户创建需要创建两个用户：zk，chaapp 1234567#如果已经创建了组，可以省略groupadd ngboss  useradd -d /home/zk -g ngboss zkuseradd -d /home/chaapp -g ngboss chaapp#创建密码echo &apos;1q1w1e1r&apos; | passwd --stdin cha">
+<meta name="keywords" content="服务治理,CSF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSF云化框架服务治理平台搭建笔记">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/03/08/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="CSF是一个远程服务管理平台，其平台搭建过程如下。 用户创建需要创建两个用户：zk，chaapp 1234567#如果已经创建了组，可以省略groupadd ngboss  useradd -d /home/zk -g ngboss zkuseradd -d /home/chaapp -g ngboss chaapp#创建密码echo &apos;1q1w1e1r&apos; | passwd --stdin cha">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kplsrq.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpl2IU.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kplyq0.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpl02j.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kplcZV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kplgaT.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kplWiF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kplrMn.png">
+<meta property="og:updated_time" content="2019-01-17T07:31:29.013Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSF云化框架服务治理平台搭建笔记">
+<meta name="twitter:description" content="CSF是一个远程服务管理平台，其平台搭建过程如下。 用户创建需要创建两个用户：zk，chaapp 1234567#如果已经创建了组，可以省略groupadd ngboss  useradd -d /home/zk -g ngboss zkuseradd -d /home/chaapp -g ngboss chaapp#创建密码echo &apos;1q1w1e1r&apos; | passwd --stdin cha">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kplsrq.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">CSF云化框架服务治理平台搭建笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">CSF云化框架服务治理平台搭建笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-08T06:23:41.000Z" itemprop="datePublished" class="page-time">
+  2018-03-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用户创建"><span class="post-toc-number">1.</span> <span class="post-toc-text">用户创建</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#服务器配置修改"><span class="post-toc-number">2.</span> <span class="post-toc-text">服务器配置修改</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#AIConfig-xml"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">AIConfig.xml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#csf-xml"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">csf.xml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#defaults-xml"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">defaults.xml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#启动服务端"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">启动服务端</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#tomcat配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">tomcat配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#csf-web目录下"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">csf_web目录下</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#zk-web目录下"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">zk_web目录下</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#启动tomcat"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">启动tomcat</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地Java工程"><span class="post-toc-number">4.</span> <span class="post-toc-text">本地Java工程</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">CSF云化框架服务治理平台搭建笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-08 14:23:41" datetime="2018-03-08T06:23:41.000Z"  itemprop="datePublished">2018-03-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>CSF是一个远程服务管理平台，其平台搭建过程如下。</p>
+<h4 id="用户创建"><a href="#用户创建" class="headerlink" title="用户创建"></a>用户创建</h4><p>需要创建两个用户：<code>zk</code>，<code>chaapp</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>如果已经创建了组，可以省略</div><div class="line">groupadd ngboss  </div><div class="line">useradd -d /home/zk -g ngboss zk</div><div class="line">useradd -d /home/chaapp -g ngboss chaapp</div><div class="line"></div><div class="line"><span class="meta">#</span>创建密码</div><div class="line">echo '1q1w1e1r' | passwd --stdin chaapp</div></pre></td></tr></table></figure>
+<p><code>zk</code>的安装前面已经学习过，这里略过。</p>
+<a id="more"></a>
+<p><code>CSF</code>相关的东西放到<code>chaapp</code>目录下。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kplsrq.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如图上传这两个文件，解压。</p>
+<p>解压后的目录如下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpl2IU.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="服务器配置修改"><a href="#服务器配置修改" class="headerlink" title="服务器配置修改"></a>服务器配置修改</h4><h5 id="AIConfig-xml"><a href="#AIConfig-xml" class="headerlink" title="AIConfig.xml"></a>AIConfig.xml</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /home/chaapp/config/AIConfig.xml</div><div class="line"></div><div class="line">106   &lt;ConfigItem name="DATABASE_DIALECT" remarks="数据的方言(如果没有,采用OracleDialectImpl)" &gt;com.ai.appframe2.bo.dialect.OracleDialectImpl&lt;/ConfigItem&gt;</div></pre></td></tr></table></figure>
+<h5 id="csf-xml"><a href="#csf-xml" class="headerlink" title="csf.xml"></a>csf.xml</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vi /home/chaapp/config/csf/csf.xml </div><div class="line"><span class="meta">#</span>163行</div><div class="line">&lt;Item name="zk.server.list"&gt;</div><div class="line">    &lt;value&gt;127.0.0.1:2181&lt;/value&gt;</div><div class="line">    &lt;description&gt;多个地址用逗号(,)隔开 &lt;/description&gt;</div><div class="line">&lt;/Item&gt;</div></pre></td></tr></table></figure>
+<h5 id="defaults-xml"><a href="#defaults-xml" class="headerlink" title="defaults.xml"></a>defaults.xml</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">vi /home/chaapp/config/system/service/defaults.xml</div><div class="line"></div><div class="line">&lt;pool name="base" primary="true"&gt;</div><div class="line">  &lt;property name="driverClassName" value="oracle.jdbc.OracleDriver" /&gt;</div><div class="line">  &lt;property name="url" value="jdbc:oracle:thin:@10.13.3.13:1521:shxicrm" /&gt;</div><div class="line">  &lt;property name="username" value="UCR_PSWD" /&gt;</div><div class="line">  &lt;property name="password" value="UCR_PSWD" /&gt;</div><div class="line">...</div></pre></td></tr></table></figure>
+<h5 id="启动服务端"><a href="#启动服务端" class="headerlink" title="启动服务端"></a>启动服务端</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[chaapp@centos7-node01 ~]$ ls</div><div class="line">bin  config  configext  lib  libext  logs  sbin  soa_web  sql  support</div><div class="line">[chaapp@centos7-node01 ~]$ cd sbin/</div><div class="line">[chaapp@centos7-node01 sbin]$ ls</div><div class="line">start_app_21.sh  start_app_22.sh  start_app_23.sh  start_app_24.sh  start_app.sh  statistic.sh  stop_app.sh  taillog.sh</div><div class="line">[chaapp@centos7-node01 sbin]$ ./start_app_21.sh</div></pre></td></tr></table></figure>
+<h4 id="tomcat配置"><a href="#tomcat配置" class="headerlink" title="tomcat配置"></a>tomcat配置</h4><p>进入此目录中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[chaapp@centos7-node01 webapps]$ pwd</div><div class="line">/home/chaapp/soa_web/apache-tomcat-7.0.68/webapps</div><div class="line">[chaapp@centos7-node01 webapps]$ ls</div><div class="line">csf_web  csf_web.war  docs  examples  host-manager  manager  ROOT  zkweb  zkweb.war</div><div class="line">[chaapp@centos7-node01 webapps]$</div></pre></td></tr></table></figure>
+<p>这里有两个目录需要配置：<code>csf_web</code>和<code>zkweb</code>。</p>
+<h5 id="csf-web目录下"><a href="#csf-web目录下" class="headerlink" title="csf_web目录下"></a><code>csf_web</code>目录下</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">[chaapp@centos7-node01 classes]$ pwd</div><div class="line">/home/chaapp/soa_web/apache-tomcat-7.0.68/webapps/csf_web/WEB-INF/classes</div><div class="line"></div><div class="line">[chaapp@centos7-node01 classes]$ ls</div><div class="line">AIConfig.xml      AIRootConfig.xml  config.properties  log4j.properties  SrvFrameConfig.xml  TaskConfig.xml</div><div class="line">AiLog.properties  com               csf.properties     menu.xml          system</div><div class="line"></div><div class="line">[chaapp@centos7-node01 classes]$ vi AIConfig.xml </div><div class="line"></div><div class="line"><span class="meta">#</span>104行修改成Oracle方言</div><div class="line"></div><div class="line">[chaapp@centos7-node01 classes]$ vi csf.properties </div><div class="line"><span class="meta">#</span>修改zk地址 config.properties也一样修改</div><div class="line">zk.server.list=192.168.71.137:2181</div><div class="line"><span class="meta">#</span>进入此目录中</div><div class="line">[chaapp@centos7-node01 service]$ pwd</div><div class="line">/home/chaapp/soa_web/apache-tomcat-7.0.68/webapps/csf_web/WEB-INF/classes/system/service</div><div class="line">[chaapp@centos7-node01 service]$ vi defaults.xml </div><div class="line">...</div><div class="line"> 51         &lt;pool name="base" primary="true"&gt;</div><div class="line"> 52             &lt;property name="driverClassName" value="oracle.jdbc.OracleDriver" /&gt;</div><div class="line"> 53             &lt;property name="url" value="jdbc:oracle:thin:@10.13.3.13:1521:shxicrm" /&gt;</div><div class="line"> 54             &lt;property name="username" value="UCR_PSWD" /&gt;</div><div class="line"> 55             &lt;property name="password" value="UCR_PSWD" /&gt;</div><div class="line"> ...</div></pre></td></tr></table></figure>
+<h5 id="zk-web目录下"><a href="#zk-web目录下" class="headerlink" title="zk_web目录下"></a><code>zk_web</code>目录下</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[chaapp@centos7-node01 classes]$ pwd</div><div class="line">/home/chaapp/soa_web/apache-tomcat-7.0.68/webapps/zkweb/WEB-INF/classes</div><div class="line">[chaapp@centos7-node01 classes]$ ls</div><div class="line">c3p0.properties  com  log4j.xml  spring  zk.properties</div><div class="line"><span class="meta">#</span>修改zk.properties的zk地址。貌似不用改也阔以</div></pre></td></tr></table></figure>
+<h5 id="启动tomcat"><a href="#启动tomcat" class="headerlink" title="启动tomcat"></a>启动tomcat</h5><p>在tomcat的bin目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[chaapp@centos7-node01 bin]$ ./startup.sh</div></pre></td></tr></table></figure>
+<p>浏览器上输入：<a href="http://192.168.71.137:8080/csf_web/common/index.jsp" target="_blank" rel="external">http://192.168.71.137:8080/csf_web/common/index.jsp</a></p>
+<p>如图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kplyq0.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="本地Java工程"><a href="#本地Java工程" class="headerlink" title="本地Java工程"></a>本地Java工程</h4><p>Java工程的目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpl02j.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>例如：我在<code>AddMoneyCSVImpl.java</code>中写了一个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddMoneyCSVImpl</span> <span class="keyword">implements</span> <span class="title">IAddMoneyCSV</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getMoney</span><span class="params">(Userman userman)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> userman.getMoney();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name+<span class="string">"调用成功"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//这个方法</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLvshen</span><span class="params">(String name)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Hello I'm"</span> + name;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>TestService.java</code>中的内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestService</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">      Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</div><div class="line">      map.put(<span class="string">"name"</span>, <span class="string">"Lvshen"</span>);</div><div class="line">      <span class="comment">//这里括号中的命名规则为：中心明_类名_方法名</span></div><div class="line">      IClientSV sv = CsfServiceFactory.getService(<span class="string">"order_IAddMoneyCSV_getLvshen"</span>);</div><div class="line">      System.out.println(<span class="string">"********************"</span>+sv.service(map));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后打开注册工具，把服务注册进入数据库和<code>zk</code>，操作如下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kplcZV.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>点击View→Setting，在config界面中进行相关的设置（上图有数据库的配置），项目配置和ClassPath的配置如下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kplgaT.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>配置好之后，软件界面上就会有java工程的相关目录了如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kplWiF.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>输入中心名，选择方法，右键注册即可。</p>
+<p>这样前端界面就可以看到新添加的服务。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kplrMn.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>之后就可以对服务进行相关的操作了。</p>
+<p>把Java工程打包成jar包放入服务器的<code>/home/chaapp/lib</code>目录下。运行Java工程，项目就可以远程调用服务跑起来了。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:31:29.013Z" itemprop="dateUpdated">2019-01-17 15:31:29</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/03/08/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/03/08/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSF/">CSF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务治理/">服务治理</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/03/08/1/&title=《CSF云化框架服务治理平台搭建笔记》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/03/08/1/&title=《CSF云化框架服务治理平台搭建笔记》 — Lvshen's Blog&source=CSF是一个远程服务管理平台，其平台搭建过程如下。
+用户创建需要创建两个用户：zk，chaapp
+1234567#如果已经创建了组，可以省略groupad..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/03/08/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSF云化框架服务治理平台搭建笔记》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/03/08/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/03/08/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/09/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用BOOTICE修复双系统引导</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/03/02/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Zookeeper、HDFS、HBase安装笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/03/08/1/&title=《CSF云化框架服务治理平台搭建笔记》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/03/08/1/&title=《CSF云化框架服务治理平台搭建笔记》 — Lvshen's Blog&source=CSF是一个远程服务管理平台，其平台搭建过程如下。
+用户创建需要创建两个用户：zk，chaapp
+1234567#如果已经创建了组，可以省略groupad..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/03/08/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSF云化框架服务治理平台搭建笔记》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/03/08/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/03/08/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/03/08/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>《Java8实战》学习笔记(一) | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java8,Lambda表达式">
+    <meta name="description" content="最近抽空看了《Java8实战这本书》，收获很多，这本书着重介绍了Java8的两个新特性：Lambda表达式和stream()的使用，简化了我们的开发。下面是我在读这本书是所做的笔记，也是">
+<meta name="keywords" content="Java8,Lambda表达式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Java8实战》学习笔记(一)">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/05/23/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="最近抽空看了《Java8实战这本书》，收获很多，这本书着重介绍了Java8的两个新特性：Lambda表达式和stream()的使用，简化了我们的开发。下面是我在读这本书是所做的笔记，也是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpNRgO.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpN64x.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpNgC6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpN28K.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kpNWvD.png">
+<meta property="og:updated_time" content="2019-01-17T07:49:52.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Java8实战》学习笔记(一)">
+<meta name="twitter:description" content="最近抽空看了《Java8实战这本书》，收获很多，这本书着重介绍了Java8的两个新特性：Lambda表达式和stream()的使用，简化了我们的开发。下面是我在读这本书是所做的笔记，也是">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kpNRgO.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《Java8实战》学习笔记(一)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《Java8实战》学习笔记(一)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-23T02:16:42.000Z" itemprop="datePublished" class="page-time">
+  2018-05-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#第一段代码"><span class="post-toc-number">1.</span> <span class="post-toc-text">第一段代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#对苹果按重量排序"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">对苹果按重量排序</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#筛选金额较高的交易"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">筛选金额较高的交易</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#函数式接口"><span class="post-toc-number">2.</span> <span class="post-toc-text">函数式接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#函数时接口的使用"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">函数时接口的使用</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Java8中forEach方法的使用"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Java8中forEach方法的使用</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Java8中的default关键字"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Java8中的default关键字</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Lambda表达式及函数时接口的例子"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Lambda表达式及函数时接口的例子</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Lambda表达式类型检查过程示例"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">Lambda表达式类型检查过程示例</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注意特殊的兼容规则"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">注意特殊的兼容规则</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#方法引用"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">方法引用</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Lambda表达式及其等效方法引用"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">Lambda表达式及其等效方法引用</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#快速创建list集合"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">快速创建list集合</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Java8-stream学习"><span class="post-toc-number">3.</span> <span class="post-toc-text">Java8 stream学习</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#代码举例"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">代码举例</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#stream流的中间操作和终端操作"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">stream流的中间操作和终端操作</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#流的总结"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">流的总结</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#将字符串列表转成字母列表"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">将字符串列表转成字母列表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Lambda表达式打印数组类型的集合"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Lambda表达式打印数组类型的集合</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《Java8实战》学习笔记(一)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-23 10:16:42" datetime="2018-05-23T02:16:42.000Z"  itemprop="datePublished">2018-05-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpNRgO.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最近抽空看了《Java8实战这本书》，收获很多，这本书着重介绍了Java8的两个新特性：Lambda表达式和stream()的使用，简化了我们的开发。下面是我在读这本书是所做的笔记，也是我的一些收获。</p>
+<a id="more"></a>
+<h4 id="第一段代码"><a href="#第一段代码" class="headerlink" title="第一段代码"></a>第一段代码</h4><h5 id="对苹果按重量排序"><a href="#对苹果按重量排序" class="headerlink" title="对苹果按重量排序"></a>对苹果按重量排序</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Java8之前</span></div><div class="line">Collections.sort(inventory, <span class="keyword">new</span> Comparator&lt;Apple&gt;() &#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Apple a1, Apple a2)</span></span>&#123;</div><div class="line">  	<span class="keyword">return</span> a1.getWeight().compareTo(a2.getWeight());</div><div class="line">  &#125;	</div><div class="line">&#125;);</div><div class="line"><span class="comment">//Java8特性(方法引用)</span></div><div class="line">inventory.sort(comparing(Apple::getWeight));</div><div class="line"><span class="comment">//Lambda表达式</span></div><div class="line">Comparator&lt;Apple&gt; byWeight =</div><div class="line">(Apple a1, Apple a2) -&gt; a1.getWeight().compareTo(a2.getWeight());</div></pre></td></tr></table></figure>
+<h5 id="筛选金额较高的交易"><a href="#筛选金额较高的交易" class="headerlink" title="筛选金额较高的交易"></a>筛选金额较高的交易</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//未使用流</span></div><div class="line">Map&lt;Currency, List&lt;Transaction&gt;&gt; transactionsByCurrencies = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line"><span class="keyword">for</span> (Transaction transaction : transactions) &#123;</div><div class="line">  <span class="keyword">if</span>(transaction.getPrice() &gt; <span class="number">1000</span>)&#123;</div><div class="line">    Currency currency = transaction.getCurrency();</div><div class="line">    List&lt;Transaction&gt; transactionsForCurrency = transactionsByCurrencies.get(currency);</div><div class="line">  <span class="keyword">if</span> (transactionsForCurrency == <span class="keyword">null</span>) &#123;</div><div class="line">    transactionsForCurrency = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    transactionsByCurrencies.put(currency,transactionsForCurrency);</div><div class="line">  &#125;</div><div class="line">  transactionsForCurrency.add(transaction);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//使用流</span></div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.stream.Collectors.toList;</div><div class="line">Map&lt;Currency, List&lt;Transaction&gt;&gt; transactionsByCurrencies = transactions.stream().filter((Transaction t) -&gt; t.getPrice() &gt; <span class="number">1000</span>).collect(groupingBy(Transaction::getCurrency));</div></pre></td></tr></table></figure>
+<h4 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h4><p>只定义了一个方法的接口，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">test</span> <span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Comparator</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(T o1, T o2)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//注：此接口不能继承其他接口，不然会继承其方法</span></div></pre></td></tr></table></figure>
+<h5 id="函数时接口的使用"><a href="#函数时接口的使用" class="headerlink" title="函数时接口的使用"></a>函数时接口的使用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注意：此接口的方法返回boolean</span></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//定义一个实现功能的方法</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">filter</span><span class="params">(List&lt;T&gt; list, Predicate&lt;T&gt; p)</span> </span>&#123;</div><div class="line">  List&lt;T&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">  <span class="keyword">for</span>(T s: list)&#123;</div><div class="line">    <span class="keyword">if</span>(p.test(s))&#123;</div><div class="line">    	results.add(s);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> results;</div><div class="line">&#125;</div><div class="line"><span class="comment">//使用Lambda表达式</span></div><div class="line">Predicate&lt;String&gt; nonEmptyStringPredicate = (String s) -&gt; !s.isEmpty();</div><div class="line">List&lt;String&gt; nonEmpty = filter(listOfStrings, nonEmptyStringPredicate);</div><div class="line"></div><div class="line"><span class="comment">//上面两段代码相当于</span></div><div class="line">List&lt;String&gt; nonEmpty = filter(listOfStrings, (String s) -&gt; !s.isEmpty());</div></pre></td></tr></table></figure>
+<h5 id="Java8中forEach方法的使用"><a href="#Java8中forEach方法的使用" class="headerlink" title="Java8中forEach方法的使用"></a>Java8中forEach方法的使用</h5><p>假如有一个<code>list</code>集合，循环获取里面的值，<code>Java8</code>之前是这样做的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用foreach循环获取</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i:list) &#123;</div><div class="line">    System.out.println(<span class="string">"Iterator Value::"</span>+i);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//或者使用迭代</span></div><div class="line">Iterator&lt;Integer&gt; it = list.iterator();</div><div class="line"><span class="keyword">while</span> (it.hasNext())&#123;</div><div class="line">  System.out.println(<span class="string">"Iterator Value::"</span>+it.next());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>Java8</code>后有一个forEach的方法，配合Lambda表达式。简直不要更简单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">list.forEach(a -&gt; &#123;</div><div class="line">    System.out.println(<span class="string">"Iterator Value::"</span>+ a);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h5 id="Java8中的default关键字"><a href="#Java8中的default关键字" class="headerlink" title="Java8中的default关键字"></a>Java8中的default关键字</h5><p>用于在接口中扩充方法，而不影响子接口，或子类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//接口中的方法用default修饰后，可以有结构体</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DefaultTest</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Calling A.foo()"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//该类实现了DefaultTest接口，并不用实现foo(),因为foo()被default关键字修饰</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultTestImpl</span> <span class="keyword">implements</span> <span class="title">DefaultTest</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        DefaultTestImpl defaultTest = <span class="keyword">new</span> DefaultTestImpl();</div><div class="line">        defaultTest.foo();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="Lambda表达式及函数时接口的例子"><a href="#Lambda表达式及函数时接口的例子" class="headerlink" title="Lambda表达式及函数时接口的例子"></a>Lambda表达式及函数时接口的例子</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpN64x.png" alt="Lambda表达式使用的例子" title="">
+                </div>
+                <div class="image-caption">Lambda表达式使用的例子</div>
+            </figure>
+<table>
+<thead>
+<tr>
+<th>T  -&gt; R</th>
+<th>Function<t,r>,将类型T的对象转换为类型R的对象                      R apply(T t)</t,r></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(int, int)-&gt;int</td>
+<td>IntBinaryOperator具有唯一一个抽象方法，叫作applyAsInt           int applyAsInt(int left,  int right</td>
+</tr>
+<tr>
+<td>T-&gt;void</td>
+<td>Consumer<t>具有唯一一个抽象方法叫作accept                          void accept(T t)</t></td>
+</tr>
+<tr>
+<td>()-&gt;T</td>
+<td>Supplier<t>具有唯一一个抽象方法叫作get                                   T get()</t></td>
+</tr>
+<tr>
+<td>(T, U)-&gt;R</td>
+<td>BiFunction<t, u,="" r="">具有唯一一个抽象方法叫作apply                   R apply(T t,)</t,></td>
+</tr>
+</tbody>
+</table>
+<h5 id="Lambda表达式类型检查过程示例"><a href="#Lambda表达式类型检查过程示例" class="headerlink" title="Lambda表达式类型检查过程示例"></a>Lambda表达式类型检查过程示例</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpNgC6.png" alt="Lambda表达式类型检查" title="">
+                </div>
+                <div class="image-caption">Lambda表达式类型检查</div>
+            </figure>
+<h5 id="注意特殊的兼容规则"><a href="#注意特殊的兼容规则" class="headerlink" title="注意特殊的兼容规则"></a>注意特殊的兼容规则</h5><p>如果一个Lambda的主体是一个语句表达式， 它就和一个返回void的函数描述符兼容（当<br>然需要参数列表也兼容）。例如，以下两行都是合法的，尽管List的add方法返回了一个<br>boolean，而不是Consumer上下文（T -&gt; void）所要求的void：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Predicate返回了一个boolean</span></div><div class="line">Predicate&lt;String&gt; p = s -&gt; list.add(s);</div><div class="line"><span class="comment">// Consumer返回了一个void</span></div><div class="line">Consumer&lt;String&gt; b = s -&gt; list.add(s);</div></pre></td></tr></table></figure>
+<h5 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h5><p>类似Lambda表达式，但比Lambda表达式更直观，简洁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//先前：</span></div><div class="line">inventory.sort((Apple a1, Apple a2) -&gt; a1.getWeight().compareTo(a2.getWeight()));</div><div class="line"><span class="comment">//之后（使用方法引用和java.util.Comparator.comparing）：</span></div><div class="line">inventory.sort(comparing(Apple::getWeight));</div><div class="line"><span class="comment">//Apple::getWeight相当于(Apple a) -&gt; a.getWeight()</span></div></pre></td></tr></table></figure>
+<h5 id="Lambda表达式及其等效方法引用"><a href="#Lambda表达式及其等效方法引用" class="headerlink" title="Lambda表达式及其等效方法引用"></a>Lambda表达式及其等效方法引用</h5><table>
+<thead>
+<tr>
+<th>Lambda</th>
+<th>等效的方法引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Apple a) -&gt; a.getWeight()</td>
+<td>Apple::getWeight</td>
+</tr>
+<tr>
+<td>() -&gt; Thread.currentThread().dumpStack()</td>
+<td>Thread.currentThread()::dumpStack</td>
+</tr>
+<tr>
+<td>(str, i) -&gt; str.substring(i)</td>
+<td>String::substring</td>
+</tr>
+<tr>
+<td>(String s) -&gt; System.out.println(s)</td>
+<td>System.out::println</td>
+</tr>
+</tbody>
+</table>
+<h5 id="快速创建list集合"><a href="#快速创建list集合" class="headerlink" title="快速创建list集合"></a>快速创建list集合</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; weights = Arrays.asList(<span class="number">7</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<h4 id="Java8-stream学习"><a href="#Java8-stream学习" class="headerlink" title="Java8 stream学习"></a>Java8 stream学习</h4><h5 id="代码举例"><a href="#代码举例" class="headerlink" title="代码举例"></a>代码举例</h5><p>假设我现在要获取卡路里小于400的食物，并将这些食物排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    getLowCaloricDishesNamesInJava8(Dish.menu).forEach(System.out::println);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">getLowCaloricDishesNamesInJava8</span><span class="params">(List&lt;Dish&gt; dishes)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> dishes.stream().filter(d -&gt; d.getCalories() &lt; <span class="number">400</span>).sorted(Comparator.comparing(Dish::getCalories))</div><div class="line">            .map(Dish::getName).collect(Collectors.toList());</div><div class="line">&#125;</div><div class="line"><span class="comment">//Dish类是一个实体类，用于存储数据的</span></div></pre></td></tr></table></figure>
+<h5 id="stream流的中间操作和终端操作"><a href="#stream流的中间操作和终端操作" class="headerlink" title="stream流的中间操作和终端操作"></a>stream流的中间操作和终端操作</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpN28K.png" alt="stream流的中间操作和终端操作" title="">
+                </div>
+                <div class="image-caption">stream流的中间操作和终端操作</div>
+            </figure>
+<p>如上图，流是有数据连（如集合），中间操作链（形成流的一条流水线），终端操作（生成结果）。其中，中间操作的返回结果类型为：<code>Stream&lt;T&gt;</code>。</p>
+<h5 id="流的总结"><a href="#流的总结" class="headerlink" title="流的总结"></a>流的总结</h5><ul>
+<li>流是“从支持数据处理操作的源生成的一系列元素”。</li>
+<li>流利用内部迭代：迭代通过filter、map、sorted等操作被抽象掉了。</li>
+<li>流操作有两类：中间操作和终端操作。</li>
+<li>filter和map等中间操作会返回一个流，并可以链接在一起。可以用它们来设置一条流<br>水线，但并不会生成任何结果。</li>
+<li>forEach和count等终端操作会返回一个非流的值，并处理流水线以返回结果。</li>
+<li>流中的元素是按需计算的。</li>
+</ul>
+<h5 id="将字符串列表转成字母列表"><a href="#将字符串列表转成字母列表" class="headerlink" title="将字符串列表转成字母列表"></a>将字符串列表转成字母列表</h5><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; title = Arrays.asList(<span class="string">"Java8"</span>, <span class="string">"In"</span>, <span class="string">"Action"</span>);</div><div class="line">List&lt;Integer&gt; wordLengths = title.stream().map(String::length).collect(toList());</div><div class="line">List&lt;String&gt; collect = title.stream().map(word -&gt; word.split(<span class="string">""</span>)).flatMap(Arrays::stream).distinct().collect(toList());</div><div class="line">System.out.println(collect);</div><div class="line"></div><div class="line"><span class="comment">//打印结果:[J, a, v, 8, I, n, A, c, t, i, o]</span></div></pre></td></tr></table></figure>
+<p>执行过程如图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kpNWvD.png" alt="flatMap拆分数组" title="">
+                </div>
+                <div class="image-caption">flatMap拆分数组</div>
+            </figure>
+<h5 id="Lambda表达式打印数组类型的集合"><a href="#Lambda表达式打印数组类型的集合" class="headerlink" title="Lambda表达式打印数组类型的集合"></a>Lambda表达式打印数组类型的集合</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; numbers1 = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line">List&lt;Integer&gt; numbers2 = Arrays.asList(<span class="number">3</span>, <span class="number">4</span>);</div><div class="line">List&lt;<span class="keyword">int</span>[]&gt; pairs = numbers1.stream().flatMap(i -&gt; numbers2.stream().map(j -&gt; <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;i, j&#125;)).collect(toList());</div><div class="line"><span class="comment">//如上面，有一个pairs的数组集合。java8的打印方式如下。</span></div><div class="line">pairs.forEach(pair -&gt; System.out.println(<span class="string">"("</span>+pair[<span class="number">0</span>]+<span class="string">","</span>+pair[<span class="number">1</span>]+<span class="string">")"</span>));</div></pre></td></tr></table></figure>
+<p>由于本书才看了一半，后续的笔记还在记录当中。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:49:52.464Z" itemprop="dateUpdated">2019-01-17 15:49:52</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/05/23/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/05/23/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java8/">Java8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lambda表达式/">Lambda表达式</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/05/23/1/&title=《《Java8实战》学习笔记(一)》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/05/23/1/&title=《《Java8实战》学习笔记(一)》 — Lvshen's Blog&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/05/23/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java8实战》学习笔记(一)》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/05/23/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/05/23/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/25/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JStorm学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/04/10/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">字典序算法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/05/23/1/&title=《《Java8实战》学习笔记(一)》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/05/23/1/&title=《《Java8实战》学习笔记(一)》 — Lvshen's Blog&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/05/23/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Java8实战》学习笔记(一)》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/05/23/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/05/23/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/05/23/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

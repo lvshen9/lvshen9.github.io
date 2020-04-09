@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Redis对象类型底层简介 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Redis,底层Redis">
+    <meta name="description" content="Redis对象类型Redis是一种key/value型数据库，其中，每个key和value都是使用对象表示的。比如，我们执行以下代码： 1redis&amp;gt;SET message &quot;hello redis&quot; 其中的key是message，是一个包含了字符串”message”的对象。而value是一个包含了”hello redis”的对象。 redis共有五种对象的类型，分别是：    类型常量 对">
+<meta name="keywords" content="Redis,底层Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis对象类型底层简介">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="Redis对象类型Redis是一种key/value型数据库，其中，每个key和value都是使用对象表示的。比如，我们执行以下代码： 1redis&amp;gt;SET message &quot;hello redis&quot; 其中的key是message，是一个包含了字符串”message”的对象。而value是一个包含了”hello redis”的对象。 redis共有五种对象的类型，分别是：    类型常量 对">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20150331210810536?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20150331210831783?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20150401092405524?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20150401092831461?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20150401094334918?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20150401145314582?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2017-09-15T14:22:51.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis对象类型底层简介">
+<meta name="twitter:description" content="Redis对象类型Redis是一种key/value型数据库，其中，每个key和value都是使用对象表示的。比如，我们执行以下代码： 1redis&amp;gt;SET message &quot;hello redis&quot; 其中的key是message，是一个包含了字符串”message”的对象。而value是一个包含了”hello redis”的对象。 redis共有五种对象的类型，分别是：    类型常量 对">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20150331210810536?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Redis对象类型底层简介</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Redis对象类型底层简介</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-15T12:50:15.000Z" itemprop="datePublished" class="page-time">
+  2017-09-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis对象类型"><span class="post-toc-number">1.</span> <span class="post-toc-text">Redis对象类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis对象底层数据结构"><span class="post-toc-number">2.</span> <span class="post-toc-text">Redis对象底层数据结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#字符串对象"><span class="post-toc-number">3.</span> <span class="post-toc-text">字符串对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#列表对象"><span class="post-toc-number">4.</span> <span class="post-toc-text">列表对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#哈希对象"><span class="post-toc-number">5.</span> <span class="post-toc-text">哈希对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#集合对象"><span class="post-toc-number">6.</span> <span class="post-toc-text">集合对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#有序集合对象"><span class="post-toc-number">7.</span> <span class="post-toc-text">有序集合对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结尾"><span class="post-toc-number">8.</span> <span class="post-toc-text">结尾</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Redis对象类型底层简介"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Redis对象类型底层简介</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-09-15 20:50:15" datetime="2017-09-15T12:50:15.000Z"  itemprop="datePublished">2017-09-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="Redis对象类型"><a href="#Redis对象类型" class="headerlink" title="Redis对象类型"></a>Redis对象类型</h4><p>Redis是一种key/value型数据库，其中，每个key和value都是使用对象表示的。比如，我们执行以下代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">redis&gt;</span><span class="bash">SET message <span class="string">"hello redis"</span></span></div></pre></td></tr></table></figure>
+<p>其中的key是message，是一个包含了字符串”message”的对象。而value是一个包含了”hello redis”的对象。</p>
+<p>redis共有五种对象的类型，分别是：</p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>对象的名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REDIS_STRING</code></td>
+<td>字符串对象</td>
+</tr>
+<tr>
+<td><code>REDIS_LIST</code></td>
+<td>列表对象</td>
+</tr>
+<tr>
+<td><code>REDIS_HASH</code></td>
+<td>哈希对象</td>
+</tr>
+<tr>
+<td><code>REDIS_SET</code></td>
+<td>集合对象</td>
+</tr>
+<tr>
+<td><code>REDIS_ZSET</code></td>
+<td>有序集合对象</td>
+</tr>
+</tbody>
+</table>
+<p>Redis中的一个对象的结构体表示如下：</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* </span></div><div class="line"><span class="comment">Redis 对象 </span></div><div class="line"><span class="comment">*/</span>  </div><div class="line"></div><div class="line">typedef struct redisObject &#123;  </div><div class="line">   <span class="comment">// 类型  </span></div><div class="line">   unsigned type:<span class="number">4</span>;          </div><div class="line">  <span class="comment">// 不使用(对齐位)  </span></div><div class="line">  unsigned notused:<span class="number">2</span>;  </div><div class="line">  <span class="comment">// 编码方式  </span></div><div class="line">    unsigned encoding:<span class="number">4</span>;  </div><div class="line">   <span class="comment">// LRU 时间（相对于 server.lruclock）  </span></div><div class="line">    unsigned lru:<span class="number">22</span>;  </div><div class="line">    <span class="comment">// 引用计数  </span></div><div class="line">    <span class="keyword">int</span> refcount;  </div><div class="line">   <span class="comment">// 指向对象的值  </span></div><div class="line">    <span class="keyword">void</span> *ptr;  </div><div class="line">&#125; robj;</div></pre></td></tr></table></figure>
+<p>type表示了该对象的对象类型，即上面五个中的一个。但为了提高存储效率与程序执行效率，每种对象的底层<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">数据结构</a>实现都可能不止一种。encoding就表示了对象底层所使用的编码。下面先介绍每种底层数据结构的实现，再介绍每种对象类型都用了什么底层结构并分析他们之间的关系。</p>
+<h4 id="Redis对象底层数据结构"><a href="#Redis对象底层数据结构" class="headerlink" title="Redis对象底层数据结构"></a>Redis对象底层数据结构</h4><p>底层数据结构共有八种，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>编码常量</th>
+<th>编码所对应的底层数据结构</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REDIS_ENCODING_INT</code></td>
+<td><code>long</code> 类型的整数</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_EMBSTR</code></td>
+<td><code>embstr</code> 编码的简单动态字符串</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_RAW</code></td>
+<td>简单动态字符串</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_HT</code></td>
+<td>字典</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_LINKEDLIST</code></td>
+<td>双端链表</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_ZIPLIST</code></td>
+<td>压缩列表</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_INTSET</code></td>
+<td>整数集合</td>
+</tr>
+<tr>
+<td><code>REDIS_ENCODING_SKIPLIST</code></td>
+<td>跳跃表和字典</td>
+</tr>
+</tbody>
+</table>
+<h4 id="字符串对象"><a href="#字符串对象" class="headerlink" title="字符串对象"></a>字符串对象</h4><p>字符串对象的编码可以是int、raw或者embstr。</p>
+<p>如果一个字符串的内容可以转换为long，那么该字符串就会被转换成为long类型，对象的ptr就会指向该long，并且对象类型也用int类型表示。</p>
+<p>普通的字符串有两种，embstr和raw。embstr应该是Redis 3.0新增的数据结构,在2.8中是没有的。如果字符串对象的长度小于39字节，就用embstr对象。否则用传统的raw对象。可以从下面这段代码看出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#define REDIS_ENCODING_EMBSTR_SIZE_LIMIT 39  </div><div class="line">robj *createStringObject(<span class="keyword">char</span> *ptr, size_t len) &#123;  </div><div class="line">    <span class="keyword">if</span> (len &lt;= REDIS_ENCODING_EMBSTR_SIZE_LIMIT)  </div><div class="line">        <span class="keyword">return</span> createEmbeddedStringObject(ptr,len);  </div><div class="line">    <span class="keyword">else</span>  </div><div class="line">        <span class="keyword">return</span> createRawStringObject(ptr,len);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>embstr的好处有如下几点：</p>
+<ul>
+<li>embstr的创建只需分配一次内存，而raw为两次（一次为sds分配对象，另一次为objet分配对象，embstr省去了第一次）。</li>
+<li>相对地，释放内存的次数也由两次变为一次。</li>
+<li>embstr的objet和sds放在一起，更好地利用缓存带来的优势。</li>
+</ul>
+<p>需要注意的是，redis并未提供任何修改embstr的方式，即embstr是只读的形式。对embstr的修改实际上是先转换为raw再进行修改。</p>
+<p>raw和embstr的区别可以用下面两幅图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20150331210810536?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20150331210831783?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="列表对象"><a href="#列表对象" class="headerlink" title="列表对象"></a>列表对象</h4><p>列表对象的编码可以是ziplist或者linkedlist。</p>
+<p>ziplist是一种压缩链表，它的好处是更能节省内存空间，因为它所存储的内容都是在连续的内存区域当中的。当列表对象元素不大，每个元素也不大的时候，就采用ziplist存储。但当数据量过大时就ziplist就不是那么好用了。因为为了保证他存储内容在内存中的连续性，插入的复杂度是O(N)，即每次插入都会重新进行realloc。如下图所示，对象结构中ptr所指向的就是一个ziplist。整个ziplist只需要malloc一次，它们在内存中是一块连续的区域。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20150401092405524?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure>
+<p>linkedlist是一种双向链表。它的结构比较简单，节点中存放pre和next两个指针，还有节点相关的信息。当每增加一个node的时候，就需要重新malloc一块内存。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20150401092831461?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure>
+<h4 id="哈希对象"><a href="#哈希对象" class="headerlink" title="哈希对象"></a>哈希对象</h4><p>哈希对象的底层实现可以是ziplist或者hashtable。</p>
+<p>ziplist中的哈希对象是按照key1,value1,key2,value2这样的顺序存放来存储的。当对象数目不多且内容不大时，这种方式效率是很高的。</p>
+<p>hashtable的是由dict这个结构来实现的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">typedef struct dict &#123;  </div><div class="line">  dictType *type;  </div><div class="line">  <span class="keyword">void</span> *privdata;  </div><div class="line">   dictht ht[<span class="number">2</span>];  </div><div class="line">   <span class="keyword">long</span> rehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span>  </div><div class="line">  <span class="keyword">int</span> iterators; <span class="comment">/* number of iterators currently running */</span>  </div><div class="line">&#125; dict;</div></pre></td></tr></table></figure>
+<p>dict是一个字典，其中的指针dicht ht[2] 指向了两个哈希表</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">typedef struct dictht &#123;  </div><div class="line"></div><div class="line">   dictEntry **table;  </div><div class="line"></div><div class="line">    unsigned <span class="keyword">long</span> size;  </div><div class="line"></div><div class="line">   unsigned <span class="keyword">long</span> sizemask;  </div><div class="line"></div><div class="line">    unsigned <span class="keyword">long</span> used;  </div><div class="line"></div><div class="line">&#125; dictht;</div></pre></td></tr></table></figure>
+<p>dicht[0] 是用于真正存放数据，dicht[1]一般在哈希表元素过多进行rehash的时候用于中转数据。</p>
+<p>dictht中的table用语真正存放元素了，每个key/value对用一个dictEntry表示，放在dictEntry数组中。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20150401094334918?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure>
+<h4 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h4><p>集合对象的编码可以是intset或者hashtable。</p>
+<p>intset是一个整数集合，里面存的为某种同一类型的整数，支持如下三种长度的整数：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#define INTSET_ENC_INT16 (sizeof(int16_t))</div><div class="line"></div><div class="line">#define INTSET_ENC_INT32 (sizeof(int32_t))  </div><div class="line"></div><div class="line">#define INTSET_ENC_INT64 (sizeof(int64_t))</div></pre></td></tr></table></figure>
+<p>intset是一个有序集合，查找元素的复杂度为O(logN)，但插入时不一定为O(logN)，因为有可能涉及到升级操作。比如当集合里全是int16_t型的整数，这时要插入一个int32_t，那么为了维持集合中数据类型的一致，那么所有的数据都会被转换成int32_t类型，涉及到内存的重新分配，这时插入的复杂度就为O(N)了。是intset不支持降级操作。</p>
+<h4 id="有序集合对象"><a href="#有序集合对象" class="headerlink" title="有序集合对象"></a>有序集合对象</h4><p>有序集合的编码可能两种，一种是ziplist，另一种是skiplist与dict的结合。</p>
+<p>ziplist作为集合和作为哈希对象是一样的，member和score顺序存放。按照score从小到大顺序排列。它的结构不再复述。</p>
+<p>skiplist是一种跳跃表，它实现了有序集合中的快速查找，在大多数情况下它的速度都可以和平衡树差不多。但它的实现比较简单，可以作为平衡树的替代品。它的结构比较特殊。下面分别是跳跃表skiplist和它内部的节点skiplistNode的结构体：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* </span></div><div class="line"><span class="comment">跳跃表 </span></div><div class="line"><span class="comment">*/</span>  </div><div class="line">typedef struct zskiplist &#123;  </div><div class="line">    <span class="comment">// 头节点，尾节点  </span></div><div class="line">    struct zskiplistNode *header, *tail;  </div><div class="line">    <span class="comment">// 节点数量  </span></div><div class="line">    unsigned <span class="keyword">long</span> length;  </div><div class="line">    <span class="comment">// 目前表内节点的最大层数  </span></div><div class="line">    <span class="keyword">int</span> level;  </div><div class="line">&#125; zskiplist;  </div><div class="line"><span class="comment">/* ZSETs use a specialized version of Skiplists */</span>  </div><div class="line"><span class="comment">/* </span></div><div class="line"><span class="comment">跳跃表节点 </span></div><div class="line"><span class="comment">*/</span>  </div><div class="line">typedef struct zskiplistNode &#123;  </div><div class="line">    <span class="comment">// member 对象  </span></div><div class="line">    robj *obj;  </div><div class="line">    <span class="comment">// 分值  </span></div><div class="line">    <span class="keyword">double</span> score;  </div><div class="line">   <span class="comment">// 后退指针  </span></div><div class="line">   struct zskiplistNode *backward;  </div><div class="line">    <span class="comment">// 层  </span></div><div class="line">    struct zskiplistLevel &#123;  </div><div class="line">       <span class="comment">// 前进指针  </span></div><div class="line">       struct zskiplistNode *forward;  </div><div class="line">       <span class="comment">// 这个层跨越的节点数量  </span></div><div class="line">      unsigned <span class="keyword">int</span> span;  </div><div class="line">    &#125; level[];  </div><div class="line">&#125; zskiplistNode;</div></pre></td></tr></table></figure>
+<p>head和tail分别指向头节点和尾节点，然后每个skiplistNode里面的结构又是分层的(即level数组)</p>
+<p>用图表示，大概是下面这个样子：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://img.blog.csdn.net/20150401145314582?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2Fpc2hlbmZhbnM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure>
+<p>每一列都代表一个节点，保存了member和score，按score从小到大排序。每个节点有不同的层数，这个层数是在生成节点的时候随机生成的数值。每一层都是一个指向后面某个节点的指针。这种结构使得跳跃表可以跨越很多节点来快速访问。</p>
+<p>前面说到了，有序集合ZSET是有跳跃表和hashtable共同形成的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">typedef struct zset &#123;  </div><div class="line">    <span class="comment">// 字典  </span></div><div class="line">    dict *dict;  </div><div class="line">    <span class="comment">// 跳跃表  </span></div><div class="line">   zskiplist *zsl;  </div><div class="line">&#125; zset;</div></pre></td></tr></table></figure>
+<p>为什么要用这种结构呢。试想如果单一用hashtable，那可以快速查找、添加和删除元素，但没法保持集合的有序性。如果单一用skiplist，有序性可以得到保障，但查找的速度太慢O（logN）。</p>
+<h4 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h4><p>简单介绍了Redis的五种对象类型和它们的底层实现。事实上，Redis的高效性和灵活性正是得益于对于同一个对象类型采取不同的底层结构，并在必要的时候对二者进行转换；以及各种底层结构对内存的合理利用。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-09-15T14:22:51.982Z" itemprop="dateUpdated">2017-09-15 22:22:51</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/09/15/Redis对象类型底层简介/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/底层Redis/">底层Redis</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/&title=《Redis对象类型底层简介》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/&title=《Redis对象类型底层简介》 — Lvshen's Blog&source=Redis对象类型Redis是一种key/value型数据库，其中，每个key和value都是使用对象表示的。比如，我们执行以下代码：
+1redis&gt..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis对象类型底层简介》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/16/Servlet性能优化/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Servlet性能优化</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/14/深入学习ConcurrentHashMap/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">深入学习ConcurrentHashMap</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/&title=《Redis对象类型底层简介》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/&title=《Redis对象类型底层简介》 — Lvshen's Blog&source=Redis对象类型Redis是一种key/value型数据库，其中，每个key和value都是使用对象表示的。比如，我们执行以下代码：
+1redis&gt..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis对象类型底层简介》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/09/15/Redis对象类型底层简介/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Zookeeper、HDFS、HBase安装笔记 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="大数据,Zookeeper">
+    <meta name="description" content="zk安装经过这几天的学习，对大数据有了一定的了解。这次在我自己的本机上安装了zookeeper、HDFS、HBase集群。并把安装时的过程记录了下来。">
+<meta name="keywords" content="大数据,Zookeeper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper、HDFS、HBase安装笔记">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/03/02/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="zk安装经过这几天的学习，对大数据有了一定的了解。这次在我自己的本机上安装了zookeeper、HDFS、HBase集群。并把安装时的过程记录了下来。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4084378460,396578636&fm=27&gp=0.jpg">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/792966/201606/792966-20160629171427624-841804334.png">
+<meta property="og:updated_time" content="2018-03-02T10:08:04.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper、HDFS、HBase安装笔记">
+<meta name="twitter:description" content="zk安装经过这几天的学习，对大数据有了一定的了解。这次在我自己的本机上安装了zookeeper、HDFS、HBase集群。并把安装时的过程记录了下来。">
+<meta name="twitter:image" content="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4084378460,396578636&fm=27&gp=0.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Zookeeper、HDFS、HBase安装笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Zookeeper、HDFS、HBase安装笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-02T09:21:16.000Z" itemprop="datePublished" class="page-time">
+  2018-03-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#zk安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">zk安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#hdfs安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">hdfs安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#hbase安装"><span class="post-toc-number">3.</span> <span class="post-toc-text">hbase安装</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Zookeeper、HDFS、HBase安装笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-02 17:21:16" datetime="2018-03-02T09:21:16.000Z"  itemprop="datePublished">2018-03-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="zk安装"><a href="#zk安装" class="headerlink" title="zk安装"></a>zk安装</h2><p>经过这几天的学习，对大数据有了一定的了解。这次在我自己的本机上安装了zookeeper、HDFS、HBase集群。并把安装时的过程记录了下来。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4084378460,396578636&fm=27&gp=0.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://images2015.cnblogs.com/blog/792966/201606/792966-20160629171427624-841804334.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">1.创建用户</span></div><div class="line">groupadd ngboss</div><div class="line">useradd -d /home/zk -g ngboss zk</div><div class="line">useradd -d /home/hdfs -g ngboss hdfs</div><div class="line">useradd -d /home/hbase -g ngboss hbase</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">2.root下添加hosts信息</span></div><div class="line">vi /etc/hosts</div><div class="line">192.168.71.132 centos7-node01</div><div class="line">192.168.71.131 centos7-node02 </div><div class="line">192.168.71.133 centos7-node03</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">3.拓展</span></div><div class="line">IPv4的IP是32bit的，/xx 表示从右往左多少位是掩码（不变的），余下的是可变的</div><div class="line">192.168.0.0/16 表示 192.168.0.0 -&gt; 192.168.255.255</div><div class="line">192.168.0.0/16 表示 192.168.0.0 -&gt; 192.168.255.255</div><div class="line">192.168.0.0/24 表示 192.168.0.0 -&gt; 192.168.0.255</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">4.jdk配置</span></div><div class="line">vi ~/.bash_profile</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash"> .bash_profile</span></div><div class="line"><span class="meta">#</span><span class="bash"> Get the aliases and <span class="built_in">functions</span></span></div><div class="line">if [ -f ~/.bashrc ]; then</div><div class="line">. ~/.bashrc</div><div class="line">fi</div><div class="line"><span class="meta">#</span><span class="bash"> +-------------------------------------+</span></div><div class="line"><span class="meta">#</span><span class="bash"> | J2EE<span class="string">'S PROFILE, DON'</span>T MODIFY! |</span></div><div class="line"><span class="meta">#</span><span class="bash"> +-------------------------------------+</span></div><div class="line">alias grep='grep --colour=auto'</div><div class="line">alias vi='vim'</div><div class="line">alias ll='ls -l'</div><div class="line">alias ls='ls --color=auto'</div><div class="line">alias mv='mv -i'</div><div class="line">alias rm='rm -i'</div><div class="line">export PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] "</div><div class="line">export TERM=linux</div><div class="line">export EDITOR=vim</div><div class="line">export PATH=$&#123;HOME&#125;/bin:$&#123;HOME&#125;/support/jdk/bin:$&#123;HOME&#125;/support/ant/bin:$&#123;HOME&#125;/support/python/bin:$PATH</div><div class="line">export LANG=zh_CN.utf8</div><div class="line">export PYTHONUNBUFFERED=1</div><div class="line">export TIMOUT=3000</div><div class="line">export HISTSIZE=1000</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">5.验证jdk安装是否成功</span></div><div class="line">. ~/.bash_profile</div><div class="line">which java</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">6.zoo.cfg文件配置</span></div><div class="line">vi ~/etc/zoo.cfg </div><div class="line"></div><div class="line">server.1=192.168.71.131:28880:38880</div><div class="line">server.2=192.168.71.132:28880:38880</div><div class="line">server.3=192.168.71.133:28880:38880</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">7.acl.conf文件配置</span></div><div class="line">vi ~/etc/acl.conf</div><div class="line"></div><div class="line">192.18.0.0/16</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">8.myid文件配置</span></div><div class="line">vi ~/data/myid</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">9.zk启动</span></div><div class="line">zk@hadoop-node02 ~/bin $ ./zkServer.sh start</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">10.端口验证</span></div><div class="line">netstat -tnlp | grep 2181</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">11.结构</span></div><div class="line">zk@centos7-node01 ~ $ ls</div><div class="line">bin  data  etc  lib  logs  sbin  support</div></pre></td></tr></table></figure>
+<h2 id="hdfs安装"><a href="#hdfs安装" class="headerlink" title="hdfs安装"></a>hdfs安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">1.解压hdfs和jdk</span></div><div class="line">...</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">2.生成密匙</span></div><div class="line">ssh-keygen -t rsa</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">3.拷贝公匙到其他主机</span></div><div class="line">ssh-copy-id -i hdfs@192.168.71.131</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">4.给用户创建密码</span></div><div class="line">echo '1q1w1e1r' | passwd --stdin hdfs </div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">5.修改slaves文件</span></div><div class="line">修改：vi /home/hdfs/etc/hadoop/slaves</div><div class="line">centos7-node02</div><div class="line">centos7-node03</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">6.修改core-site.xml</span></div><div class="line">修改：/home/hdfs/etc/hadoop/core-site.xml</div><div class="line">hdfs:// 这一行改成第一台主机的IP，端口啥的都不变</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">7.修改hdfs-site.xml</span></div><div class="line">vi /home/hdfs/etc/hadoop/hdfs-site.xml </div><div class="line"></div><div class="line"> &lt;property&gt;</div><div class="line">         &lt;name&gt;dfs.name.dir&lt;/name&gt;</div><div class="line">         &lt;value&gt;/home/hdfs/data/name&lt;/value&gt;</div><div class="line"> &lt;/property&gt;</div><div class="line"> &lt;property&gt;</div><div class="line">        &lt;name&gt;dfs.data.dir&lt;/name&gt;</div><div class="line">        &lt;value&gt;/home/hdfs/data/data&lt;/value&gt;</div><div class="line">....</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">8.初始化hdfs：</span></div><div class="line">cd /home/hdfs/bin</div><div class="line">./hadoop namenode -format</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">9.启动hdfs</span></div><div class="line">cd ~/sbin</div><div class="line">./start-dfs.sh</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">10.hdfs目录</span></div><div class="line">hdfs@centos7-node03 ~ $ ls</div><div class="line">bin  data  etc  include  lib  libexec  logs  sbin  share  support  temp</div></pre></td></tr></table></figure>
+<h2 id="hbase安装"><a href="#hbase安装" class="headerlink" title="hbase安装"></a>hbase安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">1.解压hbase和jdk</span></div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">2.创建公匙</span></div><div class="line">  拷贝公匙到其他主机</div><div class="line"><span class="meta">#</span><span class="bash">3.创建logs目录</span></div><div class="line">只要logs目录，没有data目录，hbase的数据存到hdfs上去了</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">4.在hdfs第一台服务器上执行以下命令</span></div><div class="line">hdfs@centos7-node01 ~ $ cd /home/hdfs/bin</div><div class="line">hdfs@centos7-node01 ~/bin $ ./hadoop fs -mkdir /hbase</div><div class="line">hdfs@centos7-node01 ~/bin $ ./hadoop fs -chmod 777 /hbase</div><div class="line">hdfs@centos7-node01 ~/bin $ ./hadoop fs -ls /</div><div class="line">Found 1 items</div><div class="line">drwxrwxrwx   - hdfs supergroup          0 2018-02-01 00:14 /hbase</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">5.配置 hbase，vi /home/hbase/conf/hbase-site.xml</span></div><div class="line"></div><div class="line">&lt;value&gt;centos7-node01,centos7-node02,centos7-node03&lt;/value&gt;</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">6.配置regionservers文件</span></div><div class="line">hbase@centos7-node01 ~/bin $ vi ~/conf/regionservers </div><div class="line"></div><div class="line">centos7-node02</div><div class="line">centos7-node03</div><div class="line"></div><div class="line">find . -type f | xargs grep 'bst'</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">7.启动hbase</span></div><div class="line">cd bin</div><div class="line">./start-hbase.sh</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-03-02T10:08:04.133Z" itemprop="dateUpdated">2018-03-02 18:08:04</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/03/02/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/03/02/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/大数据/">大数据</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/03/02/1/&title=《Zookeeper、HDFS、HBase安装笔记》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/03/02/1/&title=《Zookeeper、HDFS、HBase安装笔记》 — Lvshen's Blog&source=zk安装经过这几天的学习，对大数据有了一定的了解。这次在我自己的本机上安装了zookeeper、HDFS、HBase集群。并把安装时的过程记录了下来。
+
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/03/02/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Zookeeper、HDFS、HBase安装笔记》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/03/02/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/03/02/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/08/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CSF云化框架服务治理平台搭建笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/01/25/从分布式协调到Zookeeper/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">从分布式协调到Zookeeper</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/03/02/1/&title=《Zookeeper、HDFS、HBase安装笔记》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/03/02/1/&title=《Zookeeper、HDFS、HBase安装笔记》 — Lvshen's Blog&source=zk安装经过这几天的学习，对大数据有了一定的了解。这次在我自己的本机上安装了zookeeper、HDFS、HBase集群。并把安装时的过程记录了下来。
+
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/03/02/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Zookeeper、HDFS、HBase安装笔记》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/03/02/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/03/02/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/03/02/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

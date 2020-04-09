@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>监控平台配置文件说明 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="监控,配置">
+    <meta name="description" content="配置文件位于项目的config文件夹下，本文对监控平台console的配置文件做一些讲解说明。 配置文件相关目录配置文件在项目中的位置分布如下：">
+<meta name="keywords" content="监控,配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="监控平台配置文件说明">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="配置文件位于项目的config文件夹下，本文对监控平台console的配置文件做一些讲解说明。 配置文件相关目录配置文件在项目中的位置分布如下：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3GAf.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3Kcd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3u1H.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3lnI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp33HP.png">
+<meta property="og:updated_time" content="2019-01-17T07:23:22.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="监控平台配置文件说明">
+<meta name="twitter:description" content="配置文件位于项目的config文件夹下，本文对监控平台console的配置文件做一些讲解说明。 配置文件相关目录配置文件在项目中的位置分布如下：">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kp3GAf.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">监控平台配置文件说明</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">监控平台配置文件说明</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-19T01:36:02.000Z" itemprop="datePublished" class="page-time">
+  2017-11-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#配置文件相关目录"><span class="post-toc-number">1.</span> <span class="post-toc-text">配置文件相关目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#database-xml"><span class="post-toc-number">2.</span> <span class="post-toc-text">database.xml</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#dbroute-properties"><span class="post-toc-number">3.</span> <span class="post-toc-text">dbroute.properties</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#serviceconfig-xml"><span class="post-toc-number">4.</span> <span class="post-toc-text">serviceconfig.xml</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#centerservice-xml"><span class="post-toc-number">5.</span> <span class="post-toc-text">centerservice.xml</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#relax-xml"><span class="post-toc-number">6.</span> <span class="post-toc-text">relax.xml</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#这几个配置文件之间的关系"><span class="post-toc-number">7.</span> <span class="post-toc-text">这几个配置文件之间的关系</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#我们为什么要定义这些？"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">我们为什么要定义这些？</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-监控平台配置文件说明"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">监控平台配置文件说明</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-19 09:36:02" datetime="2017-11-19T01:36:02.000Z"  itemprop="datePublished">2017-11-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>配置文件位于项目的config文件夹下，本文对监控平台console的配置文件做一些讲解说明。</p>
+<h4 id="配置文件相关目录"><a href="#配置文件相关目录" class="headerlink" title="配置文件相关目录"></a>配置文件相关目录</h4><p>配置文件在项目中的位置分布如下：</p>
+<a id="more"></a>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3GAf.png" alt="配置文件目录结构" title="">
+                </div>
+                <div class="image-caption">配置文件目录结构</div>
+            </figure>
+<p>本文主要对<code>database.xml 、 dbroute.properties 、 serviceconfig.xml 、 centerservice.xml 、 relax.xml</code>这几个文件进行说明。</p>
+<h4 id="database-xml"><a href="#database-xml" class="headerlink" title="database.xml"></a>database.xml</h4><p>用于连接数据库的配置文件，例1：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">database</span> <span class="attr">limit</span>=<span class="string">"100000"</span> <span class="attr">connector</span>=<span class="string">"com.ailk.database.dbconn.impl.RefineConnectionManager"</span> <span class="attr">trace</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">base</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"dbcp"</span></span></div><div class="line"><span class="tag">      <span class="attr">driver</span>=<span class="string">"oracle.jdbc.driver.OracleDriver"</span></span></div><div class="line"><span class="tag">      <span class="attr">url</span>=<span class="string">"jdbc:oracle:thin:@10.200.130.86:1521:centest"</span></span></div><div class="line"><span class="tag">      <span class="attr">user</span>=<span class="string">"UOP_PSWD"</span></span></div><div class="line"><span class="tag">      <span class="attr">passwd</span>=<span class="string">"UOP_PSWDtest"</span></span></div><div class="line"><span class="tag">      <span class="attr">initialSize</span>=<span class="string">"1"</span></span></div><div class="line"><span class="tag">      <span class="attr">maxActive</span>=<span class="string">"10"</span></span></div><div class="line"><span class="tag">      <span class="attr">maxIdle</span>=<span class="string">"5"</span></span></div><div class="line"><span class="tag">      <span class="attr">maxWait</span>=<span class="string">"1000"</span></span></div><div class="line"><span class="tag">      /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">database</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>配置文件说明：<code>connector</code>连接的<code>RefineConnectionManager</code>用于数据库精细化的配置，很多时候我们连接的数据库有很多，这时候我们就需要把这么多的数据库信息放到一些数据库表中，而不是在此配置文件里配置数据库。把数据库的相关连接信息放在数据库表中有利于集中管理。需要注意的是：如果<code>connector</code>连接了<code>RefineConnectionManager</code>,那么需要规定数据库名为<code>base</code>，<code>RefineConnectionManager</code>类规定的。数据库名<code>base</code>还有一个作用，DAO类如果定义了数据库名<code>base</code>，那么该类的sql语句就会在<code>base</code>数据库中起作用。</p>
+<p>当然，我们也可以不用配置<code>connector</code>，例2：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">database</span> <span class="attr">limit</span>=<span class="string">"100001"</span>&gt;</span></div><div class="line">  &lt;framework                                         &lt;!--数据库名framework--&gt;</div><div class="line">      type="dbcp"</div><div class="line">      driver="oracle.jdbc.driver.OracleDriver"</div><div class="line">      url="jdbc:oracle:thin:@10.13.3.10:1521:hnancrm"</div><div class="line">      user="UCR_CEN1"</div><div class="line">      passwd="123"</div><div class="line">      initialSize="1"</div><div class="line">      maxActive="10"</div><div class="line">      maxIdle="5"</div><div class="line">      maxWait="1000"</div><div class="line">      /&gt;	</div><div class="line">  &lt;cen1                                             &lt;!--数据库名cen1--&gt;</div><div class="line">      type="dbcp"</div><div class="line">      driver="oracle.jdbc.driver.OracleDriver"</div><div class="line">      url="jdbc:oracle:thin:@10.13.3.10:1521:hnancrm"</div><div class="line">      user="UCR_CEN1"</div><div class="line">      passwd="123"</div><div class="line">      initialSize="1"</div><div class="line">      maxActive="10"</div><div class="line">      maxIdle="5"</div><div class="line">      maxWait="1000"</div><div class="line">      /&gt;</div><div class="line"> <span class="tag">&lt;/<span class="name">database</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>是用于配置较少数据库的情况。</p>
+<h4 id="dbroute-properties"><a href="#dbroute-properties" class="headerlink" title="dbroute.properties"></a>dbroute.properties</h4><p>此文件用于<code>group</code>连接到指定的数据库，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">route.group.common=crm     #common组路由到crm</div><div class="line">route.group.console=crm    #console组路由到crm</div><div class="line">...</div><div class="line">#route crm</div><div class="line">route.crm.common=cen1      #指向crm路由的common再连接数据库cen1</div></pre></td></tr></table></figure>
+<h4 id="serviceconfig-xml"><a href="#serviceconfig-xml" class="headerlink" title="serviceconfig.xml"></a>serviceconfig.xml</h4><p>该文件位于config/service下，需要加载进<code>serviceconfig.xml</code>，该文件用于配置相关服务的信息，举例代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> ...</div><div class="line"><span class="tag">&lt;<span class="name">serviceconfig</span>&gt;</span></div><div class="line">  &amp;common;</div><div class="line">  &amp;console;</div><div class="line"><span class="tag">&lt;/<span class="name">serviceconfig</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>再来看看<code>console.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">subsys</span>=<span class="string">"console"</span>&gt;</span>                                             <span class="comment">&lt;!--子系统名--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">"DB_Query_getNotifysByIns"</span>                                 <span class="attr">path</span>=<span class="string">"com.ailk.hubble.service.db.AlarmRuleService@getNotifysByIns"</span> /&gt;</span>  <span class="comment">&lt;!--服务名&amp;服务路径--&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">"DB_Query_getNotifysByKpi"</span> <span class="attr">path</span>=<span class="string">"com.ailk.hubble.service.db.AlarmRuleService@getNotifysByKpi"</span> /&gt;</span></div><div class="line">  ...</div><div class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>代码说明：<code>subsys=&quot;console&quot;</code>表示子系统名称为<code>console</code>，相当于<code>group</code>组名。里面每个<code>entity</code>包含一个服务名和相应的路径，@后面代表一个方法，该方法需要在该路径的类下定义。前端web和后端app通过<strong>服务名</strong>相连接。</p>
+<h4 id="centerservice-xml"><a href="#centerservice-xml" class="headerlink" title="centerservice.xml"></a>centerservice.xml</h4><p>该文件位于config/service下，文件定义了中心<code>center</code>里面有哪些组<code>group</code>，例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">centerservice</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">center</span> <span class="attr">name</span>=<span class="string">"base"</span> <span class="attr">desc</span>=<span class="string">"基础中心"</span>&gt;</span>    <span class="comment">&lt;!--中心名--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">group</span> <span class="attr">name</span>=<span class="string">"common"</span> /&gt;</span>                <span class="comment">&lt;!--组名--&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">group</span> <span class="attr">name</span>=<span class="string">"console"</span> /&gt;</span>               <span class="comment">&lt;!--组名--&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">center</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">centerservice</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面代码说明：中心<code>center</code>名为：<code>base</code>，中心<code>base</code>下的组名为<code>common</code>，<code>console</code>。</p>
+<h4 id="relax-xml"><a href="#relax-xml" class="headerlink" title="relax.xml"></a>relax.xml</h4><p>该文件指明一个<code>center</code>下所包含的实例<code>instance</code>，例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">relax</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">center</span> <span class="attr">name</span>=<span class="string">"base"</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">instance</span> <span class="attr">name</span>=<span class="string">"console-node01-srv01"</span> <span class="attr">listen</span>=<span class="string">"127.0.0.1:18080"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">center</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">relax</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面代码说明：中心<code>center</code>下包含一个实例<code>console-node01-srv01</code>，该实例里面会绑定一个IP地址和一个端口<code>127.0.0.1:18080</code>。</p>
+<h4 id="这几个配置文件之间的关系"><a href="#这几个配置文件之间的关系" class="headerlink" title="这几个配置文件之间的关系"></a>这几个配置文件之间的关系</h4><p>上面的配置文件主要涉及到<code>中心center、实例instance、组group、服务名servicename</code>，那么它们之间有什么关系呢？</p>
+<p>来一张它们之间的关系图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3Kcd.png" alt="中心与组" title="">
+                </div>
+                <div class="image-caption">中心与组</div>
+            </figure>
+<h5 id="我们为什么要定义这些？"><a href="#我们为什么要定义这些？" class="headerlink" title="我们为什么要定义这些？"></a><strong>我们为什么要定义这些？</strong></h5><p>我们最终的目的是要调用服务，现在的架构是前端web和后端app分离。那么前端就要调用后端的服务。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3u1H.png" alt="前后端服务调用" title="">
+                </div>
+                <div class="image-caption">前后端服务调用</div>
+            </figure>
+<p>一般来说，我们的后端服务器会部署很多<code>instance</code>实例，而每个实例又有自己的归属<code>center</code>，如果我们们要调用服务，那么该调用哪个<code>instance</code>上的服务？我们来梳理下这几个配置文件的调用流程：</p>
+<ol>
+<li>调用目标服务，加载配置文件<code>servicesonfig.xml</code>，获取该文件的服务<code>name</code>和<code>subsys=&quot;console&quot;</code>，即<code>group</code>为<code>console</code>。</li>
+<li>加载配置文件<code>centerservice.xml</code>，通过<code>group</code>获取<code>center=&quot;base&quot;</code>。</li>
+<li>加载配置文件<code>relax.xml</code>，通过<code>center</code>获取<code>instance</code>，这样就知道调用哪些<code>instance</code>啦。</li>
+</ol>
+<p>配图以作说明：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3lnI.png" alt="配置文件关系" title="">
+                </div>
+                <div class="image-caption">配置文件关系</div>
+            </figure>
+<p>除了上面3个配置文件，还有<code>database.xml</code>，<code>dbroute.properties</code>。他们存在如下关系。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp33HP.png" alt="数据库配置文件" title="">
+                </div>
+                <div class="image-caption">数据库配置文件</div>
+            </figure>
+<p>如果我们的数据足够多，会涉及到分库分表。比如存在<code>cen1、cen2....</code>，我们有一个<code>common</code>组，那么<code>dbroute.properties</code>会将<code>common</code>组指向一个库（如：cen1）。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:23:22.060Z" itemprop="dateUpdated">2019-01-17 15:23:22</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/11/19/监控平台配置文件说明/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/监控/">监控</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/配置/">配置</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/&title=《监控平台配置文件说明》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/&title=《监控平台配置文件说明》 — Lvshen's Blog&source=配置文件位于项目的config文件夹下，本文对监控平台console的配置文件做一些讲解说明。
+配置文件相关目录配置文件在项目中的位置分布如下：" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《监控平台配置文件说明》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/01/08/Hexo博客部署到Linux服务器上/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hexo博客部署到Linux服务器上</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/11/07/红黑树的变色与旋转/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">红黑树的变色与旋转</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/&title=《监控平台配置文件说明》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/&title=《监控平台配置文件说明》 — Lvshen's Blog&source=配置文件位于项目的config文件夹下，本文对监控平台console的配置文件做一些讲解说明。
+配置文件相关目录配置文件在项目中的位置分布如下：" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《监控平台配置文件说明》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/11/19/监控平台配置文件说明/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

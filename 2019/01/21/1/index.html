@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>ELK之grok解析日志实战 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="ELK,grok,logstash">
+    <meta name="description" content="准备说明根据业务情况，会出现ELK解析多种格式的日志需求，这时需要在logstash的配置文件中配置grok规则解析日志文件，grok解析建议使用在线工具测试。 在线Grok解析工具地址：Grok Debugger 在线测试样例：">
+<meta name="keywords" content="ELK,grok,logstash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ELK之grok解析日志实战">
+<meta property="og:url" content="http://lvshen9.gitee.io/2019/01/21/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="准备说明根据业务情况，会出现ELK解析多种格式的日志需求，这时需要在logstash的配置文件中配置grok规则解析日志文件，grok解析建议使用在线工具测试。 在线Grok解析工具地址：Grok Debugger 在线测试样例：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/21/kipFBj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/21/kiCum4.png">
+<meta property="og:updated_time" content="2019-04-15T13:14:54.960Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ELK之grok解析日志实战">
+<meta name="twitter:description" content="准备说明根据业务情况，会出现ELK解析多种格式的日志需求，这时需要在logstash的配置文件中配置grok规则解析日志文件，grok解析建议使用在线工具测试。 在线Grok解析工具地址：Grok Debugger 在线测试样例：">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/21/kipFBj.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ELK之grok解析日志实战</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ELK之grok解析日志实战</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-21T08:34:54.000Z" itemprop="datePublished" class="page-time">
+  2019-01-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工作/">工作</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#准备说明"><span class="post-toc-number">1.</span> <span class="post-toc-text">准备说明</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#异常日志"><span class="post-toc-number">2.</span> <span class="post-toc-text">异常日志</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#grok解析"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">grok解析</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#解析结果"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">解析结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#业务报文日志"><span class="post-toc-number">3.</span> <span class="post-toc-text">业务报文日志</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#grok解析-1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">grok解析</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#解析结果-1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">解析结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#nginx的access-log一条请求就是一条交易量"><span class="post-toc-number">4.</span> <span class="post-toc-text">nginx的access.log一条请求就是一条交易量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#grok解析-2"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">grok解析</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#解析结果-2"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">解析结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#nginx-error日志解析"><span class="post-toc-number">5.</span> <span class="post-toc-text">nginx error日志解析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#grok解析-3"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">grok解析</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#解析结果-3"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">解析结果</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ELK之grok解析日志实战</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-21 16:34:54" datetime="2019-01-21T08:34:54.000Z"  itemprop="datePublished">2019-01-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工作/">工作</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="准备说明"><a href="#准备说明" class="headerlink" title="准备说明"></a>准备说明</h4><p>根据业务情况，会出现ELK解析多种格式的日志需求，这时需要在logstash的配置文件中配置grok规则解析日志文件，grok解析建议使用在线工具测试。</p>
+<p>在线Grok解析工具地址：<a href="https://grokdebug.herokuapp.com/?#" target="_blank" rel="external">Grok Debugger</a></p>
+<p>在线测试样例：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/21/kipFBj.png" alt="Grok Debugger" title="">
+                </div>
+                <div class="image-caption">Grok Debugger</div>
+            </figure>
+<a id="more"></a>
+<p>Grok的语句需要写在ELK的logstash中的配置文件中，如下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/21/kiCum4.png" alt="Logstash文件配置" title="">
+                </div>
+                <div class="image-caption">Logstash文件配置</div>
+            </figure>
+<h4 id="异常日志"><a href="#异常日志" class="headerlink" title="异常日志"></a>异常日志</h4><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="number">2018</span>-<span class="number">11</span>-<span class="number">09</span> <span class="number">23</span>:<span class="number">01</span>:<span class="number">18</span><span class="variable">.766</span>  [ERROR]  com<span class="variable">.ailk</span><span class="variable">.rpc</span><span class="variable">.server</span><span class="variable">.handler</span><span class="variable">.ServerHandler</span> - 调用com<span class="variable">.ailk</span><span class="variable">.search</span><span class="variable">.server</span><span class="variable">.SearchServer</span><span class="variable">.search</span>时发生错误！</div><div class="line">java<span class="variable">.lang</span><span class="variable">.reflect</span><span class="variable">.InvocationTargetException</span></div><div class="line">	at sun<span class="variable">.reflect</span><span class="variable">.GeneratedMethodAccessor6</span><span class="variable">.invoke</span>(Unknown Source)</div><div class="line">	at sun<span class="variable">.reflect</span><span class="variable">.DelegatingMethodAccessorImpl</span><span class="variable">.invoke</span>(DelegatingMethodAccessorImpl<span class="variable">.java</span>:<span class="number">25</span>)</div><div class="line">	at java<span class="variable">.lang</span><span class="variable">.reflect</span><span class="variable">.Method</span><span class="variable">.invoke</span>(Method<span class="variable">.java</span>:<span class="number">597</span>)</div></pre></td></tr></table></figure>
+<h5 id="grok解析"><a href="#grok解析" class="headerlink" title="grok解析"></a>grok解析</h5><blockquote>
+<p>%{TIMESTAMP_ISO8601:log_time}  [%{DATA:log_level}] %{GREEDYDATA:message}</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">filebeat配置</div><div class="line">filebeat:</div><div class="line">   prospectors:</div><div class="line">     -</div><div class="line">       paths:</div><div class="line">         - /home/elk/logs/*.log</div><div class="line">       type: log</div><div class="line">       multiline.pattern: &apos;^\[&apos;</div><div class="line">       multiline.negate: true</div><div class="line">       multiline.match: after</div></pre></td></tr></table></figure>
+<h5 id="解析结果"><a href="#解析结果" class="headerlink" title="解析结果"></a>解析结果</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">"log_time"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"2018-11-09 23:01:18.766"</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"YEAR"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"2018"</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"MONTHNUM"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"11"</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"MONTHDAY"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"09"</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"HOUR"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"23"</span>,</div><div class="line">    <span class="literal">null</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"MINUTE"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"01"</span>,</div><div class="line">    <span class="literal">null</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"SECOND"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"18.766"</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"ISO8601_TIMEZONE"</span>: [</div><div class="line">  [</div><div class="line">    <span class="literal">null</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"log_level"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">"ERROR"</span></div><div class="line">  ]</div><div class="line">],</div><div class="line"><span class="attr">"message"</span>: [</div><div class="line">  [</div><div class="line">    <span class="string">" com.ailk.rpc.server.handler.ServerHandler - 调用com.ailk.search.server.SearchServer.search时发生错误！"</span></div><div class="line">  ]</div><div class="line">]</div></pre></td></tr></table></figure>
+<h4 id="业务报文日志"><a href="#业务报文日志" class="headerlink" title="业务报文日志"></a>业务报文日志</h4><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;operation_in&gt;请求报文：service_name接口名，sysfunc_id功能号，operator_id 操作员id，organ_id 机构号，request_seq 请求流水</div><div class="line"></div><div class="line"><span class="number">2018</span>-<span class="number">11</span>-<span class="number">12</span> <span class="number">15</span>:<span class="number">03</span>:<span class="number">41</span><span class="variable">.388</span> <span class="number">639211542011357848</span>  [DEBUG]  com<span class="variable">.base</span><span class="variable">.core</span><span class="variable">.aop</span><span class="variable">.http</span><span class="variable">.HttpClient</span><span class="variable">.send</span>(HttpClient<span class="variable">.java</span>:<span class="number">128</span>) - </div><div class="line">reqid:b7fb8f90ddeb11e83d622c02b34132f7;AOP 发送信息: &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"GBK"</span>?&gt;&lt;operation_in&lt;service_name&gt;BSM_SaleSystemLogin&lt;/service_name&gt;     </div><div class="line">&lt;sysfunc_id&gt;<span class="number">91008027</span>&lt;/sysfunc_id&gt;&lt;request_type&gt;<span class="number">1002</span>&lt;/request_type&gt;&lt;verify_code&gt;<span class="number">304147201506190000000040</span>&lt;/verify_code&gt;&lt;operator_id&gt;<span class="number">9991445</span>&lt;/operator_id&gt;              </div><div class="line"> &lt;organ_id&gt;<span class="number">9999997</span>&lt;/organ_id&gt;&lt;request_time&gt;<span class="number">20181112150341</span>&lt;/request_time&gt;&lt;request_seq&gt;<span class="number">154200622111</span>&lt;/request_seq&gt;&lt;request_source&gt;<span class="number">304147</span>&lt;/request_source&gt;&lt;request_target&gt;&lt;/request_target&gt;&lt;msg_version&gt;<span class="number">0100</span>&lt;/msg_version&gt;&lt;cont_version&gt;<span class="number">0100</span>&lt;/cont_version&gt;&lt;access_token&gt;&lt;/access_token&gt;&lt;content&gt;&lt;request&gt;&lt;msisdn&gt;<span class="number">13666945211</span>&lt;/msisdn&gt;&lt;password&gt;<span class="number">871221</span>&lt;/password&gt;&lt;portal_id&gt;<span class="number">101704</span>&lt;/portal_id&gt;&lt;login_type&gt;<span class="number">34</span>&lt;/login_type&gt;&lt;machine_mac&gt;<span class="number">0000</span>&lt;/machine_mac&gt;&lt;machine_ip&gt;<span class="number">120</span><span class="variable">.33</span><span class="variable">.230</span><span class="variable">.198</span>, <span class="number">10</span><span class="variable">.46</span><span class="variable">.161</span><span class="variable">.182</span>, &lt;/machine_ip&gt;&lt;machine_cpu&gt;&lt;/machine_cpu&gt;&lt;machine_system_ver&gt;<span class="number">12</span><span class="variable">.0</span><span class="variable">.1</span>&lt;/machine_system_ver&gt;&lt;machine_totalmemory&gt;&lt;/machine_totalmemory&gt;&lt;machine_usablememory&gt;&lt;/machine_usablememory&gt;&lt;machine_ie_ver&gt;&lt;/machine_ie_ver&gt;&lt;/request&gt;&lt;/content&gt;&lt;/operation_in&gt;</div><div class="line">&lt;operation_out&gt;</div><div class="line">&lt;operation_out&gt;&lt;service_name&gt;BSM_SaleSystemLogin&lt;/service_name&gt;&lt;request_type&gt;<span class="number">1002</span>&lt;/request_type&gt;&lt;sysfunc_id&gt;<span class="number">91008027</span>&lt;/sysfunc_id&gt;</div><div class="line">&lt;request_seq&gt;<span class="number">154200622111</span>&lt;/request_seq&gt;&lt;response_time&gt;<span class="number">20181112150342</span>&lt;/response_time&gt;&lt;response_seq&gt;<span class="number">471860579309</span>&lt;/response_seq&gt;&lt;request_source&gt;<span class="number">304147</span>&lt;/request_source&gt;&lt;response&gt;&lt;resp_type&gt;<span class="number">0</span>&lt;/resp_type&gt;&lt;resp_code&gt;<span class="number">0000</span>&lt;/resp_code&gt;&lt;resp_desc/&gt;&lt;/response&gt;&lt;content&gt;&lt;response&gt;&lt;base_info&gt;&lt;verifycode&gt;<span class="number">173616671275425657328820</span>&lt;/verifycode&gt;&lt;operator_id&gt;<span class="number">132394</span>&lt;/operator_id&gt;&lt;row&gt;&lt;msisdn&gt;<span class="number">13666945211</span>&lt;/msisdn&gt;&lt;role_id&gt;<span class="number">6100004</span>&lt;/role_id&gt;&lt;owning_mode&gt;<span class="number">1</span>&lt;/owning_mode&gt;&lt;status&gt;<span class="number">1</span>&lt;/status&gt;&lt;inure_time&gt;<span class="number">20170623145448</span>&lt;/inure_time&gt;&lt;expire_time&gt;<span class="number">30000101000000</span>&lt;/expire_time&gt;&lt;request_source&gt;<span class="number">0</span>&lt;/request_source&gt;&lt;modify_time&gt;<span class="number">20170623145448</span>&lt;/modify_time&gt;&lt;modify_operator_id&gt;<span class="number">4020205</span>&lt;/modify_operator_id&gt;&lt;modify_content&gt;创建手机号码与角色对应关系</div></pre></td></tr></table></figure>
+<h5 id="grok解析-1"><a href="#grok解析-1" class="headerlink" title="grok解析"></a>grok解析</h5><blockquote>
+<p>%{TIMESTAMP_ISO8601:log_time} %{DATA:serial_number} [%{DATA:log_level}] %{GREEDYDATA:message}<service_name>%{DATA:service_name}</service_name> <sysfunc_id>%{DATA:sysfunc_id}</sysfunc_id><request_type>%{DATA:other}<organ_id>%{DATA:organ_id}</organ_id><request_time>%{DATA:request_time}</request_time><request_seq>%{DATA:request_seq}</request_seq><request_source>%{DATA:other}<operation_out></operation_out></request_source></request_type></p>
+</blockquote>
+<h5 id="解析结果-1"><a href="#解析结果-1" class="headerlink" title="解析结果"></a>解析结果</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"log_time"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"2018-11-12 15:03:41.388"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"YEAR"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"2018"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"MONTHNUM"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"11"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"MONTHDAY"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"12"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"HOUR"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"15"</span>,</div><div class="line">      <span class="literal">null</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"MINUTE"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"03"</span>,</div><div class="line">      <span class="literal">null</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"SECOND"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"41.388"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"ISO8601_TIMEZONE"</span>: [</div><div class="line">    [</div><div class="line">      <span class="literal">null</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"serial_number"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"639211542011357848 "</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"log_level"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"DEBUG"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"message"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">" com.base.core.aop.http.HttpClient.send(HttpClient.java:128) - reqid:b7fb8f90ddeb11e83d622c02b34132f7;AOP 发送信息: &lt;?xml version="</span><span class="number">1.0</span><span class="string">" encoding="</span>GBK<span class="string">"?&gt;   &lt;operation_in"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"service_name"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"BSM_SaleSystemLogin"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"sysfunc_id"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"91008027"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"other"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"1002&lt;/request_type&gt;&lt;verify_code&gt;304147201506190000000040&lt;/verify_code&gt;&lt;operator_id&gt;9991445"</span>,</div><div class="line">      <span class="string">"304147&lt;/request_source&gt;&lt;request_target&gt;&lt;/request_target&gt;&lt;msg_version&gt;0100&lt;/msg_version&gt;&lt;cont_version&gt;0100&lt;/cont_version&gt;&lt;access_token&gt;&lt;/access_token&gt;&lt;content&gt;&lt;request&gt;&lt;msisdn&gt;13666945211&lt;/msisdn&gt;&lt;password&gt;871221&lt;/password&gt;&lt;portal_id&gt;101704&lt;/portal_id&gt;&lt;login_type&gt;34&lt;/login_type&gt;&lt;machine_mac&gt;0000&lt;/machine_mac&gt;&lt;machine_ip&gt;120.33.230.198, 10.46.161.182, &lt;/machine_ip&gt;&lt;machine_cpu&gt;&lt;/machine_cpu&gt;&lt;machine_system_ver&gt;12.0.1&lt;/machine_system_ver&gt;&lt;machine_totalmemory&gt;&lt;/machine_totalmemory&gt;&lt;machine_usablememory&gt;&lt;/machine_usablememory&gt;&lt;machine_ie_ver&gt;&lt;/machine_ie_ver&gt;&lt;/request&gt;&lt;/content&gt;&lt;/operation_in&gt;"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"organ_id"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"9999997"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"request_time"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"20181112150341"</span></div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  <span class="attr">"request_seq"</span>: [</div><div class="line">    [</div><div class="line">      <span class="string">"154200622111"</span></div><div class="line">    ]</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="nginx的access-log一条请求就是一条交易量"><a href="#nginx的access-log一条请求就是一条交易量" class="headerlink" title="nginx的access.log一条请求就是一条交易量"></a>nginx的access.log一条请求就是一条交易量</h4><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">10</span><span class="variable">.48</span><span class="variable">.224</span><span class="variable">.3</span> - - [<span class="number">12</span>/Nov/<span class="number">2018</span>:<span class="number">14</span>:<span class="number">26</span>:<span class="number">50</span> +<span class="number">0800</span>] <span class="string">"POST /o2o_usercenter_svc/remote/bsspInvokeService?req_sid=9c5d5600e64311e808a886c802c592cb&amp;syslogid=null HTTP/1.1"</span> <span class="number">200</span> <span class="number">234</span> <span class="string">"-"</span> <span class="string">"Java/1.7.0_21"</span></div></pre></td></tr></table></figure>
+<h5 id="grok解析-2"><a href="#grok解析-2" class="headerlink" title="grok解析"></a>grok解析</h5><blockquote>
+<p>%{IPORHOST:ip} - %{DATA:data} [%{HTTPDATE:timestamp}] \”%{WORD:method} %{DATA:nginx_access_url} HTTP/%{NUMBER:ngnix_access_http_version}\” %{NUMBER:nginx_access_response_code} %{NUMBER:nginx_access_body_sent_bytes} \”%{DATA:nginx_access_referrer]}\” \”%{DATA:nginx_access_agent}\”</p>
+</blockquote>
+<h5 id="解析结果-2"><a href="#解析结果-2" class="headerlink" title="解析结果"></a>解析结果</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &#123;</div><div class="line">  &quot;ip&quot;: [</div><div class="line">    [</div><div class="line">      &quot;10.48.224.3&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;HOSTNAME&quot;: [</div><div class="line">    [</div><div class="line">      &quot;10.48.224.3&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IP&quot;: [</div><div class="line">    [</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IPV6&quot;: [</div><div class="line">    [</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IPV4&quot;: [</div><div class="line">    [</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;data&quot;: [</div><div class="line">    [</div><div class="line">      &quot;-&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;timestamp&quot;: [</div><div class="line">    [</div><div class="line">      &quot;12/Nov/2018:14:26:50 +0800&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;MONTHDAY&quot;: [</div><div class="line">    [</div><div class="line">      &quot;12&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;MONTH&quot;: [</div><div class="line">    [</div><div class="line">      &quot;Nov&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;YEAR&quot;: [</div><div class="line">    [</div><div class="line">      &quot;2018&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;TIME&quot;: [</div><div class="line">    [</div><div class="line">      &quot;14:26:50&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;HOUR&quot;: [</div><div class="line">    [</div><div class="line">      &quot;14&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;MINUTE&quot;: [</div><div class="line">    [</div><div class="line">      &quot;26&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;SECOND&quot;: [</div><div class="line">    [</div><div class="line">      &quot;50&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;INT&quot;: [</div><div class="line">    [</div><div class="line">      &quot;+0800&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;method&quot;: [</div><div class="line">    [</div><div class="line">      &quot;POST&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;nginx_access_url&quot;: [</div><div class="line">    [</div><div class="line">      &quot;/o2o_usercenter_svc/remote/bsspInvokeService?req_sid=9c5d5600e64311e808a886c802c592cb&amp;syslogid=null&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;ngnix_access_http_version&quot;: [</div><div class="line">    [</div><div class="line">      &quot;1.1&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;BASE10NUM&quot;: [</div><div class="line">    [</div><div class="line">      &quot;1.1&quot;,</div><div class="line">      &quot;200&quot;,</div><div class="line">      &quot;234&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;nginx_access_response_code&quot;: [</div><div class="line">    [</div><div class="line">      &quot;200&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;nginx_access_body_sent_bytes&quot;: [</div><div class="line">    [</div><div class="line">      &quot;234&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;nginx_access_referrer]&quot;: [</div><div class="line">    [</div><div class="line">      &quot;-&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;nginx_access_agent&quot;: [</div><div class="line">    [</div><div class="line">      &quot;Java/1.7.0_21&quot;</div><div class="line">    ]</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="nginx-error日志解析"><a href="#nginx-error日志解析" class="headerlink" title="nginx error日志解析"></a>nginx error日志解析</h4><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">2018</span>/<span class="number">11</span>/<span class="number">01</span> <span class="number">23</span>:<span class="number">30</span>:<span class="number">39</span> [error] <span class="number">15105</span>#<span class="number">0</span>: *<span class="number">397937824</span> connect() failed (<span class="number">111</span>: Connection refused) <span class="keyword">while</span> connecting to upstream, client: <span class="number">10</span><span class="variable">.48</span><span class="variable">.224</span><span class="variable">.3</span>, server: <span class="number">127</span><span class="variable">.0</span><span class="variable">.0</span><span class="variable">.1</span>, request: <span class="string">"POST /o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null HTTP/1.1"</span>, upstream: <span class="string">"http://127.0.0.1:8082/o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null"</span>, host: <span class="string">"10.46.148.155:9090"</span></div></pre></td></tr></table></figure>
+<h5 id="grok解析-3"><a href="#grok解析-3" class="headerlink" title="grok解析"></a>grok解析</h5><blockquote>
+<p>(?<timestamp>%{YEAR}[./-]%{MONTHNUM}[./-]%{MONTHDAY}[- ]%{TIME}) [%{LOGLEVEL:severity}] %{POSINT:pid}#%{NUMBER}: %{GREEDYDATA:errormessage}(?:, client: (?<remote_addr>%{IP}|%{HOSTNAME}))(?:, server: %{IPORHOST:server}?)(?:, request: %{QS:request})?(?:, upstream: (?<upstream>\”%{URI}\”|%{QS}))?(?:, host: %{QS:request_host})?(?:, referrer: \”%{URI:referrer}\”)? </upstream></remote_addr></timestamp></p>
+</blockquote>
+<h5 id="解析结果-3"><a href="#解析结果-3" class="headerlink" title="解析结果"></a>解析结果</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;timestamp&quot;: [</div><div class="line">    [</div><div class="line">      &quot;2018/11/01 23:30:39&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;YEAR&quot;: [</div><div class="line">    [</div><div class="line">      &quot;2018&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;MONTHNUM&quot;: [</div><div class="line">    [</div><div class="line">      &quot;11&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;MONTHDAY&quot;: [</div><div class="line">    [</div><div class="line">      &quot;01&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;TIME&quot;: [</div><div class="line">    [</div><div class="line">      &quot;23:30:39&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;HOUR&quot;: [</div><div class="line">    [</div><div class="line">      &quot;23&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;MINUTE&quot;: [</div><div class="line">    [</div><div class="line">      &quot;30&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;SECOND&quot;: [</div><div class="line">    [</div><div class="line">      &quot;39&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;severity&quot;: [</div><div class="line">    [</div><div class="line">      &quot;error&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;pid&quot;: [</div><div class="line">    [</div><div class="line">      &quot;15105&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;NUMBER&quot;: [</div><div class="line">    [</div><div class="line">      &quot;0&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;BASE10NUM&quot;: [</div><div class="line">    [</div><div class="line">      &quot;0&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;errormessage&quot;: [</div><div class="line">    [</div><div class="line">      &quot;*397937824 connect() failed (111: Connection refused) while connecting to upstream&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;remote_addr&quot;: [</div><div class="line">    [</div><div class="line">      &quot;10.48.224.3&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IP&quot;: [</div><div class="line">    [</div><div class="line">      &quot;10.48.224.3&quot;,</div><div class="line">      null,</div><div class="line">      null,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IPV6&quot;: [</div><div class="line">    [</div><div class="line">      null,</div><div class="line">      null,</div><div class="line">      null,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IPV4&quot;: [</div><div class="line">    [</div><div class="line">      &quot;10.48.224.3&quot;,</div><div class="line">      null,</div><div class="line">      null,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;HOSTNAME&quot;: [</div><div class="line">    [</div><div class="line">      null,</div><div class="line">      &quot;127.0.0.1&quot;,</div><div class="line">      &quot;127.0.0.1&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;server&quot;: [</div><div class="line">    [</div><div class="line">      &quot;127.0.0.1&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;request&quot;: [</div><div class="line">    [</div><div class="line">      &quot;&quot;POST /o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null HTTP/1.1&quot;&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;QUOTEDSTRING&quot;: [</div><div class="line">    [</div><div class="line">      &quot;&quot;POST /o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null HTTP/1.1&quot;&quot;,</div><div class="line">      null,</div><div class="line">      &quot;&quot;10.46.148.155:9090&quot;&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;upstream&quot;: [</div><div class="line">    [</div><div class="line">      &quot;&quot;http://127.0.0.1:8082/o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null&quot;&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;URI&quot;: [</div><div class="line">    [</div><div class="line">      &quot;http://127.0.0.1:8082/o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;URIPROTO&quot;: [</div><div class="line">    [</div><div class="line">      &quot;http&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;USER&quot;: [</div><div class="line">    [</div><div class="line">      null,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;USERNAME&quot;: [</div><div class="line">    [</div><div class="line">      null,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;URIHOST&quot;: [</div><div class="line">    [</div><div class="line">      &quot;127.0.0.1:8082&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;IPORHOST&quot;: [</div><div class="line">    [</div><div class="line">      &quot;127.0.0.1&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;port&quot;: [</div><div class="line">    [</div><div class="line">      &quot;8082&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;URIPATHPARAM&quot;: [</div><div class="line">    [</div><div class="line">      &quot;/o2o_usercenter_svc/remote/sysUserInfoService?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;URIPATH&quot;: [</div><div class="line">    [</div><div class="line">      &quot;/o2o_usercenter_svc/remote/sysUserInfoService&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;URIPARAM&quot;: [</div><div class="line">    [</div><div class="line">      &quot;?req_sid=1612e430ddeb11e83d622c02b34132f7&amp;syslogid=null&quot;,</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;QS&quot;: [</div><div class="line">    [</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;fire_wall_ip&quot;: [</div><div class="line">    [</div><div class="line">      &quot;&quot;10.46.148.155:9090&quot;&quot;</div><div class="line">    ]</div><div class="line">  ],</div><div class="line">  &quot;referrer&quot;: [</div><div class="line">    [</div><div class="line">      null</div><div class="line">    ]</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-04-15T13:14:54.960Z" itemprop="dateUpdated">2019-04-15 21:14:54</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/01/21/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2019/01/21/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grok/">grok</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logstash/">logstash</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/01/21/1/&title=《ELK之grok解析日志实战》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/01/21/1/&title=《ELK之grok解析日志实战》 — Lvshen's Blog&source=准备说明根据业务情况，会出现ELK解析多种格式的日志需求，这时需要在logstash的配置文件中配置grok规则解析日志文件，grok解析建议使用在线工具..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/01/21/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ELK之grok解析日志实战》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/01/21/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/01/21/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/11/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">HashMap源码学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/11/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">我在github上面的一个项目————用Python爬取12306火车票</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/01/21/1/&title=《ELK之grok解析日志实战》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/01/21/1/&title=《ELK之grok解析日志实战》 — Lvshen's Blog&source=准备说明根据业务情况，会出现ELK解析多种格式的日志需求，这时需要在logstash的配置文件中配置grok规则解析日志文件，grok解析建议使用在线工具..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/01/21/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ELK之grok解析日志实战》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/01/21/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/01/21/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2019/01/21/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

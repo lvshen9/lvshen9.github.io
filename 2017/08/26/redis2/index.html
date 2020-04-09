@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Redis面试总结 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="redis,数据库">
+    <meta name="description" content="本文转载至:http://www.cnblogs.com/jiahaoJAVA/p/6244278.html  （1）什么是redis? Redis 是一个基于内存的高性能key-value数据库。 (有空再补充，有理解错误或不足欢迎指正) （2）Reids的特点Redis本质上是一个Key-Value类型的内存数据库，很像memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操">
+<meta name="keywords" content="redis,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis面试总结">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/08/26/redis2/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="本文转载至:http://www.cnblogs.com/jiahaoJAVA/p/6244278.html  （1）什么是redis? Redis 是一个基于内存的高性能key-value数据库。 (有空再补充，有理解错误或不足欢迎指正) （2）Reids的特点Redis本质上是一个Key-Value类型的内存数据库，很像memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-05T01:58:13.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis面试总结">
+<meta name="twitter:description" content="本文转载至:http://www.cnblogs.com/jiahaoJAVA/p/6244278.html  （1）什么是redis? Redis 是一个基于内存的高性能key-value数据库。 (有空再补充，有理解错误或不足欢迎指正) （2）Reids的特点Redis本质上是一个Key-Value类型的内存数据库，很像memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Redis面试总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Redis面试总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-26T11:50:16.000Z" itemprop="datePublished" class="page-time">
+  2017-08-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（1）什么是redis"><span class="post-toc-number">1.</span> <span class="post-toc-text">（1）什么是redis?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（2）Reids的特点"><span class="post-toc-number">2.</span> <span class="post-toc-text">（2）Reids的特点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（3）Redis支持的数据类型"><span class="post-toc-number">3.</span> <span class="post-toc-text">（3）Redis支持的数据类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（4）为什么redis需要把所有数据放到内存中？"><span class="post-toc-number">4.</span> <span class="post-toc-text">（4）为什么redis需要把所有数据放到内存中？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（5）Redis是单进程的"><span class="post-toc-number">5.</span> <span class="post-toc-text">（5）Redis是单进程的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（6）虚拟内存"><span class="post-toc-number">6.</span> <span class="post-toc-text">（6）虚拟内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（7）分布式"><span class="post-toc-number">7.</span> <span class="post-toc-text">（7）分布式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（8）读写分离模型"><span class="post-toc-number">8.</span> <span class="post-toc-text">（8）读写分离模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（9）数据分片模型"><span class="post-toc-number">9.</span> <span class="post-toc-text">（9）数据分片模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#（10）Redis的回收策略"><span class="post-toc-number">10.</span> <span class="post-toc-text">（10）Redis的回收策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-使用Redis有哪些好处？"><span class="post-toc-number">10.1.</span> <span class="post-toc-text">1. 使用Redis有哪些好处？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-redis相比memcached有哪些优势？"><span class="post-toc-number">10.2.</span> <span class="post-toc-text">2. redis相比memcached有哪些优势？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-redis常见性能问题和解决方案"><span class="post-toc-number">10.3.</span> <span class="post-toc-text">3. redis常见性能问题和解决方案</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据"><span class="post-toc-number">10.4.</span> <span class="post-toc-text">4. MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-Memcache与Redis的区别都有哪些？"><span class="post-toc-number">10.5.</span> <span class="post-toc-text">5. Memcache与Redis的区别都有哪些？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-Redis-常见的性能问题都有哪些？如何解决？"><span class="post-toc-number">10.6.</span> <span class="post-toc-text">6. Redis 常见的性能问题都有哪些？如何解决？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-redis-最适合的场景"><span class="post-toc-number">10.7.</span> <span class="post-toc-text">7, redis 最适合的场景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（1）、会话缓存（Session-Cache）"><span class="post-toc-number">10.7.1.</span> <span class="post-toc-text">（1）、会话缓存（Session Cache）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（2）、全页缓存（FPC）"><span class="post-toc-number">10.7.2.</span> <span class="post-toc-text">（2）、全页缓存（FPC）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（3）、队列"><span class="post-toc-number">10.7.3.</span> <span class="post-toc-text">（3）、队列</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（4）、排行榜-计数器"><span class="post-toc-number">10.7.4.</span> <span class="post-toc-text">（4）、排行榜/计数器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（5）、发布-订阅"><span class="post-toc-number">10.7.5.</span> <span class="post-toc-text">（5）、发布/订阅</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-redis2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Redis面试总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-26 19:50:16" datetime="2017-08-26T11:50:16.000Z"  itemprop="datePublished">2017-08-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong>本文转载至:<a href="http://www.cnblogs.com/jiahaoJAVA/p/6244278.html" target="_blank" rel="external">http://www.cnblogs.com/jiahaoJAVA/p/6244278.html</a></strong></p>
+</blockquote>
+<h2 id="（1）什么是redis"><a href="#（1）什么是redis" class="headerlink" title="（1）什么是redis?"></a>（1）什么是redis?</h2><p> <a href="http://lib.csdn.net/base/redis" target="_blank" rel="external">Redis</a> 是一个基于内存的高性能key-value<a href="http://lib.csdn.net/base/mysql" target="_blank" rel="external">数据库</a>。 (有空再补充，有理解错误或不足欢迎指正)</p>
+<h2 id="（2）Reids的特点"><a href="#（2）Reids的特点" class="headerlink" title="（2）Reids的特点"></a>（2）Reids的特点</h2><p>Redis本质上是一个Key-Value类型的内存数据库，很像memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据flush到硬盘上进行保存。因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过  10万次读写操作，是已知性能最快的Key-Value DB。</p>
+<a id="more"></a>
+<p>Redis的出色之处不仅仅是性能，Redis最大的魅力是支持保存多种<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">数据结构</a>，此外单个value的最大限制是1GB，不像  memcached只能保存1MB的数据，因此Redis可以用来实现很多有用的功能，比方说用他的List来做FIFO双向链表，实现一个轻量级的高性  能消息队列服务，用他的Set可以做高性能的tag系统等等。另外Redis也可以对存入的Key-Value设置expire时间，因此也可以被当作一 个功能加强版的memcached来用。<br>Redis的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因此Redis适合的场景主要局限在较小数据量的高性能操作和运算上。</p>
+<h2 id="（3）Redis支持的数据类型"><a href="#（3）Redis支持的数据类型" class="headerlink" title="（3）Redis支持的数据类型"></a>（3）Redis支持的数据类型</h2><p>Redis通过Key-Value的单值不同类型来区分, 以下是支持的类型:<br>Strings<br> Lists<br> Sets 求交集、并集<br>Sorted Set<br> hashes</p>
+<h2 id="（4）为什么redis需要把所有数据放到内存中？"><a href="#（4）为什么redis需要把所有数据放到内存中？" class="headerlink" title="（4）为什么redis需要把所有数据放到内存中？"></a>（4）为什么redis需要把所有数据放到内存中？</h2><p>Redis为了达到最快的读写速度将数据都读到内存中，并通过异步的方式将数据写入磁盘。所以redis具有快速和数据持久化的特征。如果不将数据放在内存中，磁盘I/O速度为严重影响redis的性能。在内存越来越便宜的今天，redis将会越来越受欢迎。<br> 如果设置了最大使用的内存，则数据已有记录数达到内存限值后不能继续插入新值。</p>
+<h2 id="（5）Redis是单进程的"><a href="#（5）Redis是单进程的" class="headerlink" title="（5）Redis是单进程的"></a>（5）Redis是单进程的</h2><p>redis利用队列技术将并发访问变为串行访问，消除了传统数据库串行控制的开销</p>
+<h2 id="（6）虚拟内存"><a href="#（6）虚拟内存" class="headerlink" title="（6）虚拟内存"></a>（6）虚拟内存</h2><p>当你的key很小而value很大时,使用VM的效果会比较好.因为这样节约的内存比较大.<br>当你的key不小时,可以考虑使用一些非常方法将很大的key变成很大的value,比如你可以考虑将key,value组合成一个新的value.<br> vm-max-threads这个参数,可以设置访问swap文件的线程数,设置最好不要超过机器的核数,如果设置为0,那么所有对swap文件的操作都是串行的.可能会造成比较长时间的延迟,但是对数据完整性有很好的保证.</p>
+<p>自己<a href="http://lib.csdn.net/base/softwaretest" target="_blank" rel="external">测试</a>的时候发现用虚拟内存性能也不错。如果数据量很大，可以考虑分布式或者其他数据库</p>
+<h2 id="（7）分布式"><a href="#（7）分布式" class="headerlink" title="（7）分布式"></a>（7）分布式</h2><p>redis支持主从的模式。原则：Master会将数据同步到slave，而slave不会将数据同步到master。Slave启动时会连接master来同步数据。</p>
+<p>这是一个典型的分布式读写分离模型。我们可以利用master来插入数据，slave提供检索服务。这样可以有效减少单个机器的并发访问数量</p>
+<h2 id="（8）读写分离模型"><a href="#（8）读写分离模型" class="headerlink" title="（8）读写分离模型"></a>（8）读写分离模型</h2><p>通过增加Slave DB的数量，读的性能可以线性增长。为了避免Master DB的单点故障，集群一般都会采用两台Master DB做双机热备，所以整个集群的读和写的可用性都非常高。<br>​ 读写分离<a href="http://lib.csdn.net/base/architecture" target="_blank" rel="external">架构</a>的缺陷在于，不管是Master还是Slave，每个节点都必须保存完整的数据，如果在数据量很大的情况下，集群的扩展能力还是受限于单个节点的存储能力，而且对于Write-intensive类型的应用，读写分离架构并不适合。                                       </p>
+<h2 id="（9）数据分片模型"><a href="#（9）数据分片模型" class="headerlink" title="（9）数据分片模型"></a>（9）数据分片模型</h2><p>为了解决读写分离模型的缺陷，可以将数据分片模型应用进来。</p>
+<p>可以将每个节点看成都是独立的master，然后通过业务实现数据分片。</p>
+<p>结合上面两种模型，可以将每个master设计成由一个master和多个slave组成的模型。</p>
+<h2 id="（10）Redis的回收策略"><a href="#（10）Redis的回收策略" class="headerlink" title="（10）Redis的回收策略"></a>（10）Redis的回收策略</h2><p> volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰</p>
+<p>volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰</p>
+<p>volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰</p>
+<p>allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰</p>
+<p>allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰</p>
+<p>no-enviction（驱逐）：禁止驱逐数据</p>
+<h3 id="1-使用Redis有哪些好处？"><a href="#1-使用Redis有哪些好处？" class="headerlink" title="1. 使用Redis有哪些好处？"></a>1. 使用Redis有哪些好处？</h3><p>(1) 速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)</p>
+<p>(2) 支持丰富数据类型，支持string，list，set，sorted set，hash</p>
+<p>(3) 支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行</p>
+<p>(4) 丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除</p>
+<h3 id="2-redis相比memcached有哪些优势？"><a href="#2-redis相比memcached有哪些优势？" class="headerlink" title="2. redis相比memcached有哪些优势？"></a><strong>2. redis相比memcached有哪些优势？</strong></h3><p>(1) memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型</p>
+<p>(2) redis的速度比memcached快很多</p>
+<p>(3) redis可以持久化其数据</p>
+<h3 id="3-redis常见性能问题和解决方案"><a href="#3-redis常见性能问题和解决方案" class="headerlink" title="3. redis常见性能问题和解决方案"></a>3. redis常见性能问题和解决方案</h3><p>(1) Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件</p>
+<p>(2) 如果数据比较重要，某个Slave开启AOF备份数据，策略设置为每秒同步一次</p>
+<p>(3) 为了主从复制的速度和连接的稳定性，Master和Slave最好在同一个局域网内</p>
+<p>(4) 尽量避免在压力很大的主库上增加从库</p>
+<p>(5) 主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &lt;- Slave1 &lt;- Slave2 &lt;- Slave3…</p>
+<p>这样的结构方便解决单点故障问题，实现Slave对Master的替换。如果Master挂了，可以立刻启用Slave1做Master，其他不变。</p>
+<h3 id="4-MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据"><a href="#4-MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据" class="headerlink" title="4. MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据"></a>4. MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据</h3><p>相关知识：redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。redis 提供 6种数据淘汰策略：</p>
+<p>voltile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰</p>
+<p>volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰</p>
+<p>volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰</p>
+<p>allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰</p>
+<p>allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰</p>
+<p>no-enviction（驱逐）：禁止驱逐数据</p>
+<h3 id="5-Memcache与Redis的区别都有哪些？"><a href="#5-Memcache与Redis的区别都有哪些？" class="headerlink" title="5. Memcache与Redis的区别都有哪些？"></a>5. Memcache与Redis的区别都有哪些？</h3><p>1)、存储方式</p>
+<p>Memecache把数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小。</p>
+<p>Redis有部份存在硬盘上，这样能保证数据的持久性。</p>
+<p>2)、数据支持类型</p>
+<p>Memcache对数据类型支持相对简单。</p>
+<p>Redis有复杂的数据类型。</p>
+<p>3)、使用底层模型不同</p>
+<p>它们之间底层实现方式 以及与客户端之间通信的应用协议不一样。</p>
+<p>Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</p>
+<p>4）、value大小</p>
+<p>redis最大可以达到1GB，而memcache只有1MB</p>
+<h3 id="6-Redis-常见的性能问题都有哪些？如何解决？"><a href="#6-Redis-常见的性能问题都有哪些？如何解决？" class="headerlink" title="6. Redis 常见的性能问题都有哪些？如何解决？"></a>6. Redis 常见的性能问题都有哪些？如何解决？</h3><p>1).Master写内存快照，save命令调度rdbSave函数，会阻塞主线程的工作，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照。</p>
+<p>2).Master  AOF持久化，如果不重写AOF文件，这个持久化方式对性能的影响是最小的，但是AOF文件会不断增大，AOF文件过大会影响Master重启的恢复速度。Master最好不要做任何持久化工作，包括内存快照和AOF日志文件，特别是不要启用内存快照做持久化,如果数据比较关键，某个Slave开启AOF备份数据，策略为每秒同步一次。</p>
+<p>3).Master调用BGREWRITEAOF重写AOF文件，AOF在重写的时候会占大量的CPU和内存资源，导致服务load过高，出现短暂服务暂停现象。</p>
+<p>4). Redis主从复制的性能问题，为了主从复制的速度和连接的稳定性，Slave和Master最好在同一个局域网内</p>
+<h3 id="7-redis-最适合的场景"><a href="#7-redis-最适合的场景" class="headerlink" title="7, redis 最适合的场景"></a>7, redis 最适合的场景</h3><p>Redis最适合所有数据in-momory的场景，虽然Redis也提供持久化功能，但实际更多的是一个disk-backed的功能，跟传统意义上的持久化有比较大的差别，那么可能大家就会有疑问，似乎Redis更像一个加强版的Memcached，那么何时使用Memcached,何时使用Redis呢?</p>
+<p>​       如果简单地比较Redis与Memcached的区别，大多数都会得到以下观点：</p>
+<p>​     1 、Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，zset，hash等<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">数据结构</a>的存储。<br>​     2 、Redis支持数据的备份，即master-slave模式的数据备份。<br>​     3 、Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用。</p>
+<h4 id="（1）、会话缓存（Session-Cache）"><a href="#（1）、会话缓存（Session-Cache）" class="headerlink" title="（1）、会话缓存（Session Cache）"></a>（1）、会话缓存（Session Cache）</h4><p>最常用的一种使用Redis的情景是会话缓存（session  cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？</p>
+<p>幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
+<h4 id="（2）、全页缓存（FPC）"><a href="#（2）、全页缓存（FPC）" class="headerlink" title="（2）、全页缓存（FPC）"></a>（2）、全页缓存（FPC）</h4><p>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似<a href="http://lib.csdn.net/base/php" target="_blank" rel="external">PHP</a>本地FPC。</p>
+<p>再次以Magento为例，Magento提供一个插件来使用Redis作为<a href="https://github.com/colinmollenhour/Cm_Cache_Backend_Redis" target="_blank" rel="external">全页缓存后端</a>。</p>
+<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件  <a href="https://wordpress.org/plugins/wp-redis/" target="_blank" rel="external">wp-redis</a>，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
+<h4 id="（3）、队列"><a href="#（3）、队列" class="headerlink" title="（3）、队列"></a>（3）、队列</h4><p>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如<a href="http://lib.csdn.net/base/python" target="_blank" rel="external">Python</a>）对 list 的 push/pop 操作。</p>
+<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从<a href="http://celery.readthedocs.org/en/latest/getting-started/brokers/redis.html" target="_blank" rel="external">这里</a>去查看。</p>
+<h4 id="（4）、排行榜-计数器"><a href="#（4）、排行榜-计数器" class="headerlink" title="（4）、排行榜/计数器"></a>（4）、排行榜/计数器</h4><p>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted  Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
+<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ZRANGE user_scores 0 10 WITHSCORES</div></pre></td></tr></table></figure>
+<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在<a href="">这里</a>看到。</p>
+<h4 id="（5）、发布-订阅"><a href="#（5）、发布-订阅" class="headerlink" title="（5）、发布/订阅"></a>（5）、发布/订阅</h4><p>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
+<p>Redis提供的所有特性中，我感觉这个是喜欢的人最少的一个，虽然它为用户提供如果此多功能。</p>
+<p>​     </p>
+<p>​     </p>
+<p>​     </p>
+<p>​     </p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-09-05T01:58:13.076Z" itemprop="dateUpdated">2017-09-05 09:58:13</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/08/26/redis2/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/08/26/redis2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/26/redis2/&title=《Redis面试总结》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/26/redis2/&title=《Redis面试总结》 — Lvshen's Blog&source=
+本文转载至:http://www.cnblogs.com/jiahaoJAVA/p/6244278.html
+
+（1）什么是redis? Redis 是..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/26/redis2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis面试总结》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/26/redis2/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/26/redis2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/26/myosi/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">OSI七层模型</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/26/sql-2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SQL语句优化问题(续)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/26/redis2/&title=《Redis面试总结》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/26/redis2/&title=《Redis面试总结》 — Lvshen's Blog&source=
+本文转载至:http://www.cnblogs.com/jiahaoJAVA/p/6244278.html
+
+（1）什么是redis? Redis 是..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/26/redis2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Redis面试总结》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/26/redis2/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/26/redis2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/08/26/redis2/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

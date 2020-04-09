@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>How to learning Shiro | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Shiro,权限">
+    <meta name="description" content="今天我们来聊聊Shiro的那些事。 Shiro的基本介绍1.Shiro是什么？很多人对Shiro并不了解，Shiro是Apache(这公司啥玩意都做)公司发布的一款安全框架，主要用于Java，Shiro具有以下功能：  认证 - 用户身份识别，常被称为用户“登录”；   授权 - 访问控制；   密码加密 - 保护或隐藏数据防止被偷窥；   会话管理 - 每个用户相关的时间敏感的状态。">
+<meta name="keywords" content="Shiro,权限">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to learning Shiro">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/08/31/Shiro学习/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="今天我们来聊聊Shiro的那些事。 Shiro的基本介绍1.Shiro是什么？很多人对Shiro并不了解，Shiro是Apache(这公司啥玩意都做)公司发布的一款安全框架，主要用于Java，Shiro具有以下功能：  认证 - 用户身份识别，常被称为用户“登录”；   授权 - 访问控制；   密码加密 - 保护或隐藏数据防止被偷窥；   会话管理 - 每个用户相关的时间敏感的状态。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://dl.iteye.com/upload/attachment/540578/d2285607-b5ef-3259-b398-8616c2b6fada.png">
+<meta property="og:image" content="http://dl.iteye.com/upload/attachment/540583/0632cba5-9e7c-32b7-9fa4-4a873de4b3b0.png">
+<meta property="og:image" content="http://dl.iteye.com/upload/attachment/540592/46537144-fb7a-3516-b2af-94f5cf2676ea.png">
+<meta property="og:image" content="http://dl.iteye.com/upload/attachment/541324/b3139737-6a8b-3324-bfc7-5ba809b40c16.png">
+<meta property="og:updated_time" content="2017-08-31T14:49:31.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to learning Shiro">
+<meta name="twitter:description" content="今天我们来聊聊Shiro的那些事。 Shiro的基本介绍1.Shiro是什么？很多人对Shiro并不了解，Shiro是Apache(这公司啥玩意都做)公司发布的一款安全框架，主要用于Java，Shiro具有以下功能：  认证 - 用户身份识别，常被称为用户“登录”；   授权 - 访问控制；   密码加密 - 保护或隐藏数据防止被偷窥；   会话管理 - 每个用户相关的时间敏感的状态。">
+<meta name="twitter:image" content="http://dl.iteye.com/upload/attachment/540578/d2285607-b5ef-3259-b398-8616c2b6fada.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">How to learning Shiro</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">How to learning Shiro</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-31T14:47:25.000Z" itemprop="datePublished" class="page-time">
+  2017-08-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Shiro的基本介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">Shiro的基本介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-Shiro是什么？"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.Shiro是什么？</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-关于Shiro的组成"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.关于Shiro的组成</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Shiro的认证"><span class="post-toc-number">2.</span> <span class="post-toc-text">Shiro的认证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-实体-凭证的获取"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.实体/凭证的获取</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-实体-凭证的提交"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.实体/凭证的提交</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-认证处理"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.认证处理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-登出操作"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4.登出操作</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#5-认证内部处理机制"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">5.认证内部处理机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Shiro的授权"><span class="post-toc-number">3.</span> <span class="post-toc-text">Shiro的授权</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#授权的三要素"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">授权的三要素</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#授权实现"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">授权实现</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Shiro授权的内部处理机制"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">Shiro授权的内部处理机制</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Shiro学习"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">How to learning Shiro</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-31 22:47:25" datetime="2017-08-31T14:47:25.000Z"  itemprop="datePublished">2017-08-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>今天我们来聊聊<code>Shiro</code>的那些事。</p>
+<h4 id="Shiro的基本介绍"><a href="#Shiro的基本介绍" class="headerlink" title="Shiro的基本介绍"></a>Shiro的基本介绍</h4><h5 id="1-Shiro是什么？"><a href="#1-Shiro是什么？" class="headerlink" title="1.Shiro是什么？"></a>1.Shiro是什么？</h5><p>很多人对<code>Shiro</code>并不了解，<code>Shiro</code>是Apache(<code>这公司啥玩意都做</code>)公司发布的一款安全框架，主要用于<code>Java</code>，Shiro具有以下功能：</p>
+<ul>
+<li>认证 - 用户身份识别，常被称为用户“登录”；</li>
+</ul>
+<ul>
+<li>授权 - 访问控制；</li>
+</ul>
+<ul>
+<li>密码加密 - 保护或隐藏数据防止被偷窥；</li>
+</ul>
+<ul>
+<li>会话管理 - 每个用户相关的时间敏感的状态。                                                                                            </li>
+</ul>
+<p>Shiro可以提供安全而全面的管理服务，广泛应用与<code>JavaEE</code>后台的权限管理。Shiro相对于其他的安全框架(如：Spring Security）更加轻量级。</p>
+<a id="more"></a>
+<h5 id="2-关于Shiro的组成"><a href="#2-关于Shiro的组成" class="headerlink" title="2.关于Shiro的组成"></a>2.关于Shiro的组成</h5><p>Shiro拥有三大核心组件：Subject， SecurityManager 和 Realms。如图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://dl.iteye.com/upload/attachment/540578/d2285607-b5ef-3259-b398-8616c2b6fada.png" alt="Shiro三大组件" title="">
+                </div>
+                <div class="image-caption">Shiro三大组件</div>
+            </figure>
+<p>下面我们对三大组件做一个简单的了解：</p>
+<p><strong>Subject</strong>：即“当前操作用户”。但是，在Shiro中，Subject这一概念并不仅仅指人，也可以是第三方进程、后台帐户（Daemon Account）或其他类似事物。它仅仅意味着“当前跟软件交互的东西”。但考虑到大多数目的和用途，你可以把它认为是Shiro的“用户”概念。 </p>
+<blockquote>
+<p>Subject代表了当前用户的安全操作，SecurityManager则管理所有用户的安全操作。 </p>
+</blockquote>
+<p><strong>SecurityManager</strong>：它是Shiro框架的核心，Shiro通过SecurityManager来管理内部组件实例，并通过它来提供安全管理的各种服务。</p>
+<p><strong>Realm</strong>： Realm充当了Shiro与应用安全数据间的“桥梁”或者“连接器”。也就是说，当对用户执行认证（登录）和授权（访问控制）验证时，Shiro会从应用配置的Realm中查找用户及其权限信息。</p>
+<p>给Shiro。当配置Shiro时，你必须至少指定一个Realm，用于认证和（或）授权。配置多个Realm是可以的，但是至少需要一个。 </p>
+<p>Shiro内置了可以连接大量安全数据源（又名目录）的Realm，如LDAP、关系数据库（JDBC）、类似INI的文本配置资源以及属性文件等。如果缺省的Realm不能满足需求，你还可以插入代表自定义数据源的自己的Realm实现。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://dl.iteye.com/upload/attachment/540583/0632cba5-9e7c-32b7-9fa4-4a873de4b3b0.png" alt="Shiro完整架构图" title="">
+                </div>
+                <div class="image-caption">Shiro完整架构图</div>
+            </figure>
+<p>其实，Shiro组件还包括：</p>
+<p><strong>Authenticator</strong> ：认证就是核实用户身份的过程。这个过程的常见例子是大家都熟悉的“用户/密码”组合。多数用户在登录软件系统时，通常提供自己的用户名（当事人）和支持他们的密码（证书）。如果存储在系统中的密码（或密码表示）与用户提供的匹配，他们就被认为通过认证。</p>
+<p><strong>Authorizer</strong> ：授权实质上就是访问控制 - 控制用户能够访问应用中的哪些内容，比如资源、<code>Web</code>页面等等。</p>
+<p><strong>SessionManager</strong> ：在安全框架领域，Apache Shiro提供了一些独特的东西：可在任何应用或架构层一致地使用Session API。即，Shiro为任何应用提供了一个会话编程范式 - 从小型后台独立应用到大型集群<code>Web</code>应用。这意味着，那些希望使用会话的应用开发者，不必被迫使用Servlet或EJB容器了。或者，如果正在使用这些容器，开发者现在也可以选择使用在任何层统一一致的会话API，取代Servlet或EJB机制。 </p>
+<p><strong>CacheManager</strong> ：对Shiro的其他组件提供缓存支持。 </p>
+<h4 id="Shiro的认证"><a href="#Shiro的认证" class="headerlink" title="Shiro的认证"></a>Shiro的认证</h4><p>认证就是验证用户身份的过程。在认证过程中，用户需要提交实体信息(Principals)和凭据信息(Credentials)以检验用户是否合法。最常见的“实体/凭证”组合便是“用户名/密码”组合。 </p>
+<h5 id="1-实体-凭证的获取"><a href="#1-实体-凭证的获取" class="headerlink" title="1.实体/凭证的获取"></a>1.实体/凭证的获取</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Example using most common scenario of username/password pair:  </span></div><div class="line">UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(username, password);  </div><div class="line"><span class="comment">//”Remember Me” built-in:  </span></div><div class="line">token.setRememberMe(<span class="keyword">true</span>);</div></pre></td></tr></table></figure>
+<p>到这里，系统记住了用户的相关信息，但是它并非是完全认证通过的用户，当你访问需要认证用户的功能时，你仍然需要重新提交认证信息。</p>
+<p>如你登陆某网站，网站会默认记住登录的用户，再次访问网站时，对于非敏感的页面功能，页面上会显示记住的用户信息，但是当你访问网站敏感(如账户信息)信息信息时仍然需要再次进行登录认证。 </p>
+<h5 id="2-实体-凭证的提交"><a href="#2-实体-凭证的提交" class="headerlink" title="2.实体/凭证的提交"></a>2.实体/凭证的提交</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line">currentUser.login(token);</div></pre></td></tr></table></figure>
+<h5 id="3-认证处理"><a href="#3-认证处理" class="headerlink" title="3.认证处理"></a>3.认证处理</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;  </div><div class="line">   currentUser.login(token);  </div><div class="line">&#125; <span class="keyword">catch</span> ( UnknownAccountException uae ) &#123; ...  </div><div class="line">&#125; <span class="keyword">catch</span> ( IncorrectCredentialsException ice ) &#123; ...  </div><div class="line">&#125; <span class="keyword">catch</span> ( LockedAccountException lae ) &#123; ...  </div><div class="line">&#125; <span class="keyword">catch</span> ( ExcessiveAttemptsException eae ) &#123; ...  </div><div class="line">&#125; ... <span class="keyword">catch</span> your own ...  </div><div class="line">&#125; <span class="keyword">catch</span> ( AuthenticationException ae ) &#123;  </div><div class="line">    <span class="comment">//unexpected error?  </span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果login方法执行完毕且没有抛出任何异常信息，那么便认为用户认证通过。之后在应用程序任意地方调用SecurityUtils.getSubject() 都可以获取到当前认证通过的用户实例，使用subject.isAuthenticated()判断用户是否已验证都将返回true.<br>相反，如果login方法执行过程中抛出异常，那么将认为认证失败。Shiro有着丰富的层次鲜明的异常类来描述认证失败的原因，如代码示例。 </p>
+<h5 id="4-登出操作"><a href="#4-登出操作" class="headerlink" title="4.登出操作"></a>4.登出操作</h5><p>登出操作可以通过调用subject.logout()来删除你的登录信息，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">currentUser.logout(); <span class="comment">//removes all identifying information and invalidates their session too</span></div></pre></td></tr></table></figure>
+<h5 id="5-认证内部处理机制"><a href="#5-认证内部处理机制" class="headerlink" title="5.认证内部处理机制"></a>5.认证内部处理机制</h5><p>下面将详细解说Shiro认证的内部处理机制。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://dl.iteye.com/upload/attachment/540592/46537144-fb7a-3516-b2af-94f5cf2676ea.png" alt="认证处理" title="">
+                </div>
+                <div class="image-caption">认证处理</div>
+            </figure>
+<p>如图，Shiro有着这样的执行顺序：</p>
+<p>1、应用程序构建了一个终端用户认证信息的AuthenticationToken 实例后，调用Subject.login方法。<br>2、Subject的实例通常是DelegatingSubject类（或子类）的实例对象，在认证开始时，会委托应用程序设置的securityManager实例调用securityManager.login(token)方法。<br>3、SecurityManager接受到token(令牌)信息后会委托内置的Authenticator的实例（通常都是ModularRealmAuthenticator类的实例）调用authenticator.authenticate(token). ModularRealmAuthenticator在认证过程中会对设置的一个或多个Realm实例进行适配，它实际上为Shiro提供了一个可拔插的认证机制。<br>4、如果在应用程序中配置了多个Realm，ModularRealmAuthenticator会根据配置的AuthenticationStrategy(认证策略)来进行多Realm的认证过程。在Realm被调用后，AuthenticationStrategy将对每一个Realm的结果作出响应。<br>注：如果应用程序中仅配置了一个Realm，Realm将被直接调用而无需再配置认证策略。<br>5、判断每一个Realm是否支持提交的token，如果支持，Realm将调用getAuthenticationInfo(token); getAuthenticationInfo 方法就是实际认证处理，我们通过覆盖Realm的doGetAuthenticationInfo方法来编写我们自定义的认证处理。 </p>
+<h4 id="Shiro的授权"><a href="#Shiro的授权" class="headerlink" title="Shiro的授权"></a>Shiro的授权</h4><p>授权即访问控制，它将判断用户在应用程序中对资源是否拥有相应的访问权限。<br>如，判断一个用户有查看页面的权限，编辑数据的权限，拥有某一按钮的权限，以及是否拥有打印的权限等等。 </p>
+<h5 id="授权的三要素"><a href="#授权的三要素" class="headerlink" title="授权的三要素"></a>授权的三要素</h5><p>授权有着三个核心元素：权限、角色和用户。</p>
+<p><strong>权限</strong><br>权限是Apache Shiro安全机制最核心的元素。它在应用程序中明确声明了被允许的行为和表现。一个格式良好好的权限声明可以清晰表达出用户对该资源拥有的权限。<br>大多数的资源会支持典型的CRUD操作（create,read,update,delete）,但是任何操作建立在特定的资源上才是有意义的。因此，权限声明的根本思想就是建立在资源以及操作上。<br>而我们通过权限声明仅仅能了解这个权限可以在应用程序中做些什么，而不能确定谁拥有此权限。<br>于是，我们就需要在应用程序中对用户和权限建立关联。<br>通常的做法就是将权限分配给某个角色，然后将这个角色关联一个或多个用户。 </p>
+<p>权限声明及粒度<br>Shiro权限声明通常是使用以冒号分隔的表达式。就像前文所讲，一个权限表达式可以清晰的指定资源类型，允许的操作，可访问的数据。同时，Shiro权限表达式支持简单的通配符，可以更加灵活的进行权限设置。<br>下面以实例来说明权限表达式。<br>可查询用户数据<br>User:view<br>可查询或编辑用户数据<br>User:view,edit<br>可对用户数据进行所有操作<br>User:* 或 user<br>可编辑id为123的用户数据<br>User:edit:123 </p>
+<p><strong>角色</strong><br>Shiro支持两种角色模式：<br>1、传统角色：一个角色代表着一系列的操作，当需要对某一操作进行授权验证时，只需判断是否是该角色即可。这种角色权限相对简单、模糊，不利于扩展。<br>2、权限角色：一个角色拥有一个权限的集合。授权验证时，需要判断当前角色是否拥有该权限。这种角色权限可以对该角色进行详细的权限描述，适合更复杂的权限设计。<br>下面将详细描述对两种角色模式的授权实现。 </p>
+<h5 id="授权实现"><a href="#授权实现" class="headerlink" title="授权实现"></a>授权实现</h5><p>Shiro支持三种方式实现授权过程： </p>
+<ul>
+<li>编码实现</li>
+<li>注解实现</li>
+<li>JSP Taglig实现</li>
+</ul>
+<p><strong>1、基于编码的授权实现</strong></p>
+<p> 1.1基于传统角色授权实现</p>
+<p> 当需要验证用户是否拥有某个角色时，可以调用Subject 实例的hasRole*方法验证。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="keyword">if</span> (currentUser.hasRole(<span class="string">"administrator"</span>)) &#123;  </div><div class="line">    <span class="comment">//show the admin button  </span></div><div class="line">&#125; <span class="keyword">else</span> &#123;  </div><div class="line">​   <span class="comment">//don't show the button?  Grey it out?  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>相关验证方法如下： </p>
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hasRole(String roleName)</td>
+<td>当用户拥有指定角色时，返回true</td>
+</tr>
+<tr>
+<td>hasRoles(List<string> roleNames)</string></td>
+<td>按照列表顺序返回相应的一个boolean值数组</td>
+</tr>
+<tr>
+<td>hasAllRoles(Collection<string> roleNames)</string></td>
+<td>如果用户拥有所有指定角色时，返回true</td>
+</tr>
+</tbody>
+</table>
+<p>断言支持</p>
+<p> Shiro还支持以断言的方式进行授权验证。断言成功，不返回任何值，程序继续执行；断言失败时，将抛出异常信息。使用断言，可以使我们的代码更加简洁。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="comment">//guarantee that the current user is a bank teller and  </span></div><div class="line"><span class="comment">//therefore allowed to open the account:  </span></div><div class="line">currentUser.checkRole(<span class="string">"bankTeller"</span>);  </div><div class="line">openBankAccount();</div></pre></td></tr></table></figure>
+<p>断言的相关方法： </p>
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>checkRole(String roleName)</td>
+<td>断言用户是否拥有指定角色</td>
+</tr>
+<tr>
+<td>checkRoles(Collection<string> roleNames)</string></td>
+<td>断言用户是否拥有所有指定角色</td>
+</tr>
+<tr>
+<td>checkRoles(String… roleNames)</td>
+<td>对上一方法的方法重载</td>
+</tr>
+</tbody>
+</table>
+<p>1.2 基于权限角色授权实现</p>
+<p> 相比传统角色模式，基于权限的角色模式耦合性要更低些，它不会因角色的改变而对源代码进行修改，因此，基于权限的角色模式是更好的访问控制方式。 </p>
+<p>它的代码实现有以下几种实现方式： </p>
+<p>a.基于权限对象的实现</p>
+<p> 创建org.apache.shiro.authz.Permission的实例，将该实例对象作为参数传递给Subject.isPermitted（）进行验证。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Permission printPermission = <span class="keyword">new</span> PrinterPermission(<span class="string">"laserjet4400n"</span>, <span class="string">"print"</span>);  </div><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="keyword">if</span> (currentUser.isPermitted(printPermission)) &#123;  </div><div class="line">    <span class="comment">//show the Print button  </span></div><div class="line">&#125; <span class="keyword">else</span> &#123;  </div><div class="line">    <span class="comment">//don't show the button?  Grey it out?  </span></div><div class="line">&#125;  </div><div class="line">Permission printPermission = <span class="keyword">new</span> PrinterPermission(<span class="string">"laserjet4400n"</span>, <span class="string">"print"</span>);  </div><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="keyword">if</span> (currentUser.isPermitted(printPermission)) &#123;  </div><div class="line">    <span class="comment">//show the Print button  </span></div><div class="line">&#125; <span class="keyword">else</span> &#123;  </div><div class="line">    <span class="comment">//don't show the button?  Grey it out?  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>相关方法如下： </p>
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isPermitted(Permission p)</td>
+<td>Subject拥有制定权限时，返回treu</td>
+</tr>
+<tr>
+<td>isPermitted(List<permission> perms)</permission></td>
+<td>返回对应权限的boolean数组</td>
+</tr>
+<tr>
+<td>isPermittedAll(Collection<permission> perms)</permission></td>
+<td>Subject拥有所有制定权限时，返回true</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2、 基于字符串的实现</strong></p>
+<p> 相比笨重的基于对象的实现方式，基于字符串的实现便显得更加简洁。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="keyword">if</span> (currentUser.isPermitted(<span class="string">"printer:print:laserjet4400n"</span>)) &#123;  </div><div class="line">    <span class="comment">//show the Print button  </span></div><div class="line">&#125; <span class="keyword">else</span> &#123;  </div><div class="line">    <span class="comment">//don't show the button?  Grey it out?  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用冒号分隔的权限表达式是org.apache.shiro.authz.permission.WildcardPermission 默认支持的实现方式。 </p>
+<p>这里分别代表了 资源类型：操作：资源ID </p>
+<p>类似基于对象的实现相关方法，基于字符串的实现相关方法： </p>
+<p><code>isPermitted(String perm)</code>、<code>isPermitted(String... perms)</code>、<code>isPermittedAll(String... perms)</code></p>
+<p>a.基于权限对象的断言实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="comment">//guarantee that the current user is permitted  </span></div><div class="line"><span class="comment">//to open a bank account:  </span></div><div class="line">Permission p = <span class="keyword">new</span> AccountPermission(<span class="string">"open"</span>);  </div><div class="line">currentUser.checkPermission(p);  </div><div class="line">openBankAccount();</div></pre></td></tr></table></figure>
+<p>b.基于字符串的断言实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Subject currentUser = SecurityUtils.getSubject();  </div><div class="line"><span class="comment">//guarantee that the current user is permitted  </span></div><div class="line"><span class="comment">//to open a bank account:  </span></div><div class="line">currentUser.checkPermission(<span class="string">"account:open"</span>);  </div><div class="line">openBankAccount();</div></pre></td></tr></table></figure>
+<p>断言实现的相关方法 </p>
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>checkPermission(Permission p)</td>
+<td>断言用户是否拥有制定权限</td>
+</tr>
+<tr>
+<td>checkPermission(String perm)</td>
+<td>断言用户是否拥有制定权限</td>
+</tr>
+<tr>
+<td>checkPermissions(Collection<permission> perms)</permission></td>
+<td>断言用户是否拥有所有指定权限</td>
+</tr>
+<tr>
+<td>checkPermissions(String… perms)</td>
+<td>断言用户是否拥有所有指定权限</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3、基于注解的授权实现</strong></p>
+<p> Shiro注解支持AspectJ、Spring、Google-Guice等，可根据应用进行不同的配置。 </p>
+<p>相关的注解： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ RequiresAuthentication</div></pre></td></tr></table></figure>
+<p> 可以用户类/属性/方法，用于表明当前用户需是经过认证的用户。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresAuthentication</span>  </div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateAccount</span><span class="params">(Account userAccount)</span> </span>&#123;  </div><div class="line">    <span class="comment">//this method will only be invoked by a   </span></div><div class="line">    <span class="comment">//Subject that is guaranteed authenticated  </span></div><div class="line">   ...  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@ RequiresGuest</div><div class="line">表明该用户需为”guest”用户 </div><div class="line">@ RequiresPermissions</div><div class="line">当前用户需拥有制定权限</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresPermissions</span>(<span class="string">"account:create"</span>)  </div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createAccount</span><span class="params">(Account account)</span> </span>&#123;  </div><div class="line">   <span class="comment">//this method will only be invoked by a Subject  </span></div><div class="line">   <span class="comment">//that is permitted to create an account  </span></div><div class="line">    ...  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresRoles</span></div><div class="line"> 当前用户需拥有制定角色 </div><div class="line">@ RequiresUser</div><div class="line"> 当前用户需为已认证用户或已记住用户</div></pre></td></tr></table></figure>
+<p><strong>3、基于JSP  TAG的授权实现</strong></p>
+<p> Shiro提供了一套JSP标签库来实现页面级的授权控制。 </p>
+<p>在使用Shiro标签库前，首先需要在JSP引入shiro标签： </p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ taglib prefix=<span class="string">"shiro"</span> uri=<span class="string">"http://shiro.apache.org/tags"</span> %&gt;</div></pre></td></tr></table></figure>
+<p>下面一一介绍Shiro的标签： </p>
+<blockquote>
+<p>guest标签 </p>
+<p>验证当前用户是否为“访客”，即未认证（包含未记住）的用户 </p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shiro:guest</span>&gt;</span>  </div><div class="line">    Hi there!  Please <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"login.jsp"</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span> or <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"signup.jsp"</span>&gt;</span>Signup<span class="tag">&lt;/<span class="name">a</span>&gt;</span> today!  </div><div class="line"><span class="tag">&lt;/<span class="name">shiro:guest</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>user标签 </p>
+<p>认证通过或已记住的用户 </p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shiro:user</span>&gt;</span>  </div><div class="line">  Welcome back John!  Not John? Click <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"login.jsp"</span>&gt;</span>here<span class="tag">&lt;<span class="name">a</span>&gt;</span> to login.  </div><div class="line"><span class="tag">&lt;/<span class="name">shiro:user</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>authenticated标签 </p>
+<p>已认证通过的用户。不包含已记住的用户，这是与user标签的区别所在。 </p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shiro:authenticated</span>&gt;</span>  </div><div class="line">   <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"updateAccount.jsp"</span>&gt;</span>Update your contact information<span class="tag">&lt;/<span class="name">a</span>&gt;</span>.  </div><div class="line"><span class="tag">&lt;/<span class="name">shiro:authenticated</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>notAuthenticated标签 </p>
+<p>未认证通过用户，与authenticated标签相对应。与guest标签的区别是，该标签包含已记住用户。 </p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shiro:notAuthenticated</span>&gt;</span>  </div><div class="line">    Please <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"login.jsp"</span>&gt;</span>login<span class="tag">&lt;/<span class="name">a</span>&gt;</span> in order to update your credit card information.  <span class="tag">&lt;/<span class="name">shiro:notAuthenticated</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="Shiro授权的内部处理机制"><a href="#Shiro授权的内部处理机制" class="headerlink" title="Shiro授权的内部处理机制"></a>Shiro授权的内部处理机制</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://dl.iteye.com/upload/attachment/541324/b3139737-6a8b-3324-bfc7-5ba809b40c16.png" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure>
+<p>1、在应用程序中调用授权验证方法(Subject的isPermitted<em>或hasRole</em>等)<br>2、Sbuject的实例通常是DelegatingSubject类（或子类）的实例对象，在认证开始时，会委托应用程序设置的securityManager实例调用相应的isPermitted<em>或hasRole</em>方法。<br>3、接下来SecurityManager会委托内置的Authorizer的实例（默认是ModularRealmAuthorizer 类的实例，类似认证实例，它同样支持一个或多个Realm实例认证）调用相应的授权方法。<br>4、每一个Realm将检查是否实现了相同的 Authorizer 接口。然后，将调用Reaml自己的相应的授权验证方法。 </p>
+<p>当使用多个Realm时，不同于认证策略处理方式，授权处理过程中：<br>1、当调用Realm出现异常时，将立即抛出异常，结束授权验证。<br>2、只要有一个Realm验证成功，那么将认为授权成功，立即返回，结束认证。 </p>
+<p>​                                                                                                                               <em>…未完待续！</em></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-31T14:49:31.578Z" itemprop="dateUpdated">2017-08-31 22:49:31</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/08/31/Shiro学习/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/08/31/Shiro学习/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/权限/">权限</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/&title=《How to learning Shiro》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/&title=《How to learning Shiro》 — Lvshen's Blog&source=今天我们来聊聊Shiro的那些事。
+Shiro的基本介绍1.Shiro是什么？很多人对Shiro并不了解，Shiro是Apache(这公司啥玩意都做)公司..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/31/Shiro学习/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《How to learning Shiro》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/01/How-to-learning-Shiro-2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">How to learning Shiro(2)</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/30/我在Github上一个关于俄罗斯方块的项目/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">我在Github上一个关于俄罗斯方块的项目</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/&title=《How to learning Shiro》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/&title=《How to learning Shiro》 — Lvshen's Blog&source=今天我们来聊聊Shiro的那些事。
+Shiro的基本介绍1.Shiro是什么？很多人对Shiro并不了解，Shiro是Apache(这公司啥玩意都做)公司..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/31/Shiro学习/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《How to learning Shiro》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/31/Shiro学习/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/08/31/Shiro学习/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

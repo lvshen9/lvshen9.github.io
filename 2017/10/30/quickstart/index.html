@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Wade+Taperstry快速开发 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Wade,Taperstry">
+    <meta name="description" content="本次做了一个关于Wade5+Tapertry3的快速开发，开发环境为Eclipse+Windows10，功能为一个部门管理的增删改查。下面是一个关于本项目的数据传输结构图。                                                                                                            目录结构下图">
+<meta name="keywords" content="Wade,Taperstry">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wade+Taperstry快速开发">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/10/30/quickstart/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="本次做了一个关于Wade5+Tapertry3的快速开发，开发环境为Eclipse+Windows10，功能为一个部门管理的增删改查。下面是一个关于本项目的数据传输结构图。                                                                                                            目录结构下图">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3Fn1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1zhF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp391J.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3k0x.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3PXR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3A76.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3VAK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3ZtO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3Cc9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3pp4.png">
+<meta property="og:updated_time" content="2019-01-17T06:46:56.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Wade+Taperstry快速开发">
+<meta name="twitter:description" content="本次做了一个关于Wade5+Tapertry3的快速开发，开发环境为Eclipse+Windows10，功能为一个部门管理的增删改查。下面是一个关于本项目的数据传输结构图。                                                                                                            目录结构下图">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kp3Fn1.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Wade+Taperstry快速开发</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Wade+Taperstry快速开发</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-30T07:00:53.000Z" itemprop="datePublished" class="page-time">
+  2017-10-30
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#目录结构"><span class="post-toc-number">1.</span> <span class="post-toc-text">目录结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#serviceconfig-xml"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">serviceconfig.xml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#database-xml"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">database.xml</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DepartManager-html"><span class="post-toc-number">2.</span> <span class="post-toc-text">DepartManager.html</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加按钮"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">添加按钮</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#表格显示"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">表格显示</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模态框显示"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">模态框显示</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Js函数"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">Js函数</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#效果图"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">效果图</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DepartManager-page"><span class="post-toc-number">3.</span> <span class="post-toc-text">DepartManager.page</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DepartMangager-java"><span class="post-toc-number">4.</span> <span class="post-toc-text">DepartMangager.java</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DepartManagerSvc-java"><span class="post-toc-number">5.</span> <span class="post-toc-text">DepartManagerSvc.java</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DepartManagerBean-java"><span class="post-toc-number">6.</span> <span class="post-toc-text">DepartManagerBean.java</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DepartManagerDao-java"><span class="post-toc-number">7.</span> <span class="post-toc-text">DepartManagerDao.java</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他配置"><span class="post-toc-number">8.</span> <span class="post-toc-text">其他配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#build"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">build</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#build-properties"><span class="post-toc-number">8.1.1.</span> <span class="post-toc-text">build.properties</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#build-xml"><span class="post-toc-number">8.1.2.</span> <span class="post-toc-text">build.xml</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#application"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">application</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#测试"><span class="post-toc-number">9.</span> <span class="post-toc-text">测试</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-quickstart"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Wade+Taperstry快速开发</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-30 15:00:53" datetime="2017-10-30T07:00:53.000Z"  itemprop="datePublished">2017-10-30</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Work/">Work</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>本次做了一个关于Wade5+Tapertry3的快速开发，开发环境为Eclipse+Windows10，功能为一个部门管理的增删改查。下面是一个关于本项目的数据传输结构图。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3Fn1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><p>下图为本项目的目录结构。</p>
+<a id="more"></a>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1zhF.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><code>config</code>为配置相关的文件，这里面有两个重要的文件：<code>serviceconfig.xml</code>（服务配置）和<code>database.xml</code>（数据库配置）。<code>src-common</code>为公用包，供其它层里的文件使用。src-service里有一个bean包和一个service包，里面文件如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp391J.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="serviceconfig-xml"><a href="#serviceconfig-xml" class="headerlink" title="serviceconfig.xml"></a>serviceconfig.xml</h5><p>该文件在<code>config</code>的<code>service</code>包下，用于配置相关服务。部分内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE serviceconfig PUBLIC "-//AILK WADE//WADE 4.0//CN"</span></div><div class="line"><span class="meta">  "http://www.wade.com/service/dtd/serviceconfig.dtd" [</span></div><div class="line"><span class="meta">  &lt;!ENTITY common SYSTEM "classpath:common.xml"&gt;</span></div><div class="line"><span class="meta">  &lt;!ENTITY resserv SYSTEM "classpath:resserv.xml"&gt;</span></div><div class="line"><span class="meta">]&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">serviceconfig</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">config</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"quickstart"</span> <span class="attr">dir</span>=<span class="string">"/quickstart"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"saleserv"</span> <span class="attr">dir</span>=<span class="string">"/saleserv"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"acctmanm"</span> <span class="attr">dir</span>=<span class="string">"/acctmanm"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">config</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">subsys</span>=<span class="string">"quickstart"</span>&gt;</span></div><div class="line">     ...</div><div class="line">  	<span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">"RM.DepartManagerSvc.updateDepartInfo"</span> 		<span class="attr">path</span>=<span class="string">"com.ailk.quickstart.service.depart.DepartManagerSvc@updateDepartInfo"</span> /&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">"RM.DepartManagerSvc.queryDepartInfo"</span> 		<span class="attr">path</span>=<span class="string">"com.ailk.quickstart.service.depart.DepartManagerSvc@queryDepartInfo"</span> /&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">"RM.DepartManagerSvc.removeDepartInfo"</span> 		<span class="attr">path</span>=<span class="string">"com.ailk.quickstart.service.depart.DepartManagerSvc@removeDepartInfo"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></div><div class="line">&amp;common;</div><div class="line">&amp;resserv;</div><div class="line"><span class="tag">&lt;/<span class="name">serviceconfig</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>该注册的服务需要在service包的Java文件中定义。</p>
+<h5 id="database-xml"><a href="#database-xml" class="headerlink" title="database.xml"></a>database.xml</h5><p>数据库文件配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">crm_lvshen</span></span></div><div class="line"><span class="tag">     <span class="attr">type</span>=<span class="string">"dbcp"</span></span></div><div class="line"><span class="tag">     <span class="attr">driver</span>=<span class="string">"oracle.jdbc.driver.OracleDriver"</span></span></div><div class="line"><span class="tag">     <span class="attr">url</span>=<span class="string">"jdbc:oracle:thin:@localhost:1521:ORCL"</span></span></div><div class="line"><span class="tag">     <span class="attr">user</span>=<span class="string">"crm"</span></span></div><div class="line"><span class="tag">     <span class="attr">passwd</span>=<span class="string">"crm"</span></span></div><div class="line"><span class="tag">     <span class="attr">initialSize</span>=<span class="string">"1"</span></span></div><div class="line"><span class="tag">     <span class="attr">maxActive</span>=<span class="string">"10"</span></span></div><div class="line"><span class="tag">     <span class="attr">maxIdle</span>=<span class="string">"5"</span></span></div><div class="line"><span class="tag">     <span class="attr">maxWait</span>=<span class="string">"1000"</span></span></div><div class="line"><span class="tag">/&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>在这里我介绍一下添加功能的操作。并讲解每个文件的功能</p>
+</blockquote>
+<h4 id="DepartManager-html"><a href="#DepartManager-html" class="headerlink" title="DepartManager.html"></a>DepartManager.html</h4><p>该文件和DepartManager.page在此目录下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3k0x.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="添加按钮"><a href="#添加按钮" class="headerlink" title="添加按钮"></a>添加按钮</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"submitPlace"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>			</div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"submit"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"e_button-form"</span> <span class="attr">onclick</span>=<span class="string">"displayShowPopup();"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"e_ico-add"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>添加<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="表格显示"><a href="#表格显示" class="headerlink" title="表格显示"></a>表格显示</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"DepartInfo"</span> <span class="attr">jwcid</span>=<span class="string">"DepartInfo@Part"</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- 表格 开始 --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_scroll c_scroll-x c_scroll-table-5"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_table"</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">table</span> <span class="attr">id</span>=<span class="string">"departTable"</span> <span class="attr">jwcid</span>=<span class="string">"@Table"</span> <span class="attr">name</span>=<span class="string">"simCardtable"</span>  <span class="attr">rowClick</span>=<span class="string">""</span></span></div><div class="line"><span class="tag">						<span class="attr">rowDBClick</span>=<span class="string">""</span> <span class="attr">contextMenu</span>=<span class="string">""</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">thead</span>&gt;</span></div><div class="line">							<span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line"></div><div class="line">								<span class="tag">&lt;<span class="name">th</span> <span class="attr">col</span>=<span class="string">"DEPART_ID"</span> <span class="attr">name</span>=<span class="string">"DEPART_ID"</span>&gt;</span>部门ID<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">th</span> <span class="attr">col</span>=<span class="string">"DEPART_CODE"</span>&gt;</span>部门编号<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">th</span> <span class="attr">col</span>=<span class="string">"DEPART_NAME"</span>&gt;</span>部门名称<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">th</span> <span class="attr">col</span>=<span class="string">"DEPART_KIND_CODE"</span>&gt;</span>部门类型<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">th</span> <span class="attr">col</span>=<span class="string">"DEPART_FRAME"</span>&gt;</span>部门结构<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line"></div><div class="line">							<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">						<span class="tag">&lt;/<span class="name">thead</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">tbody</span>&gt;</span></div><div class="line">							<span class="comment">&lt;!-- 循环显示表格列，并设置行间隔颜色 --&gt;</span></div><div class="line"></div><div class="line">							<span class="tag">&lt;<span class="name">tr</span> <span class="attr">jwcid</span>=<span class="string">"@Foreach"</span> <span class="attr">source</span>=<span class="string">"ognl:infos"</span> <span class="attr">value</span>=<span class="string">"ognl:info"</span></span></div><div class="line"><span class="tag">								<span class="attr">element</span>=<span class="string">"tr"</span> <span class="attr">index</span>=<span class="string">"ognl:rowIndex"</span></span></div><div class="line"><span class="tag">								<span class="attr">class</span>=<span class="string">"ognl:rowIndex % 2 == 0 ? '' : 'odd'"</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">jwcid</span>=<span class="string">"@Insert"</span> <span class="attr">value</span>=<span class="string">"ognl:info.DEPART_ID"</span></span></div><div class="line"><span class="tag">									<span class="attr">raw</span>=<span class="string">"false"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">jwcid</span>=<span class="string">"@Insert"</span>                 <span class="attr">value</span>=<span class="string">"ognl:info.DEPART_CODE"</span></span></div><div class="line"><span class="tag">									<span class="attr">raw</span>=<span class="string">"false"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">jwcid</span>=<span class="string">"@Insert"</span> <span class="attr">value</span>=<span class="string">"ognl:info.DEPART_NAME"</span></span></div><div class="line"><span class="tag">									<span class="attr">raw</span>=<span class="string">"false"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">jwcid</span>=<span class="string">"@Insert"</span></span></div><div class="line"><span class="tag">									<span class="attr">value</span>=<span class="string">"ognl:info.DEPART_KIND_CODE"</span> <span class="attr">raw</span>=<span class="string">"false"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">jwcid</span>=<span class="string">"@Insert"</span> <span class="attr">value</span>=<span class="string">"ognl:info.DEPART_FRAME"</span></span></div><div class="line"><span class="tag">									<span class="attr">raw</span>=<span class="string">"false"</span> /&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">																	</div><div class="line">							<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">						<span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- 表格 结束 --&gt;</span></div><div class="line">			<span class="comment">&lt;!-- 翻页（替换为页面组件） 开始 --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">jwcid</span>=<span class="string">"@NavBar"</span> <span class="attr">name</span>=<span class="string">"simnav"</span> <span class="attr">cond</span>=<span class="string">"QueryCond"</span></span></div><div class="line"><span class="tag">				<span class="attr">part</span>=<span class="string">"DepartInfo"</span> <span class="attr">listener</span>=<span class="string">"queryDepartInfo"</span> <span class="attr">count</span>=<span class="string">"ognl:count"</span></span></div><div class="line"><span class="tag">				<span class="attr">pageSize</span>=<span class="string">"5"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- 翻页 结束 --&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="模态框显示"><a href="#模态框显示" class="headerlink" title="模态框显示"></a>模态框显示</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popup c_popup-drag"</span> <span class="attr">id</span>=<span class="string">"my_popup"</span> <span class="attr">style</span>=<span class="string">"display: none;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupWrapper"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupHeight"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupBox"</span> <span class="attr">style</span>=<span class="string">"width: 400px;"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupTitle"</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>添加<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fn"</span>&gt;</span></div><div class="line">						<span class="comment">&lt;!--窗口的关闭按钮  --&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"close"</span> <span class="attr">href</span>=<span class="string">"javascript:displayShowPopup()"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupContent"</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupContentWrapper"</span>&gt;</span></div><div class="line"></div><div class="line">						<span class="comment">&lt;!-- 输入区 --&gt;</span></div><div class="line">						<span class="comment">&lt;!--插入的内容  --&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_form c_form-col-1 c_form-label-5"</span> <span class="attr">id</span>=<span class="string">"QueryCond"</span>&gt;</span></div><div class="line">							<span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"ul"</span> <span class="attr">id</span>=<span class="string">"conditioinPart1"</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>部门ID：<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">									<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"e_input"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span></span></div><div class="line"><span class="tag">											<span class="attr">jwcid</span>=<span class="string">"@TextField"</span> <span class="attr">value</span>=<span class="string">"ognl:condition.DEPART_ID"</span></span></div><div class="line"><span class="tag">											<span class="attr">name</span>=<span class="string">"condition_DEPART_ID"</span> <span class="attr">desc</span>=<span class="string">"部门ID"</span> /&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>部门编号：<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"e_input"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span></span></div><div class="line"><span class="tag">			<span class="attr">jwcid</span>=<span class="string">"@TextField"</span> <span class="attr">value</span>=<span class="string">"ognl:condition.DEPART_CODE"</span></span></div><div class="line"><span class="tag">			<span class="attr">name</span>=<span class="string">"condition_DEPART_CODE"</span> <span class="attr">desc</span>=<span class="string">"部门编号"</span> /&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>部门名称：<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"e_input"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span></span></div><div class="line"><span class="tag">			<span class="attr">jwcid</span>=<span class="string">"@TextField"</span> <span class="attr">value</span>=<span class="string">"ognl:condition.DEPART_NAME"</span></span></div><div class="line"><span class="tag">			<span class="attr">name</span>=<span class="string">"condition_DEPART_NAME"</span> <span class="attr">desc</span>=<span class="string">"部门名称"</span> /&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">							<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>部门类型：<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"e_input"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span></span></div><div class="line"><span class="tag">										<span class="attr">jwcid</span>=<span class="string">"@TextField"</span> <span class="attr">value</span>=<span class="string">"ognl:condition.DEPART_KIND_CODE"</span></span></div><div class="line"><span class="tag">										<span class="attr">name</span>=<span class="string">"condition_DEPART_KIND_CODE"</span> <span class="attr">desc</span>=<span class="string">"部门类型"</span> /&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">							<span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"li"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>部门结构：<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"e_input"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span></span></div><div class="line"><span class="tag">										<span class="attr">jwcid</span>=<span class="string">"@TextField"</span> <span class="attr">name</span>=<span class="string">"condition_DEPART_FRAME"</span></span></div><div class="line"><span class="tag">										<span class="attr">value</span>=<span class="string">"ognl:condition.DEPART_FRAME"</span> <span class="attr">desc</span>=<span class="string">"部门结构"</span> /&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">						<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"></div><div class="line">						<span class="comment">&lt;!--提交区域  --&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"submitPlace"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">						<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"submit"</span>&gt;</span></div><div class="line">							<span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"e_button-form"</span> <span class="attr">onclick</span>=<span class="string">"updateDepartInfo();"</span>&gt;</span></div><div class="line">								<span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"e_ico-ok"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">							<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line">						<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">					<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">				<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupBottom"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupShadow"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">iframe</span> <span class="attr">class</span>=<span class="string">"c_popupFrame"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"c_popupCover"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="Js函数"><a href="#Js函数" class="headerlink" title="Js函数"></a>Js函数</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;script language=<span class="string">"javascript"</span>&gt;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">displayShowPopup</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">document</span>.getElementById(<span class="string">'my_popup'</span>).style.display = <span class="built_in">document</span></div><div class="line">              .getElementById(<span class="string">'my_popup'</span>).style.display == <span class="string">"none"</span> ? <span class="string">"block"</span></div><div class="line">              : <span class="string">"none"</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//添加</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">updateDepartInfo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (verifyAll(<span class="string">"QueryCond"</span>)) &#123;</div><div class="line">          rm.ajaxSubmitMsg(<span class="string">"QueryCond"</span>, <span class="string">"updateDepartInfo"</span>, <span class="literal">null</span>, <span class="literal">null</span>);</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//页面每刷新一次执行一次查询</span></div><div class="line">  queryDepartInfo();</div><div class="line"></div><div class="line">  <span class="comment">//查询</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">queryDepartInfo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      rm.ajaxSubmitQry(<span class="string">'QueryCond2'</span>, <span class="string">'queryDepartInfo'</span>, <span class="literal">null</span>, <span class="string">"DepartInfo"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//伪删除，并没有删除数据库里的内容，相当于隐藏行</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">removeDepartInfo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      $.table.get(<span class="string">"simCardtable"</span>).deleteRow();</div><div class="line">  &#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<p>还有一下数据提交的<code>js</code>这里就不在阐述了，可以自行百度<code>ajax</code>提交。</p>
+<h5 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3PXR.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>点击<strong>添加</strong>按钮，会弹出相应的添加模态框。</p>
+<h4 id="DepartManager-page"><a href="#DepartManager-page" class="headerlink" title="DepartManager.page"></a>DepartManager.page</h4><p>是连接<code>*.html</code>和 <code>*.java</code>文件的桥梁，里面是相关参数的属性配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE page-specification PUBLIC</span></div><div class="line"><span class="meta">  "-//Apache Software Foundation//Tapestry Specification 3.0//EN"</span></div><div class="line"><span class="meta">  "http://jakarta.apache.org/tapestry/dtd/Tapestry_3_0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">page-specification</span> <span class="attr">class</span>=<span class="string">"com.ailk.quickstart.view.examples.depart.DepartMangager"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"info"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"infos"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IDataset"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"condition"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"condit"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"cond"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"parent"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"tabinfos"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IDataset"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"tabinfo"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"count"</span> <span class="attr">type</span>=<span class="string">"long"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"rowIndex"</span> <span class="attr">type</span>=<span class="string">"int"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property-specification</span> <span class="attr">name</span>=<span class="string">"right"</span></span></div><div class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">"com.ailk.common.data.IData"</span> /&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">page-specification</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="DepartMangager-java"><a href="#DepartMangager-java" class="headerlink" title="DepartMangager.java"></a>DepartMangager.java</h4><p><code>DepartMangager.java</code>位于此目录下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3A76.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>此类需要继承<code>ResBizPage.java</code>，其添加功能如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateDepartInfo</span><span class="params">(IRequestCycle cycle)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    IData inparam = <span class="keyword">this</span>.getData(<span class="string">"condition"</span>, <span class="keyword">true</span>);</div><div class="line">	IData map = CSViewCall.call(<span class="keyword">this</span>,</div><div class="line">			<span class="string">"RM.DepartManagerSvc.updateDepartInfo"</span>, inparam).first();</div><div class="line">	<span class="comment">//这里map等于null,搞不清原因，但不影响功能，索性略过了</span></div><div class="line">	<span class="keyword">if</span> (map == <span class="keyword">null</span>) &#123;</div><div class="line">		<span class="keyword">return</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span> succNum = map.getInt(<span class="string">"SUCCNUM"</span>);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (succNum &gt; <span class="number">0</span>) &#123;</div><div class="line">		setAjaxMsg(<span class="string">"入库成功"</span>);</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		setAjaxMsg(msgError, <span class="string">"入库失败&lt;br&gt;失败"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>*.html</code>、<code>*.page</code>、<code>*.java</code>共同组成一个页面，其命名要相同，前两个文件需放在同一个文件夹下。</p>
+</blockquote>
+<h4 id="DepartManagerSvc-java"><a href="#DepartManagerSvc-java" class="headerlink" title="DepartManagerSvc.java"></a>DepartManagerSvc.java</h4><p>此类需继承<code>ResBizService.java</code>，用于服务开发。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateDepartInfo</span><span class="params">(IData inparam)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">  DepartManagerBean bean = (DepartManagerBean) BeanManager</div><div class="line">              .createBean(DepartManagerBean.class);</div><div class="line">      <span class="keyword">int</span> dataInt = bean.updateDepartInfo(inparam);</div><div class="line">  <span class="keyword">return</span> dataInt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="DepartManagerBean-java"><a href="#DepartManagerBean-java" class="headerlink" title="DepartManagerBean.java"></a>DepartManagerBean.java</h4><p>该类需要继承<code>BizBean.java</code>，用于逻辑方面的开发。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateDepartInfo</span><span class="params">(IData inparam)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">	<span class="keyword">return</span> DepartManagerDao.updateDepartInfo(inparam);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="DepartManagerDao-java"><a href="#DepartManagerDao-java" class="headerlink" title="DepartManagerDao.java"></a>DepartManagerDao.java</h4><p>该类需要继承<code>BizDAO.java</code>，其<code>sql</code>语句在数据库表<code>Code_Code</code>中获取。</p>
+<p><code>sql</code>语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">INSERT INTO TD_M_DEPART </div><div class="line">(DEPART_ID,DEPART_CODE,DEPART_NAME,DEPART_KIND_CODE,DEPART_FRAME)</div><div class="line">VALUES</div><div class="line">(:DEPART_ID,:DEPART_CODE,:DEPART_NAME,:DEPART_KIND_CODE,:DEPART_FRAME)</div></pre></td></tr></table></figure>
+<p><code>java</code>代码执行<code>sql</code>语句：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">updateDepartInfo</span><span class="params">(IData inparam)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">	<span class="keyword">return</span> ResDao.executeUpdateByCodeCode(<span class="string">"TD_M_DEPART"</span>,</div><div class="line">			<span class="string">"INSERT_INTO_TEST"</span>, inparam, ResDao.lvshenConnName);</div><div class="line">&#125;<span class="comment">//ResDao.lvshenConnName为连接的数据库，详情需查阅这个类ResDao</span></div></pre></td></tr></table></figure>
+<h4 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h4><h5 id="build"><a href="#build" class="headerlink" title="build"></a>build</h5><p>用于项目的编译</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3VAK.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h6 id="build-properties"><a href="#build-properties" class="headerlink" title="build.properties"></a>build.properties</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">PROJECT_NAME = quickstart</div><div class="line">PROJECT_HOME = ..</div><div class="line">WADELIB_HOME = D:/Study/work/shiyongqiTest/devHN/devHN/ngboss/library/wadelib</div><div class="line">CRMLIB_HOME = D:/Study/work/shiyongqiTest/devHN/devHN/ngboss/library/crmlib</div><div class="line"></div><div class="line"># publib = $&#123;CRMLIB_HOME&#125;</div><div class="line"></div><div class="line">build=$&#123;PROJECT_HOME&#125;/build</div><div class="line">config=$&#123;PROJECT_HOME&#125;/config</div><div class="line">source=$&#123;PROJECT_HOME&#125;/src</div><div class="line">classes=$&#123;PROJECT_HOME&#125;/html/WEB-INF/classes</div><div class="line"></div><div class="line">html=$&#123;PROJECT_HOME&#125;/html</div><div class="line"></div><div class="line">JDK_VERSION=1.6</div></pre></td></tr></table></figure>
+<h6 id="build-xml"><a href="#build-xml" class="headerlink" title="build.xml"></a>build.xml</h6><p>该文件用于执行编译操作，<strong>右键该文件→Run As→Ant Build</strong>，即可执行。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE project [&lt;!ENTITY buildfile SYSTEM "file:D:\Study\work\shiyongqiTest\devHN\devHN\ngboss\library\wadelib\build\build_wade4_plus.xml"&gt;]&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">"quickstart"</span> <span class="attr">default</span>=<span class="string">"all"</span> <span class="attr">basedir</span>=<span class="string">"."</span>&gt;</span></div><div class="line"></div><div class="line">    &amp;buildfile;	</div><div class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"all"</span> <span class="attr">depends</span>=<span class="string">"clean,compile_app,jar_app,compile_web,copy_config,copy_lib,copy_web_resource"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"all_jar"</span> <span class="attr">depends</span>=<span class="string">"clean,compile_app,jar_app,clean_classes,compile_web,jar_web,copy_config,copy_lib,copy_web_resource"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"all_war"</span> <span class="attr">depends</span>=<span class="string">"clean,compile_app,jar_app,clean_classes,compile_web,jar_web,war_app"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"app_war"</span> <span class="attr">depends</span>=<span class="string">"clean,compile_app,jar_app,war_app"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="application"><a href="#application" class="headerlink" title="application"></a>application</h5><p>该文件用于相关路径的配置</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3ZtO.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>web.xml是用于项目启动时servlet，filter等相关配置。这里就不再讨论，只要是<code>quickstart.application</code>，命名要与项目名一致。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE application PUBLIC</span></div><div class="line"><span class="meta">  "-//Apache Software Foundation//Tapestry Specification 3.0//EN"</span></div><div class="line"><span class="meta">  "http://jakarta.apache.org/tapestry/dtd/Tapestry_3_0.dtd"[</span></div><div class="line"><span class="meta">  &lt;!ENTITY public SYSTEM "public.application"&gt;</span></div><div class="line"><span class="meta">  &lt;!ENTITY biz SYSTEM "biz.application"&gt;</span></div><div class="line"><span class="meta">  &lt;!ENTITY frame  SYSTEM "frame.application"&gt;</span></div><div class="line"><span class="meta">]&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">application</span> <span class="attr">name</span>=<span class="string">"quickstart"</span> <span class="attr">engine-class</span>=<span class="string">"com.ailk.web.BaseEngine"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">description</span>&gt;</span>quickstart<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">    &amp;public;</div><div class="line">  	&amp;biz;</div><div class="line">  	&amp;frame;</div><div class="line">       ...</div><div class="line">   <span class="comment">&lt;!--部门管理(new)--&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">page</span> <span class="attr">name</span>=<span class="string">"examples.depart.departManager"</span> <span class="attr">specification-</span>  <span class="attr">path</span>=<span class="string">"/examples/depart/DepartManager.page"</span> <span class="attr">version</span>=<span class="string">"1212"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>这样项目就基本配置完毕啦，启动项目。输入<a href="http://localhost:8080/quickstart，登陆进去即可。我们来做一个测试：" target="_blank" rel="external">http://localhost:8080/quickstart，登陆进去即可。我们来做一个测试：</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3Cc9.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如图，点击添加按钮，在弹出的框中输入相关信息    。点击提交，在表格中就会有显示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3pp4.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>就此该项目大功告成。</p>
+<p>该项目的github地址： <a href="https://github.com/lvshen9/quickstart2" target="_blank" rel="external">lvshen9-quickstart</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T06:46:56.843Z" itemprop="dateUpdated">2019-01-17 14:46:56</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/10/30/quickstart/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/10/30/quickstart/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Taperstry/">Taperstry</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Wade/">Wade</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/30/quickstart/&title=《Wade+Taperstry快速开发》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/30/quickstart/&title=《Wade+Taperstry快速开发》 — Lvshen's Blog&source=本次做了一个关于Wade5+Tapertry3的快速开发，开发环境为Eclipse+Windows10，功能为一个部门管理的增删改查。下面是一个关于本项目..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/30/quickstart/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Wade+Taperstry快速开发》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/30/quickstart/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/30/quickstart/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/11/01/Kafka学习/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Kafka学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/27/面向-Java-开发者的-NoSQL-选项/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">面向Java开发者的NoSQL选项</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/30/quickstart/&title=《Wade+Taperstry快速开发》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/30/quickstart/&title=《Wade+Taperstry快速开发》 — Lvshen's Blog&source=本次做了一个关于Wade5+Tapertry3的快速开发，开发环境为Eclipse+Windows10，功能为一个部门管理的增删改查。下面是一个关于本项目..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/30/quickstart/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Wade+Taperstry快速开发》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/30/quickstart/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/30/quickstart/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/10/30/quickstart/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

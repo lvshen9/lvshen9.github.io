@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>【算法】字符串是否包含问题 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="算法,字符串">
+    <meta name="description" content="转载至： 【算法】字符串是否包含问题 | iTimeTraveler  在网上看到这篇文章：一次谷歌面试趣事。觉得其中的算法题以及作者的解决思路很有趣，就拿来分享一下吧。 问题假设这有一个各种字母组成的字符串，假设这还有另外一个字符串，而且这个字符串里的字母数相对少一些。从算法是讲，什么方法能最快的查出所有小字符串里的字母在大字符串里都有？ 比如，如果是下面两个字符串：  String 1: A">
+<meta name="keywords" content="算法,字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【算法】字符串是否包含问题">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="转载至： 【算法】字符串是否包含问题 | iTimeTraveler  在网上看到这篇文章：一次谷歌面试趣事。觉得其中的算法题以及作者的解决思路很有趣，就拿来分享一下吧。 问题假设这有一个各种字母组成的字符串，假设这还有另外一个字符串，而且这个字符串里的字母数相对少一些。从算法是讲，什么方法能最快的查出所有小字符串里的字母在大字符串里都有？ 比如，如果是下面两个字符串：  String 1: A">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-19T06:17:49.248Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【算法】字符串是否包含问题">
+<meta name="twitter:description" content="转载至： 【算法】字符串是否包含问题 | iTimeTraveler  在网上看到这篇文章：一次谷歌面试趣事。觉得其中的算法题以及作者的解决思路很有趣，就拿来分享一下吧。 问题假设这有一个各种字母组成的字符串，假设这还有另外一个字符串，而且这个字符串里的字母数相对少一些。从算法是讲，什么方法能最快的查出所有小字符串里的字母在大字符串里都有？ 比如，如果是下面两个字符串：  String 1: A">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【算法】字符串是否包含问题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【算法】字符串是否包含问题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-19T05:51:23.000Z" itemprop="datePublished" class="page-time">
+  2017-10-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">2.</span> <span class="post-toc-text">解决方案</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-轮询"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1. 轮询</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-排序"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2. 排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-哈希表"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3. 哈希表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4、Bitmap位图法"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">4、Bitmap位图法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-素数"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">5. 素数</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#测试代码"><span class="post-toc-number">3.</span> <span class="post-toc-text">测试代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-【算法】字符串是否包含问题"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【算法】字符串是否包含问题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-19 13:51:23" datetime="2017-10-19T05:51:23.000Z"  itemprop="datePublished">2017-10-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>转载至： <a href="https://itimetraveler.github.io/2017/10/18/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E9%97%AE%E9%A2%98/" target="_blank" rel="external">【算法】字符串是否包含问题 | iTimeTraveler</a></p>
+</blockquote>
+<p>在网上看到这篇文章：<a href="http://www.vaikan.com/google-interviewing-story/" target="_blank" rel="external">一次谷歌面试趣事</a>。觉得其中的算法题以及作者的解决思路很有趣，就拿来分享一下吧。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>假设这有一个各种字母组成的字符串，假设这还有另外一个字符串，而且这个字符串里的字母数相对少一些。从算法是讲，什么方法能最快的查出所有小字符串里的字母在大字符串里都有？</p>
+<p>比如，如果是下面两个字符串：</p>
+<blockquote>
+<p>String 1: ABCDEFGHLMNOPQRS<br>String 2: DCGSRQPO</p>
+</blockquote>
+<a id="more"></a>
+<p>答案是true，所有在String2里的字母String1也都有。如果是下面两个字符串：</p>
+<blockquote>
+<p>String 1: ABCDEFGHLMNOPQRS<br>String 2: DCGSRQPZ</p>
+</blockquote>
+<p>答案是false，因为第二个字符串里的Z字母不在第一个字符串里。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="1-轮询"><a href="#1-轮询" class="headerlink" title="1. 轮询"></a>1. 轮询</h4><p>对于这种操作最简单最幼稚的做法是轮询第二个字符串里的每个字母，看它是否同在第一个字符串里。从算法上讲，这需要<code>O(n*m)</code>次操作，其中n是string1的长度，m是string2的长度。就拿上面的例子来说，最坏的情况下将会有16*8 = 128次操作。</p>
+<h4 id="2-排序"><a href="#2-排序" class="headerlink" title="2. 排序"></a>2. 排序</h4><p>一个稍微好一点的方案是先对这两个字符串的字母进行排序，然后同时对两个字串依次轮询。两个字串的排序需要<code>O(m log m) + O(n log n)</code>次操作（常规情况下），之后的线性扫描需要<code>O(m+n)</code>次操作。同样拿上面的字串做例子，将会需要16<em>4 + 8</em>3 = 88加上对两个字串线性扫描的16 + 8 = 24的操作。（随着字串长度的增长，你会发现这个算法的效果会越来越好）</p>
+<p>不过，常规排序比如快排可以达到<code>O(n log n)</code>的时间复杂度，这里也可以选用用空间换时间的的基数排序、桶排序等线性时间复杂度的排序算法。</p>
+<h4 id="3-哈希表"><a href="#3-哈希表" class="headerlink" title="3. 哈希表"></a>3. 哈希表</h4><p>哈希表Hashtable是一个只需要<code>O(n+m)</code>次操作的算法。方法就是，对第一个字串进行轮询，把其中的每个字母都放入一个Hashtable里（时间成本是<code>O(n)</code>，这里是16次操作）。然后轮询第二个字串，在Hashtable里查询每个字母，看能否找到。如果找不到，说明没有匹配成功。这将消耗掉8次操作 —— 这样两项操作加起来一共只有24次。不错吧，比前面两种方案都要好。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 哈希表Hashset</div><div class="line"> */</div><div class="line">public static boolean isSubsetByHashset(String a, String b)&#123;</div><div class="line">	char[] ca = a.toCharArray();</div><div class="line">	char[] cb = b.toCharArray();</div><div class="line">	HashSet&lt;Character&gt; set = new HashSet&lt;Character&gt;();</div><div class="line"></div><div class="line">	for(char c : ca)&#123;</div><div class="line">		set.add(c);</div><div class="line">	&#125;</div><div class="line">	for(char c : cb)&#123;</div><div class="line">		if(!set.contains(c))&#123;</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="4、Bitmap位图法"><a href="#4、Bitmap位图法" class="headerlink" title="4、Bitmap位图法"></a>4、Bitmap位图法</h4><p>这个解决方案思想和Hashtable一致，只不过使用的是Bitmap来为每一个字符保留一位。同样只需要<code>O(n+m)</code>次操作。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">// 字母编码区间[A - z]:[65 - 122]</div><div class="line">public static final int LETTER_REGION = 122 - 65 + 1;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 比特位方案</div><div class="line"> */</div><div class="line">public static boolean isSubsetByBitmap(String a, String b)&#123;</div><div class="line">	char[] ca = a.toCharArray();</div><div class="line">	char[] cb = b.toCharArray();</div><div class="line">	byte[] bitmap = new byte[LETTER_REGION / Byte.SIZE];</div><div class="line"></div><div class="line">	for(char c : ca)&#123;</div><div class="line">		setBit(bitmap, c - 'A');</div><div class="line">	&#125;</div><div class="line">	for(char c : cb)&#123;</div><div class="line">		if(getBit(bitmap, c - 'A') == 0)&#123;</div><div class="line">			System.out.println("No exist char in Bitmap: " + c);</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return true;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * 写入指定位的比特</div><div class="line"> */</div><div class="line">public static void setBit(byte bitmap[], int k)&#123;</div><div class="line">	bitmap[k / Byte.SIZE] |= (1 &lt;&lt; (k % Byte.SIZE));</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 读取指定位的比特</div><div class="line"> */</div><div class="line">public static int getBit(byte bitmap[], int k)&#123;</div><div class="line">	return (bitmap[k / Byte.SIZE] &amp; (1 &lt;&lt; (k % Byte.SIZE)));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到此为止，<code>O(n+m)</code>几乎是你能得到的最好的结果了，因为至少要对每个字母至少访问一次才能完成这项操作，而上述这两个方案是刚好是对每个字母只访问一次。下面看看文章中最后的这个素数方案。</p>
+<h4 id="5-素数"><a href="#5-素数" class="headerlink" title="5. 素数"></a>5. 素数</h4><p>假设我们有一个一定个数的字母组成字串。我给每个字母分配一个素数，从2开始，往后类推。这样A将会是2，B将会是3，C将会是5，等等。现在我遍历第一个字串，把每个字母代表的素数相乘。最终会得到一个很大的整数，对吧？然后 —— 轮询第二个字符串，用每个字母除它。如果除的结果有余数，这说明有不匹配的字母。如果整个过程中没有余数，你应该知道它是第一个字串恰好的子集了。这样不行吗？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">public static int primes[] =  &#123;</div><div class="line">			2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,</div><div class="line">			107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,</div><div class="line">			223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,</div><div class="line">			337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,</div><div class="line">			457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,</div><div class="line">			593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,</div><div class="line">			719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,</div><div class="line">			857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991&#125;;</div><div class="line">// 字母编码区间[A - z]:[65 - 122]</div><div class="line">public static final int LETTER_REGION = 122 - 65 + 1;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * 素数方案</div><div class="line"> */</div><div class="line">public static boolean isSubsetByPrimeNumber(String a, String b)&#123;</div><div class="line">	char[] ca = a.toCharArray();</div><div class="line">	char[] cb = b.toCharArray();</div><div class="line"></div><div class="line">	// 防止乘积int溢出，使用BigInteger存储乘积结果</div><div class="line">	BigInteger p = BigInteger.ONE;</div><div class="line">	for(char c : ca)&#123;</div><div class="line">		p = p.multiply(BigInteger.valueOf(primes[c - 'A']));</div><div class="line">	&#125;</div><div class="line">	System.out.println("乘积结果p = " + p.toString());</div><div class="line">	for(char c : cb)&#123;</div><div class="line">		if(!p.remainder(BigInteger.valueOf(primes[c - 'A'])).equals(BigInteger.ZERO))&#123;</div><div class="line">			System.out.println("No exist char: " + c);</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class CharacterSubset &#123;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 假设你有一个一定长度的由字母组成的字符串。你还有另外一个，短些。你如何才能知道所有的在较短的字符串里的字母在长字符串里也有？</div><div class="line">	 */</div><div class="line">	public static void main(String args[])&#123;</div><div class="line">		String a1 = "ABCDEFGHLMNOPQRS";</div><div class="line">		String b1 = "DCGSRQPOM";</div><div class="line"></div><div class="line">		String a2 = "ABCDEFGHLMNOPQRS";</div><div class="line">		String b2 = "DCGSRQPOZ";</div><div class="line"></div><div class="line">		System.out.println("\na1 and b1: " + isSubsetByHashset(a1, b1));</div><div class="line">		System.out.println("\na2 and b2: " + isSubsetByHashset(a2, b2));</div><div class="line">		System.out.println("\na1 and b1: " + isSubsetByPrimeNumber(a1, b1));</div><div class="line">		System.out.println("\na2 and b2: " + isSubsetByPrimeNumber(a2, b2));</div><div class="line">		System.out.println("\na1 and b1: " + isSubsetByBitmap(a1, b1));</div><div class="line">		System.out.println("\na2 and b2: " + isSubsetByBitmap(a2, b2));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>就如文章中所说，素数方案在算法上并不能说就比哈希表好。而且在实际操作中，你很可能仍会使用哈希表的方案，因为它更通用，无需跟麻烦的大型数字打交道。但从”巧妙水平“上讲，Guy提供的素数方案是一种更、更、更有趣的方案。</p>
+<p>欢迎关注我的博客：* <a href="http://lvshen9.coding.me/" target="_blank" rel="external">Lvshen’s Blog</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="http://www.vaikan.com/google-interviewing-story/" target="_blank" rel="external">一次谷歌面试趣事</a></li>
+<li><a href="http://blog.csdn.net/v_JULY_v/article/details/6347454" target="_blank" rel="external">程序员编程艺术：第二章、字符串是否包含问题</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-10-19T06:17:49.248Z" itemprop="dateUpdated">2017-10-19 14:17:49</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/10/19/【算法】字符串是否包含问题/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/&title=《【算法】字符串是否包含问题》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/&title=《【算法】字符串是否包含问题》 — Lvshen's Blog&source=
+转载至： 【算法】字符串是否包含问题 | iTimeTraveler
+
+在网上看到这篇文章：一次谷歌面试趣事。觉得其中的算法题以及作者的解决思路很有趣，..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【算法】字符串是否包含问题》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/24/14万程序员挑战过的算法趣题/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">14万程序员挑战过的算法趣题</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/17/分布式与集群/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">分布式与集群</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/&title=《【算法】字符串是否包含问题》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/&title=《【算法】字符串是否包含问题》 — Lvshen's Blog&source=
+转载至： 【算法】字符串是否包含问题 | iTimeTraveler
+
+在网上看到这篇文章：一次谷歌面试趣事。觉得其中的算法题以及作者的解决思路很有趣，..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【算法】字符串是否包含问题》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/10/19/【算法】字符串是否包含问题/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

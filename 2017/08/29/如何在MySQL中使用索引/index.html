@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>如何在MySQL中使用索引 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="MySQL,索引,数据库">
+    <meta name="description" content="概述为了在数据库中快速查找我们要的记录，通常会使用索引。合理的使用索引能大大的提高数据库的访问性能。本文主要介绍如何在MySQL数据库中使用索引，以及如何创建高效的索引。 索引的优点 大大减轻了服务器需要扫描的数据量，从而提高了数据的检索速度 帮助服务器避免排序和临时表 可以将随机I/O变为顺序I/O  索引类型">
+<meta name="keywords" content="MySQL,索引,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在MySQL中使用索引">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="概述为了在数据库中快速查找我们要的记录，通常会使用索引。合理的使用索引能大大的提高数据库的访问性能。本文主要介绍如何在MySQL数据库中使用索引，以及如何创建高效的索引。 索引的优点 大大减轻了服务器需要扫描的数据量，从而提高了数据的检索速度 帮助服务器避免排序和临时表 可以将随机I/O变为顺序I/O  索引类型">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-29T02:23:09.686Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在MySQL中使用索引">
+<meta name="twitter:description" content="概述为了在数据库中快速查找我们要的记录，通常会使用索引。合理的使用索引能大大的提高数据库的访问性能。本文主要介绍如何在MySQL数据库中使用索引，以及如何创建高效的索引。 索引的优点 大大减轻了服务器需要扫描的数据量，从而提高了数据的检索速度 帮助服务器避免排序和临时表 可以将随机I/O变为顺序I/O  索引类型">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">如何在MySQL中使用索引</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">如何在MySQL中使用索引</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-29T00:23:33.000Z" itemprop="datePublished" class="page-time">
+  2017-08-29
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#索引的优点"><span class="post-toc-number">2.</span> <span class="post-toc-text">索引的优点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#索引类型"><span class="post-toc-number">3.</span> <span class="post-toc-text">索引类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-主键索引"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1.主键索引</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-唯一索引"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2.唯一索引</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-普通索引"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3.普通索引</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-全文索引"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">4.全文索引</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#5-组合"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">5.组合</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#有效索引"><span class="post-toc-number">4.</span> <span class="post-toc-text">有效索引</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-全值匹配"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">1.全值匹配</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-匹配列前缀"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">2.匹配列前缀</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#高效索引策略"><span class="post-toc-number">5.</span> <span class="post-toc-text">高效索引策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-前缀索引"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">1.前缀索引</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-覆盖索引"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">2.覆盖索引</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用索引排序"><span class="post-toc-number">6.</span> <span class="post-toc-text">使用索引排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-如何在MySQL中使用索引"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">如何在MySQL中使用索引</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-29 08:23:33" datetime="2017-08-29T00:23:33.000Z"  itemprop="datePublished">2017-08-29</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>为了在数据库中快速查找我们要的记录，通常会使用索引。合理的使用索引能大大的提高数据库的访问性能。本文主要介绍如何在MySQL数据库中使用索引，以及如何创建高效的索引。</p>
+<h4 id="索引的优点"><a href="#索引的优点" class="headerlink" title="索引的优点"></a>索引的优点</h4><blockquote>
+<p>大大减轻了服务器需要扫描的数据量，从而提高了数据的检索速度</p>
+<p>帮助服务器避免排序和临时表</p>
+<p>可以将随机I/O变为顺序I/O</p>
+</blockquote>
+<h4 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h4><a id="more"></a>
+<h5 id="1-主键索引"><a href="#1-主键索引" class="headerlink" title="1.主键索引"></a>1.主键索引</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">'表名'</span> <span class="keyword">ADD</span> PRIMARY <span class="keyword">KEY</span> <span class="string">'索引名'</span> (<span class="string">'column'</span>);</div></pre></td></tr></table></figure>
+<h5 id="2-唯一索引"><a href="#2-唯一索引" class="headerlink" title="2.唯一索引"></a>2.唯一索引</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">'table_name'</span> <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> <span class="string">'index_name'</span> (<span class="string">'column'</span>);</div></pre></td></tr></table></figure>
+<h5 id="3-普通索引"><a href="#3-普通索引" class="headerlink" title="3.普通索引"></a>3.普通索引</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">'table_name'</span> <span class="keyword">ADD</span> <span class="keyword">INDEX</span> <span class="string">'index_name'</span> (<span class="string">'column'</span>);</div></pre></td></tr></table></figure>
+<h5 id="4-全文索引"><a href="#4-全文索引" class="headerlink" title="4.全文索引"></a>4.全文索引</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">'table_name'</span> <span class="keyword">ADD</span> FULLTEXT <span class="string">'index_name'</span> (<span class="string">'column'</span>);</div></pre></td></tr></table></figure>
+<h5 id="5-组合"><a href="#5-组合" class="headerlink" title="5.组合"></a>5.组合</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">'table_name'</span> <span class="keyword">ADD</span> <span class="keyword">INDEX</span> <span class="string">'index_name'</span> (<span class="string">'column1'</span>, <span class="string">'column2'</span>, ...);</div></pre></td></tr></table></figure>
+<h4 id="有效索引"><a href="#有效索引" class="headerlink" title="有效索引"></a>有效索引</h4><p>首先创建一个测试表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> user_test;</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_test(</div><div class="line"></div><div class="line">    <span class="keyword">id</span> <span class="built_in">int</span> AUTO_INCREMENT PRIMARY <span class="keyword">KEY</span>,</div><div class="line">    user_name <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    sex <span class="built_in">bit</span>(<span class="number">1</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> b<span class="string">'1'</span>,</div><div class="line">    city <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    age <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line"></div><div class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</div></pre></td></tr></table></figure>
+<p>在创建一个组合索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> user_test <span class="keyword">ADD</span> <span class="keyword">INDEX</span> idx_user (user_name , city , age);</div></pre></td></tr></table></figure>
+<h5 id="1-全值匹配"><a href="#1-全值匹配" class="headerlink" title="1.全值匹配"></a>1.全值匹配</h5><p>全值匹配指的是和索引中的所有列进行匹配，如：以上面创建的索引为例，在where条件后可同时查询（user_name，city，age）为条件的数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> user_test <span class="keyword">WHERE</span> user_name = <span class="string">'feinik'</span> <span class="keyword">AND</span> age = <span class="number">26</span> <span class="keyword">AND</span> city = <span class="string">'广州'</span>;</div></pre></td></tr></table></figure>
+<h5 id="2-匹配列前缀"><a href="#2-匹配列前缀" class="headerlink" title="2.匹配列前缀"></a>2.匹配列前缀</h5><p>指匹配列值的开头部分，如：查询用户名以feinik开头的所有用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> user_test <span class="keyword">WHERE</span> user_name <span class="keyword">LIKE</span> <span class="string">'feinik%'</span>;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：如果where查询条件中有某个列的范围查询，则其右边的所有列都无法使用索引优化查询</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> user_test <span class="keyword">WHERE</span> user_name = <span class="string">'feinik'</span> <span class="keyword">AND</span> city <span class="keyword">LIKE</span> <span class="string">'广州%'</span> <span class="keyword">AND</span> age = <span class="number">26</span>;</div></pre></td></tr></table></figure>
+<h4 id="高效索引策略"><a href="#高效索引策略" class="headerlink" title="高效索引策略"></a>高效索引策略</h4><h5 id="1-前缀索引"><a href="#1-前缀索引" class="headerlink" title="1.前缀索引"></a>1.前缀索引</h5><p>如果索引的字符列很长，会造成索引失效。解决方法之一；使用哈希索引；之二：使用前缀索引。前缀索引是选择字符列的前n个字符作为索引，这样可以大大节约索引空间，从而提高索引效率。</p>
+<p>首先：确定前缀索引的长度</p>
+<p>前缀索引要选择足够长的前缀以保证高的选择性，同时又不能太长，我们可以通过以下方式来计算出合适的前缀索引的选择长度值：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> index_column)/<span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> table_name; <span class="comment">-- index_column代表要添加前缀索引的列</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：比值越大，索引的效率越高</p>
+</blockquote>
+<p>确定前缀索引长度后，创建前缀索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name (index_column(<span class="keyword">length</span>));</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：MySql无法使用前缀索引做ORDER BY 和 GROUP BY以及使用前缀索引做覆盖扫描</p>
+</blockquote>
+<h5 id="2-覆盖索引"><a href="#2-覆盖索引" class="headerlink" title="2.覆盖索引"></a>2.覆盖索引</h5><p>如果一个索引（如：组合索引）中包含所有要查询的字段的值，那么就称之为覆盖索引，如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">WHERE</span> user_name = <span class="string">'feinik'</span> <span class="keyword">AND</span> age &gt; <span class="number">25</span>;</div></pre></td></tr></table></figure>
+<p>因为要查询的字段（user_name, city, age）都包含在组合索引的索引列中，所以就使用了覆盖索引查询，查看是否使用了覆盖索引可以通过执行计划中的Extra中的值为Using index则证明使用了覆盖索引，覆盖索引可以极大的提高访问性能。</p>
+<h4 id="使用索引排序"><a href="#使用索引排序" class="headerlink" title="使用索引排序"></a>使用索引排序</h4><p>使用索引来排序极大的提高了排序速度，其需要满足以下条件即可:</p>
+<ul>
+<li>1、ORDER BY子句后的列顺序要与组合索引的列顺序一致，且所有排序列的排序方向（正序/倒序）需一致</li>
+<li>2、所查询的字段值需要包含在索引列中，及满足覆盖索引</li>
+</ul>
+<p>举个栗子：</p>
+<p>首先创建一个组合索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> user_test <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_user(user_name , city , age);</div></pre></td></tr></table></figure>
+<p>那么我们就可以使用索引排序了</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1、<span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">ORDER</span> <span class="keyword">BY</span> user_name;</div><div class="line"></div><div class="line">2、<span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">ORDER</span> <span class="keyword">BY</span> user_name, city;</div><div class="line"></div><div class="line">3、<span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">ORDER</span> <span class="keyword">BY</span> user_name <span class="keyword">DESC</span>, city <span class="keyword">DESC</span>;</div><div class="line"></div><div class="line">4、<span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">WHERE</span> user_name = <span class="string">'feinik'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> city;</div></pre></td></tr></table></figure>
+<p>注：第4点说明—-如果where查询条件为索引列的第一列，且为常量条件，那么也可以使用到索引</p>
+<p>但下面的例子就会使索引排序失效</p>
+<p>1、sex不在索引列中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">ORDER</span> <span class="keyword">BY</span> user_name, sex;</div></pre></td></tr></table></figure>
+<p>2、排序列的方向不一致</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">ORDER</span> <span class="keyword">BY</span> user_name <span class="keyword">ASC</span>, city <span class="keyword">DESC</span>;</div></pre></td></tr></table></figure>
+<p>3、所要查询的字段列sex没有包含在索引列中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age, sex <span class="keyword">FROM</span> user_test <span class="keyword">ORDER</span> <span class="keyword">BY</span> user_name;</div></pre></td></tr></table></figure>
+<p>4、where查询条件后的user_name为范围查询，所以无法使用到索引的其他列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test <span class="keyword">WHERE</span> user_name <span class="keyword">LIKE</span> <span class="string">'feinik%'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> city;</div></pre></td></tr></table></figure>
+<p>5、多表连接查询时，只有当ORDER BY后的排序字段都是第一个表中的索引列（需要满足以上索引排序的两个规则）时，方可使用索引排序。如：再创建一个用户的扩展表user_test_ext，并建立uid的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> user_test_ext;</div><div class="line"></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_test_ext(</div><div class="line"></div><div class="line">    <span class="keyword">id</span> <span class="built_in">int</span> AUTO_INCREMENT PRIMARY <span class="keyword">KEY</span>,</div><div class="line"></div><div class="line">    uid <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line"></div><div class="line">    u_password <span class="built_in">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line"></div><div class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</div><div class="line"></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> user_test_ext <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_user_ext(uid);</div></pre></td></tr></table></figure>
+<p>索引排序有效</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test u <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> user_test_ext ue <span class="keyword">ON</span> u.id = ue.uid <span class="keyword">ORDER</span> <span class="keyword">BY</span> u.user_name;</div></pre></td></tr></table></figure>
+<p>索引排序无效</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> user_name, city, age <span class="keyword">FROM</span> user_test u <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> user_test_ext ue <span class="keyword">ON</span> u.id = ue.uid <span class="keyword">ORDER</span> <span class="keyword">BY</span> ue.uid;</div></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本文讲解了索引规则，不同索引的创建，以及如何正确的创建出高效的索引技巧来尽可能的提高查询速度，当然了关于索引的使用技巧不单单只有这些，关于索引的更多技巧还需平时不断的积累相关经验。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-29T02:23:09.686Z" itemprop="dateUpdated">2017-08-29 10:23:09</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/08/29/如何在MySQL中使用索引/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/索引/">索引</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/&title=《如何在MySQL中使用索引》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/&title=《如何在MySQL中使用索引》 — Lvshen's Blog&source=概述为了在数据库中快速查找我们要的记录，通常会使用索引。合理的使用索引能大大的提高数据库的访问性能。本文主要介绍如何在MySQL数据库中使用索引，以及如何..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《如何在MySQL中使用索引》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/29/JavaScript常用代码集合/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JavaScript常用代码集合</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/28/遗传算法的基本概念和Java实现/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">遗传算法的基本概念和Java实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/&title=《如何在MySQL中使用索引》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/&title=《如何在MySQL中使用索引》 — Lvshen's Blog&source=概述为了在数据库中快速查找我们要的记录，通常会使用索引。合理的使用索引能大大的提高数据库的访问性能。本文主要介绍如何在MySQL数据库中使用索引，以及如何..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《如何在MySQL中使用索引》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/08/29/如何在MySQL中使用索引/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

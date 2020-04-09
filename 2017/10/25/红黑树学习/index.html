@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>红黑树学习 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="红黑树,TreeMap">
+    <meta name="description" content="欢迎关注： Lvshen’s Blog  什么是TreeMap首先我们来先说说HashMap与LinkedHashMap，它们保证了以$O(1)$的时间复杂度进行增、删、改、查，从存储角度考虑，这两种数据结构是非常优秀的。另外，LinkedHashMap还额外地保证了Map的遍历顺序可以与put顺序一致，解决了HashMap本身无序的问题。 尽管如此，HashMap与LinkedHashMap还">
+<meta name="keywords" content="红黑树,TreeMap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红黑树学习">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/10/25/红黑树学习/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="欢迎关注： Lvshen’s Blog  什么是TreeMap首先我们来先说说HashMap与LinkedHashMap，它们保证了以$O(1)$的时间复杂度进行增、删、改、查，从存储角度考虑，这两种数据结构是非常优秀的。另外，LinkedHashMap还额外地保证了Map的遍历顺序可以与put顺序一致，解决了HashMap本身无序的问题。 尽管如此，HashMap与LinkedHashMap还">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170517224514744-1577819946.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170517223022275-867941507.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170518195348119-47802561.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170518194915557-988417494.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170518195456557-660730637.png">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-10-25/26457664.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519160042119-1669157306.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519171103885-2133973500.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519173427978-871145244.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519173519697-1741425311.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519174201103-1881410850.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520112041322-1532859339.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520112738838-483359468.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520113424182-283673626.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520114451557-917087143.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520122752635-1721937551.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520123047869-789604833.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520133247150-1002199082.png">
+<meta property="og:updated_time" content="2017-10-27T07:09:04.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="红黑树学习">
+<meta name="twitter:description" content="欢迎关注： Lvshen’s Blog  什么是TreeMap首先我们来先说说HashMap与LinkedHashMap，它们保证了以$O(1)$的时间复杂度进行增、删、改、查，从存储角度考虑，这两种数据结构是非常优秀的。另外，LinkedHashMap还额外地保证了Map的遍历顺序可以与put顺序一致，解决了HashMap本身无序的问题。 尽管如此，HashMap与LinkedHashMap还">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/801753/201705/801753-20170517224514744-1577819946.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">红黑树学习</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">红黑树学习</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-25T02:33:42.000Z" itemprop="datePublished" class="page-time">
+  2017-10-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#什么是TreeMap"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是TreeMap</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#认识红黑树"><span class="post-toc-number">2.</span> <span class="post-toc-text">认识红黑树</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TreeMap相关特性"><span class="post-toc-number">3.</span> <span class="post-toc-text">TreeMap相关特性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TreeMap基本数据结构"><span class="post-toc-number">4.</span> <span class="post-toc-text">TreeMap基本数据结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TreeMap添加数据流程"><span class="post-toc-number">5.</span> <span class="post-toc-text">TreeMap添加数据流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#fixAfterInsertion方法流程"><span class="post-toc-number">6.</span> <span class="post-toc-text">fixAfterInsertion方法流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#后记"><span class="post-toc-number">7.</span> <span class="post-toc-text">后记</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-红黑树学习"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">红黑树学习</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-25 10:33:42" datetime="2017-10-25T02:33:42.000Z"  itemprop="datePublished">2017-10-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>欢迎关注： <a href="http://lvshen9.coding.me/" target="_blank" rel="external">Lvshen’s Blog</a></p>
+</blockquote>
+<h4 id="什么是TreeMap"><a href="#什么是TreeMap" class="headerlink" title="什么是TreeMap"></a>什么是TreeMap</h4><p>首先我们来先说说HashMap与LinkedHashMap，它们保证了以$O(1)$的时间复杂度进行增、删、改、查，从存储角度考虑，这两种数据结构是非常优秀的。另外，LinkedHashMap还额外地保证了Map的遍历顺序可以与put顺序一致，解决了HashMap本身无序的问题。</p>
+<p>尽管如此，HashMap与LinkedHashMap还是有自己的局限性—-它们<strong>不具备统计性能，或者说它们的统计性能时间复杂度并不是很好才更准确，所有的统计必须遍历所有Entry，因此时间复杂度为$O(N)$</strong>。比如Map的Key有1、2、3、4、5、6、7，我现在要统计：</p>
+<blockquote>
+<ol>
+<li>所有Key比3大的键值对有哪些</li>
+<li>Key最小的和Key最大的是哪两个</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<p>就类似这些操作，HashMap和LinkedHashMap做得比较差，此时我们可以使用TreeMap。TreeMap的Key按照自然顺序进行排序或者根据创建映射时提供的Comparator接口进行排序。<strong>TreeMap为增、删、改、查这些操作提供了$log(N)$的时间开销</strong>，从存储角度而言，这比HashMap与LinkedHashMap的$O(1)$时间复杂度要差些；但是在统计性能上，TreeMap同样可以保证$log(N)$的时间开销，这又比HashMap与LinkedHashMap的$O(N)$时间复杂度好不少。</p>
+<p>因此总结而言：如果只需要存储功能，使用HashMap与LinkedHashMap是一种更好的选择；如果还需要保证统计性能或者需要对Key按照一定规则进行排序，那么使用TreeMap是一种更好的选择。</p>
+<h4 id="认识红黑树"><a href="#认识红黑树" class="headerlink" title="认识红黑树"></a>认识红黑树</h4><p>在讲TreeMap前还是先说一下红黑树的一些基本概念，这样可以更好地理解之后TreeMap的源代码。</p>
+<p><strong>二叉查找树是在生成的时候是非常容易失衡的</strong>，造成的最坏情况就是一边倒（即只有左子树/右子树），这样会导致树检索的效率大大降低。</p>
+<p>红黑树是为了维护二叉查找树的平衡而产生的一种树，根据维基百科的定义，红黑树有五个特性，但我觉得讲得不太易懂，我自己总结一下，红黑树的特性大致有三个（换句话说，<strong>插入、删除节点后整个红黑树也必须满足下面的三个性质，如果不满足则必须进行旋转</strong>）：</p>
+<ol>
+<li>根节点与叶节点都是黑色节点，其中叶节点为Null节点</li>
+<li>每个红色节点的两个子节点都是黑色节点，换句话说就是不能有连续两个红色节点</li>
+<li>从根节点到所有叶子节点上的黑色节点数量是相同的</li>
+</ol>
+<p>上述的性质约束了红黑树的关键：<strong>从根到叶子的最长可能路径不多于最短可能路径的两倍长</strong>。得到这个结论的理由是：</p>
+<ol>
+<li>红黑树中最短的可能路径是全部为黑色节点的路径</li>
+<li>红黑树中最长的可能路径是红黑相间的路径</li>
+</ol>
+<p>此时（2）正好是（1）的两倍长。结果就是这个树大致上是平衡的，因为比如插入、删除和查找某个值这样的操作最坏情况都要求与树的高度成比例，这个高度的理论上限允许红黑树在最坏情况下都是高效的，而不同于普通的二叉查找树，最终保证了<strong>红黑树能够以$O(log_2 n)$ 的时间复杂度进行搜索、插入、删除</strong>。</p>
+<p>下面展示一张红黑树的实例图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170517224514744-1577819946.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以看到根节点到所有NULL LEAF节点（即叶子节点）所经过的黑色节点都是2个。</p>
+<p>另外从这张图上我们还能得到一个结论：<strong>红黑树并不是高度的平衡树</strong>。所谓平衡树指的是一棵空树或它的左右两个子树的高度差的绝对值不超过1，但是我们看：</p>
+<ul>
+<li>最左边的路径$0026–&gt;0017–&gt;0012–&gt;0010–&gt;0003–&gt;NULL LEAF$，它的高度为5</li>
+<li>最后边的路径$0026–&gt;0041–&gt;0047–&gt;NULL LEAF$，它的高度为3</li>
+</ul>
+<p>左右子树的高度差值为2，因此红黑树并不是高度平衡的，它放弃了高度平衡的特性而只追求部分平衡，这种特性降低了插入、删除时对树旋转的要求，从而提升了树的整体性能。而其他平衡树比如AVL树虽然查找性能为性能是$O(logn)$，但是为了维护其平衡特性，可能要在插入、删除操作时进行多次的旋转，产生比较大的消耗。</p>
+<h4 id="TreeMap相关特性"><a href="#TreeMap相关特性" class="headerlink" title="TreeMap相关特性"></a>TreeMap相关特性</h4><table>
+<thead>
+<tr>
+<th><strong>关 注 点</strong></th>
+<th><strong>结  论</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TreeMap是否允许键值对为空</td>
+<td>Key不允许为空，Value允许为空</td>
+</tr>
+<tr>
+<td>TreeMap是否允许重复数据</td>
+<td>Key重复会覆盖，Value允许重复</td>
+</tr>
+<tr>
+<td>TreeMap是否有序</td>
+<td>按照Key的自然顺序排序或者Comparator接口指定的排序算法进行排序</td>
+</tr>
+<tr>
+<td>TreeMap是否线程安全</td>
+<td>非线程安全</td>
+</tr>
+</tbody>
+</table>
+<h4 id="TreeMap基本数据结构"><a href="#TreeMap基本数据结构" class="headerlink" title="TreeMap基本数据结构"></a>TreeMap基本数据结构</h4><p>TreeMap基于<strong>红黑树</strong>实现，既然是红黑树，那么每个节点中除了Key–&gt;Value映射之外，必然存储了红黑树节点特有的一些内容，它们是：</p>
+<ol>
+<li>父节点引用</li>
+<li>左子节点引用</li>
+<li>右子节点引用</li>
+<li>节点颜色</li>
+</ol>
+<p>TreeMap的节点Java代码定义为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    K key;</div><div class="line">    V value;</div><div class="line">    Entry&lt;K,V&gt; left = <span class="keyword">null</span>;</div><div class="line">    Entry&lt;K,V&gt; right = <span class="keyword">null</span>;</div><div class="line">    Entry&lt;K,V&gt; parent;</div><div class="line">    <span class="keyword">boolean</span> color = BLACK;</div><div class="line">    ...</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于颜色只有红色和黑色两种，因此颜色可以使用布尔类型（boolean）来表示，黑色表示为true，红色为false。</p>
+<h4 id="TreeMap添加数据流程"><a href="#TreeMap添加数据流程" class="headerlink" title="TreeMap添加数据流程"></a>TreeMap添加数据流程</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MapTest</span> </span>&#123;</div><div class="line">  <span class="meta">@Test</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTreeMap</span><span class="params">()</span> </span>&#123;</div><div class="line">      TreeMap&lt;Integer, String&gt; treeMap = <span class="keyword">new</span> TreeMap&lt;Integer, String&gt;();</div><div class="line">      treeMap.put(<span class="number">10</span>, <span class="string">"10"</span>);</div><div class="line">      treeMap.put(<span class="number">85</span>, <span class="string">"85"</span>);</div><div class="line">      treeMap.put(<span class="number">15</span>, <span class="string">"15"</span>);</div><div class="line">      treeMap.put(<span class="number">70</span>, <span class="string">"70"</span>);</div><div class="line">      treeMap.put(<span class="number">20</span>, <span class="string">"20"</span>);</div><div class="line">      treeMap.put(<span class="number">60</span>, <span class="string">"60"</span>);</div><div class="line">      treeMap.put(<span class="number">30</span>, <span class="string">"30"</span>);</div><div class="line">      treeMap.put(<span class="number">50</span>, <span class="string">"50"</span>);</div><div class="line"></div><div class="line">      <span class="keyword">for</span> (Map.Entry&lt;Integer, String&gt; entry : treeMap.entrySet()) &#123;</div><div class="line">          System.out.println(entry.getKey() + <span class="string">":"</span> + entry.getValue());</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>本文接下来的内容会给出插入每条数据之后红黑树的数据结构是什么样子的。首先看一下treeMap的put方法的代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</div><div class="line">  Entry&lt;K,V&gt; t = root;</div><div class="line">  <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</div><div class="line">      compare(key, key); <span class="comment">// type (and possibly null) check</span></div><div class="line"></div><div class="line">      root = <span class="keyword">new</span> Entry&lt;&gt;(key, value, <span class="keyword">null</span>);</div><div class="line">      size = <span class="number">1</span>;</div><div class="line">      modCount++;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">int</span> cmp;</div><div class="line">  Entry&lt;K,V&gt; parent;</div><div class="line">  <span class="comment">// split comparator and comparable paths</span></div><div class="line">  Comparator&lt;? <span class="keyword">super</span> K&gt; cpr = comparator;</div><div class="line">  <span class="keyword">if</span> (cpr != <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="keyword">do</span> &#123;</div><div class="line">          parent = t;</div><div class="line">          cmp = cpr.compare(key, t.key);</div><div class="line">          <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>)</div><div class="line">              t = t.left;</div><div class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>)</div><div class="line">              t = t.right;</div><div class="line">          <span class="keyword">else</span></div><div class="line">              <span class="keyword">return</span> t.setValue(value);</div><div class="line">      &#125; <span class="keyword">while</span> (t != <span class="keyword">null</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">if</span> (key == <span class="keyword">null</span>)</div><div class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">      Comparable&lt;? <span class="keyword">super</span> K&gt; k = (Comparable&lt;? <span class="keyword">super</span> K&gt;) key;</div><div class="line">      <span class="keyword">do</span> &#123;</div><div class="line">          parent = t;</div><div class="line">          cmp = k.compareTo(t.key);</div><div class="line">          <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>)</div><div class="line">              t = t.left;</div><div class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>)</div><div class="line">              t = t.right;</div><div class="line">          <span class="keyword">else</span></div><div class="line">              <span class="keyword">return</span> t.setValue(value);</div><div class="line">      &#125; <span class="keyword">while</span> (t != <span class="keyword">null</span>);</div><div class="line">  &#125;</div><div class="line">  Entry&lt;K,V&gt; e = <span class="keyword">new</span> Entry&lt;&gt;(key, value, parent);</div><div class="line">  <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>)</div><div class="line">      parent.left = e;</div><div class="line">  <span class="keyword">else</span></div><div class="line">      parent.right = e;</div><div class="line">  fixAfterInsertion(e);</div><div class="line">  size++;</div><div class="line">  modCount++;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从这段代码，先总结一下TreeMap添加数据的几个步骤：</p>
+<ol>
+<li>获取根节点，根节点为空，产生一个根节点，将其着色为黑色，退出余下流程</li>
+<li>获取比较器，如果传入的Comparator接口不为空，使用传入的Comparator接口实现类进行比较；如果传入的Comparator接口为空，将Key强转为Comparable接口进行比较</li>
+<li>从根节点开始逐一依照规定的排序算法进行比较，取比较值cmp，如果cmp=0，表示插入的Key已存在；如果cmp&gt;0，取当前节点的右子节点；如果cmp&lt;0，取当前节点的左子节点</li>
+<li>排除插入的Key已存在的情况，第（3）步的比较一直比较到当前节点t的左子节点或右子节点为null，此时t就是我们寻找到的节点，cmp&gt;0则准备往t的右子节点插入新节点，cmp&lt;0则准备往t的左子节点插入新节点</li>
+<li>new出一个新节点，默认为黑色，根据cmp的值向t的左边或者右边进行插入</li>
+<li>插入之后进行修复，包括左旋、右旋、重新着色这些操作，让树保持平衡性</li>
+</ol>
+<p>第1~第5步都没有什么问题，红黑树最核心的应当是第6步插入数据之后进行的修复工作，对应的Java代码是TreeMap中的<code>fixAfterInsertion()</code>方法，下面看一下put每个数据之后TreeMap都做了什么操作，借此来理清TreeMap的实现原理。</p>
+<p><strong>put(10, “10”)</strong></p>
+<p>首先是put(10, “10”)，由于此时TreeMap中没有任何节点，因此10为根且根节点为黑色节点，put(10, “10”)之后的数据结构为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170517223022275-867941507.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>put(85, “85”)</strong></p>
+<p>接着是put(85, “85”)，这一步也不难，85比10大，因此在10的右节点上，但是由于85不是根节点，因此会执行<code>fixAfterInsertion()</code>方法进行数据修正，看一下<code>fixAfterInsertion()</code>方法代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fixAfterInsertion</span><span class="params">(Entry&lt;K,V&gt; x)</span> </span>&#123;</div><div class="line"></div><div class="line">  x.color = RED;</div><div class="line">  <span class="keyword">while</span> (x != <span class="keyword">null</span> &amp;&amp; x != root &amp;&amp; x.parent.color == RED) &#123;</div><div class="line">      <span class="keyword">if</span> (parentOf(x) == leftOf(parentOf(parentOf(x)))) &#123;</div><div class="line">          Entry&lt;K,V&gt; y = rightOf(parentOf(parentOf(x)));</div><div class="line">          <span class="keyword">if</span> (colorOf(y) == RED) &#123;</div><div class="line">              setColor(parentOf(x), BLACK);</div><div class="line">              setColor(y, BLACK);</div><div class="line">              setColor(parentOf(parentOf(x)), RED);</div><div class="line">              x = parentOf(parentOf(x));</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">              <span class="keyword">if</span> (x == rightOf(parentOf(x))) &#123;</div><div class="line">                  x = parentOf(x);</div><div class="line">                  rotateLeft(x);</div><div class="line">              &#125;</div><div class="line">              setColor(parentOf(x), BLACK);</div><div class="line">              setColor(parentOf(parentOf(x)), RED);</div><div class="line">              rotateRight(parentOf(parentOf(x)));</div><div class="line">          &#125;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">          Entry&lt;K,V&gt; y = leftOf(parentOf(parentOf(x)));</div><div class="line">          <span class="keyword">if</span> (colorOf(y) == RED) &#123;</div><div class="line">              setColor(parentOf(x), BLACK);</div><div class="line">              setColor(y, BLACK);</div><div class="line">              setColor(parentOf(parentOf(x)), RED);</div><div class="line">              x = parentOf(parentOf(x));</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">              <span class="keyword">if</span> (x == leftOf(parentOf(x))) &#123;</div><div class="line">                  x = parentOf(x);</div><div class="line">                  rotateRight(x);</div><div class="line">              &#125;</div><div class="line">              setColor(parentOf(x), BLACK);</div><div class="line">              setColor(parentOf(parentOf(x)), RED);</div><div class="line">              rotateLeft(parentOf(parentOf(x)));</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  root.color = BLACK;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们看第2行的代码，它<strong>将默认的插入的那个节点着色成为红色</strong>，这很好理解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">根据红黑树的性质（3），红黑树要求从根节点到叶子所有叶子节点上经过的黑色节点个数是相同的，因此如果插入的节点着色为黑色，那必然有可能导致某条路径上的黑色节点数量大于其他路径上的黑色节点数量，因此默认插入的节点必须是红色的，以此来维持红黑树的性质（3）</div></pre></td></tr></table></figure>
+<p>当然插入节点着色为红色节点后，有可能导致的问题是违反性质（2），即出现连续两个红色节点，这就需要通过旋转操作去改变树的结构，解决这个问题。</p>
+<p>接着看第4行的判断，前两个条件都满足，但是因为85这个节点的父节点是根节点的，根节点是黑色节点，因此这个条件不满足，while循环不进去，直接执行一次30行的代码给根节点着色为黑色（因为在旋转过程中有可能导致根节点为红色，而红黑树的根节点必须是黑色，因此最后不管根节点是不是黑色，都要重新着色确保根节点是黑色的）。</p>
+<p>那么put(85, “85”)之后，整个树的结构变为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170518195348119-47802561.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="fixAfterInsertion方法流程"><a href="#fixAfterInsertion方法流程" class="headerlink" title="fixAfterInsertion方法流程"></a>fixAfterInsertion方法流程</h4><p>在看put(15, “15”)之前，必须要先过一下<code>fixAfterInsertion()</code>方法。第5行～第21行的代码和第21行~第38行的代码是一样的，无非一个是操作左子树另一个是操作右子树而已，因此就看前一半：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (x != <span class="keyword">null</span> &amp;&amp; x != root &amp;&amp; x.parent.color == RED) &#123;</div><div class="line">  <span class="keyword">if</span> (parentOf(x) == leftOf(parentOf(parentOf(x)))) &#123;</div><div class="line">      Entry&lt;K,V&gt; y = rightOf(parentOf(parentOf(x)));</div><div class="line">      <span class="keyword">if</span> (colorOf(y) == RED) &#123;</div><div class="line">          setColor(parentOf(x), BLACK);</div><div class="line">          setColor(y, BLACK);</div><div class="line">          setColor(parentOf(parentOf(x)), RED);</div><div class="line">          x = parentOf(parentOf(x));</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="keyword">if</span> (x == rightOf(parentOf(x))) &#123;</div><div class="line">              x = parentOf(x);</div><div class="line">              rotateLeft(x);</div><div class="line">          &#125;</div><div class="line">          setColor(parentOf(x), BLACK);</div><div class="line">          setColor(parentOf(parentOf(x)), RED);</div><div class="line">          rotateRight(parentOf(parentOf(x)));</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第2行的判断注意一下，用语言描述出来就是：<strong>判断当前节点的父节点与当前节点的父节点的父节点的左子节点是否同一个节点</strong>。翻译一下就是：<strong>当前节点是否左子节点插入</strong>，关于这个不明白的我就不解释了，可以自己多思考一下。对这整段代码流程如下：</p>
+<ol>
+<li>新插入节点命名为x，将x着色为红色</li>
+<li>x不是根节点且x的父节点颜色为红色</li>
+<li>x是否左子节点插入</li>
+<li>否，走左子节点插入流程</li>
+<li>是，获取x的叔父节点</li>
+<li>x的叔父节点是否为红色</li>
+<li>是，a、x的父节点着色为黑色；b、x的叔父节点着色为黑色；c、x的祖父节点着色为黑色；b、x赋值为其祖父节点用于while条件重新判断，保证不会连续出现两个红色节点。</li>
+<li>否，x是否为左子树内侧插入</li>
+<li>是，对x的父节点进行一次左旋</li>
+<li>否，a、x的父节点着色为黑色；b、x的祖父节点着色为红色；c、对x的祖父节点进行一次右旋；</li>
+<li>一次修正结果</li>
+</ol>
+<p>这里有一个左子树内侧插入与左子树点外侧插入的概念，我用图表示一下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170518194915557-988417494.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>其中左边的是左子树外侧插入，右边的是左子树内侧插入，可以从上面的流程图上看到，对于这两种插入方式的处理是不同的，区别是后者也就是<strong>左子树内侧插入多一步左旋操作</strong>。</p>
+<p>能看出，<strong>红黑树的插入最多只需要进行两次旋转</strong>，至于红黑树的旋转，后面结合代码进行讲解。</p>
+<p><strong>put(15, “15”)</strong></p>
+<p>看完fixAfterInsertion方法流程之后，继续添加数据，这次添加的是put(15, “15”)，15比10大且比85小，因此15最终应当是85的左子节点，默认插入的是红色节点，因此首先将15作为红色节点插入85的左子节点后的结构应当是：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170518195456557-660730637.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>但是显然这里违反了红黑树的性质（2），即连续出现了两个红色节点，因此此时必须进行旋转。回看前面fixAfterInsertion的流程，上面演示的是左子树插入流程，右子树一样，可以看到这是右子树内侧插入，需要进行两次旋转操作：</p>
+<ol>
+<li>对新插入节点的父节点进行一次右旋操作</li>
+<li>新插入节点的父节点着色为黑色，新插入节点的祖父节点着色为红色</li>
+<li>对新插入节点的祖父节点进行一次左旋操作</li>
+</ol>
+<p>旋转是红黑树中最难理解也是最核心的操作，右旋和左旋是对称的操作，我个人的理解，以右旋为例，对某个节点x进行右旋，其实质是：</p>
+<ul>
+<li><strong>降低左子树的高度，增加右子树的高度</strong></li>
+<li><strong>将x变为当前位置的右子节点</strong></li>
+</ul>
+<p>左旋是同样的道理，在旋转的时候一定要记住这两句话，这将会帮助我们清楚地知道在不同的场景下旋转如何进行。</p>
+<p>先看一下（1）也就是”对新插入节点的父节点进行一次右旋操作”，源代码为<code>rotateRight()</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">rotateRight</span><span class="params">(Entry&lt;K,V&gt; p)</span> </span>&#123;</div><div class="line">  <span class="keyword">if</span> (p != <span class="keyword">null</span>) &#123;</div><div class="line">      Entry&lt;K,V&gt; l = p.left;</div><div class="line">      p.left = l.right;</div><div class="line">      <span class="keyword">if</span> (l.right != <span class="keyword">null</span>) l.right.parent = p;</div><div class="line">      l.parent = p.parent;</div><div class="line">      <span class="keyword">if</span> (p.parent == <span class="keyword">null</span>)</div><div class="line">         root = l;</div><div class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (p.parent.right == p)</div><div class="line">          p.parent.right = l;</div><div class="line">      <span class="keyword">else</span> p.parent.left = l;</div><div class="line">      l.right = p;</div><div class="line">      p.parent = l;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>右旋流程图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-10-25/26457664.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>对85这个节点进行右旋之后还有一次着色操作（2），分别是将x的父节点着色为黑色，将x的祖父节点着色为红色，那么此时的树形结构应当为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519160042119-1669157306.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>然后对节点10进行一次左旋操作（3），左旋之后的结构为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519171103885-2133973500.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最后不管根节点是不是黑色，都将根节点着色为黑色，那么插入15之后的数据结构就变为了上图，满足红黑树的三条特性。</p>
+<p> <strong>put(70, “70”)</strong></p>
+<p>put(70, “70”)就很简单了，70是85的左子节点，由于70的父节点以及叔父节点都是红色节点，因此直接将70的父节点85、将70的叔父节点10着色为黑色即可，70这个节点着色为红色，即满足红黑树的特性，插入70之后的结构图为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519173427978-871145244.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>put(20, “20”)</strong></p>
+<p>put(20, “20”)，插入的位置应当是70的左子节点，默认插入红色，插入之后的结构图为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519173519697-1741425311.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>问题很明显，出现了连续两个红色节点，20的插入位置是一种左子树外侧插入的场景，因此只需要进行着色+对节点85进行一次右旋即可，着色+右旋之后数据结构变为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170519174201103-1881410850.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>put(60, “60”)</strong></p>
+<p>下面进行put(60, “60”)操作，节点60插入的位置是节点20的右子节点，由于节点60的父节点与叔父节点都是红色节点，因此只需要将节点60的父节点与叔父节点着色为黑色，将节点60的组父节点着色为红色即可。</p>
+<p>那么put(60, “60”)之后的结构为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520112041322-1532859339.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>put(30, “30”)</strong></p>
+<p>put(30, “30”)，节点30应当为节点60的左子节点，因此插入节点30之后应该是这样的：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520112738838-483359468.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>显然这里违反了红黑树性质（2）即连续出现了两个红色节点，因此这里要进行旋转。</p>
+<p>put(30, “30”)的操作和put(15, “15”)的操作类似，同样是右子树内侧插入的场景，那么需要进行两次旋转：</p>
+<ol>
+<li>对节点30的父节点节点60进行一次右旋</li>
+<li>右旋之后对节点60的祖父节点20进行一次左旋</li>
+</ol>
+<p>右旋+着色+左旋之后，put(30, “30”)的结果应当为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520113424182-283673626.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>put(50, “50”)</strong></p>
+<p>下一个操作是put(50, “50”)，节点50是节点60的左子节点，由于节点50的父亲节点与叔父节点都是红色节点，因此只需要将节点50的父亲节点与叔父节点着色为黑色，将节点50的祖父节点着色为红色即可：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520114451557-917087143.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>节点50的父节点与叔父节点都是红色节点（注意不要被上图迷糊了！<strong>上图是重新着色之后的结构而不是重新着色之前的结构</strong>，重新着色之前的结构为上上图），因此插入节点50只需要进行着色，本身这样的操作是没有任何问题的，但问题的关键在于，着色之后出现了连续的红色节点，即节点30与节点70。这就是为什么fixAfterInsertion方法的方法体是while循环的原因：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fixAfterInsertion</span><span class="params">(Entry&lt;K,V&gt; x)</span> </span>&#123;</div><div class="line"></div><div class="line">  x.color = RED;</div><div class="line"></div><div class="line">  <span class="keyword">while</span> (x != <span class="keyword">null</span> &amp;&amp; x != root &amp;&amp; x.parent.color == RED) &#123;</div><div class="line">  ...</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为这种着色方式是将插入节点的祖父节点着色为红色，因此着色之后必须将当前节点指向插入节点的祖父节点，判断祖父节点与父节点是否连续红色的节点，是就进行旋转，重新让红黑树平衡。</p>
+<p>接下来的问题就是怎么旋转了。我们可以把节点15–&gt;节点70–&gt;节点30连起来看，是不是很熟悉？这就是上面重复了两次的右子树内侧插入的场景，那么首先对节点70进行右旋，右旋后的结果为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520122752635-1721937551.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>下一步，节点70的父节点着色为黑色，节点70的祖父节点着色为红色（这一步不理解或者忘了为什么的，可以去看一下之前对于fixAfterInsertion方法的解读），重新着色后的结构为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520123047869-789604833.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最后一步，对节点70的父节点节点15进行一次左旋，左旋之后的结构为：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://images2015.cnblogs.com/blog/801753/201705/801753-20170520133247150-1002199082.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>重新恢复红黑树的性质：</p>
+<ol>
+<li>根节点为黑色节点</li>
+<li>没有连续红色节点</li>
+<li>根节点到所有叶子节点经过的黑色节点都是2个</li>
+</ol>
+<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><p>本文通过不断向红黑树的右子树插入数据，演示了红黑树右侧插入时可能出现的各种情况且应当如何处理这些情况，左侧插入同理。</p>
+<p>红黑树还是有点难，因此我个人建议在学习红黑树的时候一定要多画（像我个人就画了3张A4纸）+多想，这样才能更好地理解红黑树的原理，尤其是旋转的原理。</p>
+<p>TreeMap的插入操作和旋转操作已经讲完，后文会着眼于TreeMap的删除操作以及一些统计操作（比如找到节点比50大的所有节点）是如何实现的。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-10-27T07:09:04.283Z" itemprop="dateUpdated">2017-10-27 15:09:04</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/10/25/红黑树学习/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/10/25/红黑树学习/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TreeMap/">TreeMap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/红黑树/">红黑树</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/&title=《红黑树学习》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/&title=《红黑树学习》 — Lvshen's Blog&source=
+欢迎关注： Lvshen’s Blog
+
+什么是TreeMap首先我们来先说说HashMap与LinkedHashMap，它们保证了以$O(1)$的时间..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/25/红黑树学习/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《红黑树学习》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/27/面向-Java-开发者的-NoSQL-选项/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">面向Java开发者的NoSQL选项</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/24/14万程序员挑战过的算法趣题/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">14万程序员挑战过的算法趣题</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/&title=《红黑树学习》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/&title=《红黑树学习》 — Lvshen's Blog&source=
+欢迎关注： Lvshen’s Blog
+
+什么是TreeMap首先我们来先说说HashMap与LinkedHashMap，它们保证了以$O(1)$的时间..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/25/红黑树学习/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《红黑树学习》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/25/红黑树学习/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/10/25/红黑树学习/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

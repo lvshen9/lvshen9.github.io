@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Log4X统一日志平台部署记录 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="日志,Log4X">
+    <meta name="description" content="author: made by lvshen  Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。">
+<meta name="keywords" content="日志,Log4X">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log4X统一日志平台部署记录">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="author: made by lvshen  Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/7综合图.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/架构图.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/9.log4x日志开关.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/10.log4x其他配置.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/11.agent目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/12.埋点要点.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/13.埋点打包.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/14.log4x-agent.json文件配置.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/log4x安装目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/中间件目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/33.jdk目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/34.环境变量文件.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/17.kafka目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/kafka消费者数据查询.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/18.kafka的web监控.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/19.JStorm目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/20.jstorm进程.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/21.JStormUI.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/22.HBase目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/23.HBase进程.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/24.Hbase表.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/25.hbase的web界面.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/26.hadoop目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/27.HDFS进程.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/es目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/15.es索引显示.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/16.es数据展示.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/28.zk目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/29.zkweb界面.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/30.log4x-web主目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/31.tomcat配置.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/32.mysql目录.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/35.mysql脚本.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/36.mysql表整合.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/37.业务办理轨迹.gif">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/38.服务视图.gif">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/39.服务排行榜.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/40.性能数据监控.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/41.日志监控.png">
+<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/42.sql统计.png">
+<meta property="og:updated_time" content="2018-12-03T02:56:42.819Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Log4X统一日志平台部署记录">
+<meta name="twitter:description" content="author: made by lvshen  Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。">
+<meta name="twitter:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/7综合图.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Log4X统一日志平台部署记录</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Log4X统一日志平台部署记录</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-28T03:40:59.000Z" itemprop="datePublished" class="page-time">
+  2018-11-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工作/">工作</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Log4X平台介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">Log4X平台介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#web页面展示"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">web页面展示</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#架构图"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">架构图</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#APP应用端部署"><span class="post-toc-number">2.</span> <span class="post-toc-text">APP应用端部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加jar包"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">添加jar包</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#修改配置文件log4j-properties"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">修改配置文件log4j.properties</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#新增log4x-yaml"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">新增log4x.yaml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#app用户配置"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">app用户配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#app应用埋点"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">app应用埋点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点规则"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">埋点规则</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点示例"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">埋点示例</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点要点"><span class="post-toc-number">2.5.3.</span> <span class="post-toc-text">埋点要点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#log4x-agent-json文件配置"><span class="post-toc-number">2.5.4.</span> <span class="post-toc-text">log4x-agent.json文件配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#中间件部署"><span class="post-toc-number">3.</span> <span class="post-toc-text">中间件部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#版本要求"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">版本要求</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#软件安装目录"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">软件安装目录</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#support目录"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">support目录</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JDK部署"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">JDK部署</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Kafka部署"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Kafka部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录"><span class="post-toc-number">3.5.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置server-properties"><span class="post-toc-number">3.5.2.</span> <span class="post-toc-text">配置server.properties</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程与数据展示"><span class="post-toc-number">3.5.3.</span> <span class="post-toc-text">启动进程与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JStorm部署"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">JStorm部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-1"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置-bash-profile"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">配置.bash_profile</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置storm-yaml"><span class="post-toc-number">3.6.3.</span> <span class="post-toc-text">配置storm.yaml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置log4x-jstorm-yaml"><span class="post-toc-number">3.6.4.</span> <span class="post-toc-text">配置log4x.jstorm.yaml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程"><span class="post-toc-number">3.6.5.</span> <span class="post-toc-text">启动进程</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#安装JStormUI"><span class="post-toc-number">3.6.6.</span> <span class="post-toc-text">安装JStormUI</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HBase部署"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">HBase部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-2"><span class="post-toc-number">3.7.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hbase-site-xml"><span class="post-toc-number">3.7.2.</span> <span class="post-toc-text">配置hbase-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hbase-env-sh"><span class="post-toc-number">3.7.3.</span> <span class="post-toc-text">配置hbase-env.sh</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#进程启动与数据展示"><span class="post-toc-number">3.7.4.</span> <span class="post-toc-text">进程启动与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Hadoop部署"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">Hadoop部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-3"><span class="post-toc-number">3.8.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置core-site-xml"><span class="post-toc-number">3.8.2.</span> <span class="post-toc-text">配置core-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hdfs-site-xml"><span class="post-toc-number">3.8.3.</span> <span class="post-toc-text">配置hdfs-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程-1"><span class="post-toc-number">3.8.4.</span> <span class="post-toc-text">启动进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Elasticsearch部署"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">Elasticsearch部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-4"><span class="post-toc-number">3.9.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置elasticsearch-yml"><span class="post-toc-number">3.9.2.</span> <span class="post-toc-text">配置elasticsearch.yml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程与数据展示-1"><span class="post-toc-number">3.9.3.</span> <span class="post-toc-text">启动进程与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Zookeeper部署"><span class="post-toc-number">3.10.</span> <span class="post-toc-text">Zookeeper部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建myid"><span class="post-toc-number">3.10.1.</span> <span class="post-toc-text">创建myid</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-5"><span class="post-toc-number">3.10.2.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置zoo-cfg"><span class="post-toc-number">3.10.3.</span> <span class="post-toc-text">配置zoo.cfg</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#进程启动"><span class="post-toc-number">3.10.4.</span> <span class="post-toc-text">进程启动</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#LOG4X-WEB部署"><span class="post-toc-number">3.11.</span> <span class="post-toc-text">LOG4X-WEB部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-6"><span class="post-toc-number">3.11.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置tomcat"><span class="post-toc-number">3.11.2.</span> <span class="post-toc-text">配置tomcat</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置csfproxy"><span class="post-toc-number">3.11.3.</span> <span class="post-toc-text">配置csfproxy</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置csfserver"><span class="post-toc-number">3.11.4.</span> <span class="post-toc-text">配置csfserver</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动脚本"><span class="post-toc-number">3.11.5.</span> <span class="post-toc-text">启动脚本</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MySQL部署"><span class="post-toc-number">3.12.</span> <span class="post-toc-text">MySQL部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#初始化配置"><span class="post-toc-number">3.12.1.</span> <span class="post-toc-text">初始化配置</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建-amp-插入表数据"><span class="post-toc-number">3.12.2.</span> <span class="post-toc-text">创建&插入表数据</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#实例信息和服务信息的表的配置"><span class="post-toc-number">3.12.3.</span> <span class="post-toc-text">实例信息和服务信息的表的配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#界面展示"><span class="post-toc-number">4.</span> <span class="post-toc-text">界面展示</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#业务办理轨迹查询"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">业务办理轨迹查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#服务视图"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">服务视图</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#服务排行榜"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">服务排行榜</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#性能数据监控"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">性能数据监控</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#日志查询"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">日志查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SQL统计"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">SQL统计</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Log4X统一日志平台部署记录"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Log4X统一日志平台部署记录</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-28 11:40:59" datetime="2018-11-28T03:40:59.000Z"  itemprop="datePublished">2018-11-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工作/">工作</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>author: made by lvshen</p>
+</blockquote>
+<h4 id="Log4X平台介绍"><a href="#Log4X平台介绍" class="headerlink" title="Log4X平台介绍"></a>Log4X平台介绍</h4><p>Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。</p>
+<a id="more"></a>
+<h5 id="web页面展示"><a href="#web页面展示" class="headerlink" title="web页面展示"></a>web页面展示</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/7综合图.png" alt="web页面缩略图" title="">
+                </div>
+                <div class="image-caption">web页面缩略图</div>
+            </figure>
+<h5 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/架构图.png" alt="log4x架构图" title="">
+                </div>
+                <div class="image-caption">log4x架构图</div>
+            </figure>
+<p>如上图是数据的流向架构图。</p>
+<p>Log4x的客户端，通过Agent和Client将采集部分代码通过字节码增强或者植入代码到应用服务（APP&amp;WEB）系统中，完成数据的采集，并发送到kafka，属于日志采集模块；以Strom集群作为实时流处理的核心系统，完成Trace日志的处理、统计和预警功能，并将数据存储于Hbase和RDBMS中，属于日志分析模块子系统；日志应用服务器完成日志统计结果的查询和搜索，通过CSF框架提供数据供web端展现，属于日志可视化子系统。</p>
+<h4 id="APP应用端部署"><a href="#APP应用端部署" class="headerlink" title="APP应用端部署"></a>APP应用端部署</h4><h5 id="添加jar包"><a href="#添加jar包" class="headerlink" title="添加jar包"></a>添加jar包</h5><p>为了获取APP的日志以及调用链等数据，这里CRM应用需要做一些配置。在deploy用户下，路径：<code>deploy@10.242.219.49:/home/deploy/subversion/library/wadelib/common/lib/</code>需要添加Log4X相关的jar包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">slf4j-log4j12-1.7.6.jar       slf4j-api-1.7.6.jar          scala-library-2.11.7.jar</div><div class="line">log4x-appender-1.0.1.jar      log4x-client-3.0.0.jar       log4x-common-1.0.0.jar</div><div class="line">log4x-logging-1.0.0.jar       snakeyaml-1.17.jar           snappy-java-1.1.1.7.jar</div><div class="line">jackson-databind-2.7.5.jar    jackson-core-2.7.5.jar       jackson-annotations-2.7.5.jar</div><div class="line">disruptor-3.3.6.jar           metrics-core-2.2.0.jar       log4j-1.2.17.jar</div><div class="line">kafka-clients-0.8.2.2.jar     kafka_2.11-0.8.2.2.jar       commons-dbcp-1.4.jar</div><div class="line">commons-pool-1.5.4.jar</div></pre></td></tr></table></figure>
+<h5 id="修改配置文件log4j-properties"><a href="#修改配置文件log4j-properties" class="headerlink" title="修改配置文件log4j.properties"></a>修改配置文件<code>log4j.properties</code></h5><p>路径：<code>deploy@10.242.219.49:/home/deploy/subversion/runtime-config/app/config/</code></p>
+<p>需要添加log4x的日志采集：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/9.log4x日志开关.png" alt="log4x日志开关" title="">
+                </div>
+                <div class="image-caption">log4x日志开关</div>
+            </figure>
+<p>log4x其他配置：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/10.log4x其他配置.png" alt="log4x其他配置" title="">
+                </div>
+                <div class="image-caption">log4x其他配置</div>
+            </figure>
+<h5 id="新增log4x-yaml"><a href="#新增log4x-yaml" class="headerlink" title="新增log4x.yaml"></a>新增<code>log4x.yaml</code></h5><p>新增文件有几个地方需要注意：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#log4x相关功能开启</span></div><div class="line"><span class="attr">traceEnabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">logEnabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">metricEnabled:</span> <span class="literal">true</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="comment">#kafka相关topic创建</span></div><div class="line"><span class="attr">producerType:</span> <span class="string">kafka</span></div><div class="line"><span class="attr">message:</span></div><div class="line"><span class="attr">  default:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">LOG4X-MSG-TOPIC</span> </div><div class="line">    <span class="comment"># file|discard</span></div><div class="line"><span class="attr">    bufferFullPolicy:</span> <span class="string">discard</span></div><div class="line"><span class="attr">  trace:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">LOG4X-TRACE-TOPIC</span></div><div class="line"><span class="attr">    sampleRatio:</span> <span class="number">1</span></div><div class="line">    <span class="comment"># file|discard</span></div><div class="line"><span class="attr">    bufferFullPolicy:</span> <span class="string">discard</span></div><div class="line"><span class="attr">  log:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">LOG4X-LOG-TOPIC</span></div><div class="line"><span class="attr">  metric:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">LOG4X-METRIC-TOPIC</span></div><div class="line">    </div><div class="line">    </div><div class="line"><span class="comment">#添加WADE框架的线程</span></div><div class="line"><span class="attr"> thread:</span></div><div class="line"><span class="attr">      enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">      category:</span></div><div class="line"><span class="attr">          - name:</span> <span class="string">Wade</span></div><div class="line"><span class="attr">          pattern:</span> <span class="string">'wade-container'</span></div><div class="line"><span class="comment">#kafka地址配置</span></div><div class="line"><span class="attr">kafka:</span></div><div class="line"><span class="attr">  default:</span></div><div class="line">    <span class="string">bootstrap.servers:</span> <span class="number">10.242</span><span class="number">.219</span><span class="number">.49</span><span class="string">:9092</span></div><div class="line"><span class="comment">#文件存储地址 $&#123;user.home&#125;=/home/app/support</span></div><div class="line"><span class="attr">file:</span></div><div class="line"><span class="attr">  dataDir:</span> <span class="string">"$&#123;user.home&#125;/log4x/data"</span></div></pre></td></tr></table></figure>
+<p>至此deploy用户配置结束</p>
+<h5 id="app用户配置"><a href="#app用户配置" class="headerlink" title="app用户配置"></a>app用户配置</h5><p>登陆app用户，在<code>/home/app/sbin/setEnv.sh</code>文件中添加：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JAVA_OPTS="$JAVA_OPTS -javaagent:$&#123;HOME&#125;/support/agent/log4x-agent.jar"</div></pre></td></tr></table></figure>
+<p>在<code>/home/app/support</code>路径下添加：agent客户端（由log4x方提供），agent目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/11.agent目录.png" alt="agent目录" title="">
+                </div>
+                <div class="image-caption">agent目录</div>
+            </figure>
+<p>这里有一个<code>aif-log4x-adapter-srd-5.5.0.jar</code>是我们为了获取调用链而写的埋点类。下面介绍下埋点方法</p>
+<h5 id="app应用埋点"><a href="#app应用埋点" class="headerlink" title="app应用埋点"></a>app应用埋点</h5><p>首先需要到<a href="http://git.wadecn.com:18082/wade-root.git上下载埋点的示例代码，比如给WADE框架里的`Hessian2Server.java`的`doService()`方法埋点获取调用服务名的链。" target="_blank" rel="external">http://git.wadecn.com:18082/wade-root.git上下载埋点的示例代码，比如给WADE框架里的`Hessian2Server.java`的`doService()`方法埋点获取调用服务名的链。</a></p>
+<h6 id="埋点规则"><a href="#埋点规则" class="headerlink" title="埋点规则"></a>埋点规则</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. 适配器的包路径必须以: com.ai.aif.log4x.agent.trans.adapter.impl 开头。</div><div class="line">2. com.ai.aif.log4x.agent.trans.adapter.impl 后续路径作为tag标识，配置于log4x-agent.json。</div><div class="line">3. 适配器类名的命名规则: 被埋点的类 + &quot;Adapter&quot;</div></pre></td></tr></table></figure>
+<h6 id="埋点示例"><a href="#埋点示例" class="headerlink" title="埋点示例"></a>埋点示例</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hessian2ServerAdapter</span> <span class="keyword">extends</span> <span class="title">AbsJavassistSwitchAdapter</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> String[] getInjectedMethodHeaders() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String[]&#123;</div><div class="line">                <span class="string">"private com.ailk.common.data.IDataOutput doService(com.ailk.common.data.IDataInput input)"</span></div><div class="line"></div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addBeforeInvoke</span><span class="params">(CtMethod ctMethod)</span> </span>&#123;</div><div class="line">        WrappedStringBuilder buf = <span class="keyword">new</span> WrappedStringBuilder();</div><div class="line">        buf.appendln(<span class="string">"com.ai.aif.log4x.message.format.Trace trace = com.ai.aif.log4x.Log4xManager.client().getTrace();"</span>);</div><div class="line">        <span class="comment">/*buf.appendln("trace.setCallType(\"CSF\");");*/</span></div><div class="line">        buf.appendln(<span class="string">"trace.setCallType(\"APP\");"</span>);</div><div class="line">        buf.appendln(<span class="string">"trace.setServiceName($1.getHead().getString(com.ailk.common.Constants.X_TRANS_CODE));"</span>);</div><div class="line">        buf.appendln(<span class="string">"com.ai.aif.log4x.Log4xManager.client().startTrace(trace);"</span>);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> buf.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addAfterInvoke</span><span class="params">(CtMethod ctMethod, String retType, String retName)</span> </span>&#123;</div><div class="line">        WrappedStringBuilder buf = <span class="keyword">new</span> WrappedStringBuilder();</div><div class="line">        buf.appendln(<span class="string">"com.ai.aif.log4x.Log4xManager.client().finishTrace(true);"</span>);</div><div class="line">        <span class="keyword">return</span> buf.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addInExceptionCatch</span><span class="params">(CtMethod ctMethod, String exName, String exValue)</span> </span>&#123;</div><div class="line">        WrappedStringBuilder buf = <span class="keyword">new</span> WrappedStringBuilder();</div><div class="line">        buf.appendln(<span class="string">"trace.setRetCode(\"-1\");"</span>);</div><div class="line">        buf.appendln(<span class="string">"trace.setRetMsg(\"failed\");"</span>);</div><div class="line">        buf.appendln(<span class="string">"trace.setThrowable("</span> + exValue + <span class="string">");"</span>);</div><div class="line">        buf.appendln(<span class="string">"com.ai.aif.log4x.Log4xManager.client().finishTrace(false);"</span>);</div><div class="line">        <span class="keyword">return</span> buf.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h6 id="埋点要点"><a href="#埋点要点" class="headerlink" title="埋点要点"></a>埋点要点</h6><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/12.埋点要点.png" alt="埋点要点" title="">
+                </div>
+                <div class="image-caption">埋点要点</div>
+            </figure>
+<p>这里解释下获取怎么服务名：我们翻开<code>Hessian2Server.doService()</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> IDataOutput <span class="title">doService</span><span class="params">(IDataInput input)</span> </span>&#123;</div><div class="line">		...</div><div class="line">         IData head = input.getHead();</div><div class="line">         ...</div><div class="line">		String serviceName = head.getString(Constants.X_TRANS_CODE);</div><div class="line">		...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里获取服务名需要用到方法的第一个参数input，所以使用$1。编译打包。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/13.埋点打包.png" alt="埋点打包" title="">
+                </div>
+                <div class="image-caption">埋点打包</div>
+            </figure>
+<h6 id="log4x-agent-json文件配置"><a href="#log4x-agent-json文件配置" class="headerlink" title="log4x-agent.json文件配置"></a>log4x-agent.json文件配置</h6><p>app用户下，路径：<code>/home/app/support/agent/log4x-agent.json</code>,添加埋点的路径。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/14.log4x-agent.json文件配置.png" alt="log4x-agent.json文件配置" title="">
+                </div>
+                <div class="image-caption">log4x-agent.json文件配置</div>
+            </figure>
+<p>然后就可以发布APP了</p>
+<h4 id="中间件部署"><a href="#中间件部署" class="headerlink" title="中间件部署"></a>中间件部署</h4><h5 id="版本要求"><a href="#版本要求" class="headerlink" title="版本要求"></a>版本要求</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hadoop:2.8.4        jstorm:2.2.1      zookeeper:3.4.8</div><div class="line">hbase :1.2.6.1      es    :5.6.9      kafka    :0.9.0.1</div><div class="line">tomcat:7.0.91</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这里版本一定要一致，不然会出现很多问题，如：es版本导致log4x界面图表不能显示，SQL无法统计；zk版本问题导致JStorm无法连接上zk，JStorm版本问题导致数据进不了es等等。</p>
+</blockquote>
+<h5 id="软件安装目录"><a href="#软件安装目录" class="headerlink" title="软件安装目录"></a>软件安装目录</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/log4x安装目录.png" alt="log4x安装目录" title="">
+                </div>
+                <div class="image-caption">log4x安装目录</div>
+            </figure>
+<p>如上图：bin目录下面的脚本为中间件的启停脚本，data目录下存放个中间件数据，logs目录下存放日志，support目录存放安装的中间件。</p>
+<h5 id="support目录"><a href="#support目录" class="headerlink" title="support目录"></a>support目录</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/中间件目录.png" alt="中间件目录" title="">
+                </div>
+                <div class="image-caption">中间件目录</div>
+            </figure>
+<p>es2.4.1这里弃用。下面讲讲各软件的部署。我们根据数据传输顺序讲解</p>
+<h5 id="JDK部署"><a href="#JDK部署" class="headerlink" title="JDK部署"></a>JDK部署</h5><p>jdk解压目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/33.jdk目录.png" alt="jdk目录" title="">
+                </div>
+                <div class="image-caption">jdk目录</div>
+            </figure>
+<p><code>.bash_profile</code>文件修改</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/34.环境变量文件.png" alt="环境变量文件" title="">
+                </div>
+                <div class="image-caption">环境变量文件</div>
+            </figure>
+<h5 id="Kafka部署"><a href="#Kafka部署" class="headerlink" title="Kafka部署"></a>Kafka部署</h5><h6 id="文件目录"><a href="#文件目录" class="headerlink" title="文件目录"></a>文件目录</h6><p>kafka目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/17.kafka目录.png" alt="kafka目录" title="">
+                </div>
+                <div class="image-caption">kafka目录</div>
+            </figure>
+<h6 id="配置server-properties"><a href="#配置server-properties" class="headerlink" title="配置server.properties"></a>配置<code>server.properties</code></h6><p>这里也只需要修改配置文件 <code>vi ~/support/kafka/server.properties</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">############################# Socket Server Settings #############################</div><div class="line"># The port the socket server listens on</div><div class="line">broker.id=1</div><div class="line">port=9092</div><div class="line"># Hostname the broker will bind to. If not set, the server will bind to all interfaces</div><div class="line">host.name=10.242.219.49</div><div class="line">#advertised.host.name=10.173.245.214</div><div class="line">#advertised.port=9092</div><div class="line">...</div><div class="line">############################# Log Basics #############################</div><div class="line"># A comma seperated list of directories under which to store log files</div><div class="line">log.dirs=/home/log4x/logs/kafka</div><div class="line">num.partitions=1</div><div class="line">...</div><div class="line">############################# Zookeeper #############################</div><div class="line">zookeeper.connect=10.242.219.49/kafka</div><div class="line"># Timeout in ms for connecting to zookeeper</div><div class="line">...</div></pre></td></tr></table></figure>
+<h6 id="启动进程与数据展示"><a href="#启动进程与数据展示" class="headerlink" title="启动进程与数据展示"></a>启动进程与数据展示</h6><p>执行<code>/home/log4x/bin/start-kafka.sh</code>即可启动kafka。这里就会自动创建好我们之前在log4x.yaml里面配置的topic。比如我们想查询APP的callType。查询语句如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./kafka-console-consumer.sh --zookeeper 10.242.219.49:2181/kafka --from-beginning --topic LOG4X-TRACE-TOPIC | grep '"callType":"APP"'</div></pre></td></tr></table></figure>
+<p>就会返还数据：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/kafka消费者数据查询.png" alt="kafka消费者数据查询" title="">
+                </div>
+                <div class="image-caption">kafka消费者数据查询</div>
+            </figure>
+<p>也可以打开Kafka Consumer Offset Monitor的web监控界面：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/18.kafka的web监控.png" alt="kafka的web监控" title="">
+                </div>
+                <div class="image-caption">kafka的web监控</div>
+            </figure>
+<p>如上图，显示随时间数据的消费曲线。</p>
+<h5 id="JStorm部署"><a href="#JStorm部署" class="headerlink" title="JStorm部署"></a>JStorm部署</h5><h6 id="文件目录-1"><a href="#文件目录-1" class="headerlink" title="文件目录"></a>文件目录</h6><p>Jstorm目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/19.JStorm目录.png" alt="JStorm目录" title="">
+                </div>
+                <div class="image-caption">JStorm目录</div>
+            </figure>
+<p>这里这个log4x目录需要自己创建，把log4x开发好的<code>log4x-jstorm-3.0.0.jar</code>放入<code>~/support/jstorm/log4x/lib/</code>下，用于jstorm拓扑启动worker时加载。</p>
+<h6 id="配置-bash-profile"><a href="#配置-bash-profile" class="headerlink" title="配置.bash_profile"></a>配置<code>.bash_profile</code></h6><p>添加环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vi ~/.bash_profile</div><div class="line">export JSTORM_HOME=/home/log4x/support/jstorm</div></pre></td></tr></table></figure>
+<h6 id="配置storm-yaml"><a href="#配置storm-yaml" class="headerlink" title="配置storm.yaml"></a>配置<code>storm.yaml</code></h6><p>这里需要修改配置文件<code>~/support/jstorm/conf</code>，<code>storm.yaml</code>文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">########### These MUST be filled in for a storm configuration</span></div><div class="line"> <span class="string">storm.zookeeper.servers:</span></div><div class="line"><span class="bullet">     -</span> <span class="string">"10.242.219.49"</span></div><div class="line"> <span class="string">storm.zookeeper.port:</span> <span class="number">2281</span></div><div class="line"> <span class="string">storm.zookeeper.root:</span> <span class="string">"/jstorm"</span></div><div class="line"> <span class="string">nimbus.host:</span> <span class="number">10.242</span><span class="number">.219</span><span class="number">.49</span></div><div class="line"> <span class="string">cluster.name:</span> <span class="string">"log4x-storm-cluster"</span></div><div class="line"> <span class="comment"># %JSTORM_HOME% is the jstorm home directory</span></div><div class="line"> <span class="string">storm.local.dir:</span> <span class="string">"/home/log4x/data/jstorm/data"</span></div><div class="line"> <span class="comment"># please set absolute path, default path is JSTORM_HOME/logs</span></div><div class="line"> <span class="string">jstorm.log.dir:</span> <span class="string">"/home/log4x/logs/jstorm"</span></div><div class="line"> <span class="string">...</span></div></pre></td></tr></table></figure>
+<h6 id="配置log4x-jstorm-yaml"><a href="#配置log4x-jstorm-yaml" class="headerlink" title="配置log4x.jstorm.yaml"></a>配置<code>log4x.jstorm.yaml</code></h6><p>此外还需要修改<code>log4x.jstorm.yaml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div></pre></td><td class="code"><pre><div class="line"><span class="string">...</span></div><div class="line"><span class="comment">#数据库连接配置四件套</span></div><div class="line"><span class="string">jdbc.driver:</span> <span class="string">"com.mysql.jdbc.Driver"</span></div><div class="line"><span class="string">jdbc.url:</span> <span class="string">"jdbc:mysql://10.242.219.49:3306/log4x?allowMultiQueries=true&amp;amp;useSSL=false"</span></div><div class="line"><span class="string">jdbc.username:</span> <span class="string">"root"</span></div><div class="line"><span class="string">jdbc.password:</span> <span class="string">"root"</span></div><div class="line"></div><div class="line"><span class="string">...</span></div><div class="line"></div><div class="line"><span class="comment">#使用jstorm使用的zookeeper配置</span></div><div class="line"><span class="attr">zookeeper:</span></div><div class="line">  <span class="string">server.list:</span> <span class="string">"10.242.219.49:2181"</span></div><div class="line">  <span class="comment">#在zookeeper中使用的根目录  log4x</span></div><div class="line">   <span class="string">base.path:</span> <span class="string">"/log4x"</span></div><div class="line"><span class="string">...</span></div><div class="line"></div><div class="line"><span class="comment">#Hbase数据库配置</span></div><div class="line"><span class="attr">hbase:</span></div><div class="line">  <span class="comment">#Hbase本地缓存入库的间隔时间，即每过间隔时间，会执行一次入库</span></div><div class="line">  <span class="string">flush.period.ms:</span> <span class="number">10000</span></div><div class="line">  <span class="comment">#Hbase默认配置</span></div><div class="line"><span class="attr">  default:</span></div><div class="line">    <span class="comment">#Hbase表的命名空间</span></div><div class="line"><span class="attr">    namespace:</span> <span class="string">"cx_log4x"</span></div><div class="line">    <span class="comment">#配置数据存活时间，用于HBase表创建</span></div><div class="line"><span class="attr">    ttl:</span> <span class="number">86400</span></div><div class="line">    <span class="comment">#Hbase使用Zookeeper配置</span></div><div class="line"><span class="attr">    zookeeper:</span></div><div class="line">      <span class="string">server.list:</span> <span class="string">"10.242.219.49:2181"</span></div><div class="line">     <span class="string">...</span></div><div class="line"></div><div class="line"><span class="comment">#Kafka配置，各类型数据可分开使用kafka，不定义及使用default默认</span></div><div class="line"><span class="attr">kafka:</span></div><div class="line">  <span class="comment">#Kafka根目录</span></div><div class="line">  <span class="string">broker.zk.path:</span> <span class="string">"/kafka/brokers"</span></div><div class="line">  <span class="comment">#jstorm消费的offset记录位置</span></div><div class="line">  <span class="string">consumer.zk.root:</span> <span class="string">"/log4x/consumer"</span></div><div class="line">  <span class="comment">#默认使用的Zookeeper配置</span></div><div class="line"><span class="attr">  default:</span></div><div class="line"><span class="attr">    zookeeper:</span></div><div class="line">      <span class="string">server.list:</span> <span class="string">"10.242.219.49:2181"</span></div><div class="line">  <span class="string">...</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">"LOG4X-MSG-TOPIC"</span></div><div class="line">  <span class="comment">#链路日志Kafka相关配置</span></div><div class="line"><span class="attr">  trace:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">"LOG4X-TRACE-TOPIC"</span></div><div class="line">  <span class="comment">#业务日志Kafka相关配置</span></div><div class="line"><span class="attr">  log:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">"LOG4X-LOG-TOPIC"</span></div><div class="line">  <span class="comment">#性能监控日志Kafka相关配置</span></div><div class="line"><span class="attr">  metric:</span></div><div class="line"><span class="attr">    topic:</span> <span class="string">"LOG4X-METRIC-TOPIC"</span></div><div class="line"></div><div class="line"><span class="comment">#数据过滤配置，使用列表表示，每一个元素即为一个过滤器配置</span></div><div class="line"><span class="attr">filters:</span></div><div class="line">    <span class="comment">#object为使用该过滤器配置的对象类</span></div><div class="line"><span class="attr">  - object:</span> <span class="string">"AggregateBolt"</span></div><div class="line">    <span class="comment">#配置过滤规则</span></div><div class="line"><span class="attr">    rules:</span></div><div class="line">      <span class="comment">#该规则即要求callType字段匹配CSF值,如果有其他类型的callType，需要添加。如添加APP，SERVICE</span></div><div class="line"><span class="attr">      - callType:</span> <span class="string">"CSF,CSFClient,EJBCall,EJBProcess"</span></div><div class="line"><span class="attr">        ps:</span> <span class="string">"true"</span></div><div class="line"><span class="attr">  - object:</span> <span class="string">"TraceESBolt"</span></div><div class="line"><span class="attr">    rules:</span></div><div class="line">      <span class="comment">#该规则即要求callType字段匹配CSF值或者JDBC值</span></div><div class="line"><span class="attr">      - callType:</span> <span class="string">"CSF,JDBC"</span></div><div class="line"><span class="attr">        ps:</span> <span class="string">"true"</span></div><div class="line"></div><div class="line"><span class="comment">#链路日志的处理映射</span></div><div class="line"><span class="string">trace.mapping:</span></div><div class="line"><span class="attr">  CEN:</span></div><div class="line"><span class="attr">    callType:</span> <span class="string">"CSF,CSFClient,EJBCall"</span></div><div class="line"><span class="attr">    ps:</span> <span class="string">"true"</span></div><div class="line"><span class="attr">  CHL:</span></div><div class="line"><span class="attr">    callType:</span> <span class="string">"CSF,CSFClient,EJBCall"</span></div><div class="line"><span class="attr">    ps:</span> <span class="string">"true"</span></div><div class="line"><span class="attr">  appName:</span></div><div class="line"><span class="attr">    callType:</span> <span class="string">"CSF"</span></div><div class="line"></div><div class="line"><span class="string">...</span></div><div class="line"></div><div class="line"><span class="comment">#预警相关配置</span></div><div class="line"><span class="string">alarm.window.step:</span> <span class="number">60</span></div><div class="line"></div><div class="line"><span class="string">...</span></div><div class="line"></div><div class="line"><span class="comment">#ElasticSearch配置</span></div><div class="line"><span class="attr">elasticsearch:</span></div><div class="line">  <span class="comment">#默认配置</span></div><div class="line"><span class="attr">  default:</span></div><div class="line">    <span class="comment">#es集群名称</span></div><div class="line">    <span class="string">cluster.name:</span> <span class="string">"test185"</span></div><div class="line">    <span class="string">cluster.hosts:</span> <span class="string">"10.242.219.49:9200"</span></div><div class="line"><span class="string">...</span></div><div class="line">   <span class="comment">#es分片数</span></div><div class="line"><span class="attr">    shards:</span> <span class="number">2</span></div><div class="line"><span class="attr">    replicas:</span> <span class="number">0</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="comment">#Jstorm初始化相关配置</span></div><div class="line"><span class="attr">storm:</span></div><div class="line">  <span class="comment">#配置worker数量</span></div><div class="line">  <span class="string">worker.num:</span> <span class="number">1</span> </div><div class="line">  <span class="comment">#配置初始包路径，用于查找配置的component类</span></div><div class="line"><span class="attr">  package:</span> <span class="string">"com.ai.aif.log4x.jstorm.storm"</span></div><div class="line"><span class="attr">  topology:</span></div><div class="line"><span class="attr">      component:</span></div><div class="line">      <span class="comment">#括号里的数值为Spout或Bolt的并发处理数，根据机器数或集群数适当调整。</span></div><div class="line"><span class="bullet">        -</span> <span class="string">"TraceJsonSpout-1[2]"</span></div><div class="line"><span class="bullet">        -</span> <span class="string">"AggregateBolt-1[3]"</span></div><div class="line"><span class="bullet">        -</span> <span class="string">"TraceJsonSpout-2[2]"</span></div><div class="line"><span class="bullet">        -</span> <span class="string">"TraceESBolt-1[3]"</span></div><div class="line"><span class="bullet">        -</span> <span class="string">"MonitorBolt-1[1]"</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="string">...</span></div></pre></td></tr></table></figure>
+<p>这个文件里需要连接的有：<code>MySQL、kafka、HBase、Zookeeper、ElsaticSearch</code>。三个点为为省略的内容。</p>
+<h6 id="启动进程"><a href="#启动进程" class="headerlink" title="启动进程"></a>启动进程</h6><p>进入<code>~/bin</code>下就可以启动<code>start-jstorm-nimbus.sh，start-jstorm-supervisor.sh，start-jstorm-topology.sh</code>。</p>
+<p>我们jps命令监控进程：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/20.jstorm进程.png" alt="jstorm进程" title="">
+                </div>
+                <div class="image-caption">jstorm进程</div>
+            </figure>
+<h6 id="安装JStormUI"><a href="#安装JStormUI" class="headerlink" title="安装JStormUI"></a>安装JStormUI</h6><p>先执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir ~/.jstorm</div><div class="line">cp ~/support/jstorm/conf/storm.yaml ~/.jstorm</div></pre></td></tr></table></figure>
+<p>然后将JStormUI的war包放入tomcat，即可在界面访问。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/21.JStormUI.png" alt="JStormUI" title="">
+                </div>
+                <div class="image-caption">JStormUI</div>
+            </figure>
+<h5 id="HBase部署"><a href="#HBase部署" class="headerlink" title="HBase部署"></a>HBase部署</h5><h6 id="文件目录-2"><a href="#文件目录-2" class="headerlink" title="文件目录"></a>文件目录</h6><p>HBase目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/22.HBase目录.png" alt="HBase目录" title="">
+                </div>
+                <div class="image-caption">HBase目录</div>
+            </figure>
+<h6 id="配置hbase-site-xml"><a href="#配置hbase-site-xml" class="headerlink" title="配置hbase-site.xml"></a>配置<code>hbase-site.xml</code></h6><p><code>vi ~/support/hbase/conf/hbase-site.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>file:///home/log4x/data/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.cluster.distrubuted<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>10.174.26.145<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.clientPort<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/log4x/logs/hbase/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<h6 id="配置hbase-env-sh"><a href="#配置hbase-env-sh" class="headerlink" title="配置hbase-env.sh"></a>配置<code>hbase-env.sh</code></h6><p><code>vi ~/support/hbase/conf/hbase-env.sh</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export HBASE_MANAGES_ZK=false</div></pre></td></tr></table></figure>
+<h6 id="进程启动与数据展示"><a href="#进程启动与数据展示" class="headerlink" title="进程启动与数据展示"></a>进程启动与数据展示</h6><p>执行<code>~/support/hbase/bin/start-hbase.sh</code>。</p>
+<p>jps查看</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/23.HBase进程.png" alt="HBase进程" title="">
+                </div>
+                <div class="image-caption">HBase进程</div>
+            </figure>
+<p>执行<code>~/support/hbase/bin/hbase shell</code>进入数据库，我们可以看到程序已建好的表：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/24.Hbase表.png" alt="Hbase表.png" title="">
+                </div>
+                <div class="image-caption">Hbase表.png</div>
+            </figure>
+<p>web页面也能看到：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/25.hbase的web界面.png" alt="hbase的web界面" title="">
+                </div>
+                <div class="image-caption">hbase的web界面</div>
+            </figure>
+<blockquote>
+<p>这里需要提前创立表空间：cx_log4x</p>
+</blockquote>
+<p>hbase常用命令（需要进入hbase shell）:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>hbase创建表空间</div><div class="line">create_namespace 'cx_log4x'</div><div class="line"></div><div class="line"><span class="meta">#</span>列出表明</div><div class="line"><span class="meta">&gt;</span>list</div><div class="line"></div><div class="line"><span class="meta">#</span>统计表的记录条数</div><div class="line"><span class="meta">&gt;</span> count 'cx_log4x:WEB'</div><div class="line"></div><div class="line"><span class="meta">#</span>查看表的数据，使用指定的时间范围和返回10条。</div><div class="line"><span class="meta">&gt;</span> scan 'cx_log4x:SRV', &#123;LIMIT=&gt;10,TIMERANGE=&gt;[1495953605000,1496385605000]&#125;</div><div class="line"></div><div class="line"><span class="meta">#</span>创建表，base指列名，TTL是数据存活时间，单位秒。</div><div class="line"><span class="meta">&gt;</span> create 'cx_log4x:ESB', &#123;NAME =&gt; 'base',VERSIONS =&gt; 1, TTL =&gt; 7200, COMPRESSION =&gt; 'NONE'&#125;</div><div class="line"></div><div class="line"><span class="meta">#</span>清空表，清空表数据。</div><div class="line"><span class="meta">&gt;</span> truncate 'cx_log4x:WEB</div></pre></td></tr></table></figure>
+<h5 id="Hadoop部署"><a href="#Hadoop部署" class="headerlink" title="Hadoop部署"></a>Hadoop部署</h5><p>如果hbase需要用到分布式文件系统HDFS作为存储，这里就需要部署hadoop。</p>
+<h6 id="文件目录-3"><a href="#文件目录-3" class="headerlink" title="文件目录"></a>文件目录</h6><p>hadoop目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/26.hadoop目录.png" alt="hadoop目录" title="">
+                </div>
+                <div class="image-caption">hadoop目录</div>
+            </figure>
+<h6 id="配置core-site-xml"><a href="#配置core-site-xml" class="headerlink" title="配置core-site.xml"></a>配置<code>core-site.xml</code></h6><p>修改配置文件：<code>vi ~/support/hadoop/etc/hadoop/core-site.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://10.242.219.49:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	</div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ha.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>10.242.219.49:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>   </div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/log4x/logs/hadoop/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<h6 id="配置hdfs-site-xml"><a href="#配置hdfs-site-xml" class="headerlink" title="配置hdfs-site.xml"></a>配置<code>hdfs-site.xml</code></h6><p><code>vi ~/support/hadoop/etc/hadoop/hdfs-site.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/log4x/data/hadoop/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/log4x/data/hadoop/datanode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<h6 id="启动进程-1"><a href="#启动进程-1" class="headerlink" title="启动进程"></a>启动进程</h6><p>启动之前，需要格式化文件系统</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">cd ~/support/hadoop/bin</div><div class="line">./hadoop namenode -format</div><div class="line"></div><div class="line">./hadoop fs -mkdir /hbase</div><div class="line">./hadoop fs -chmod 777 /hbase</div><div class="line">./hadoop fs -ls /</div><div class="line"><span class="meta">#</span>下面为显示的结果</div><div class="line">Found 1 items</div><div class="line">drwxrwxrwx - log4x supergroup 0 2018-10-24 12:02 /hbase</div></pre></td></tr></table></figure>
+<p>启动HDFS:<code>~/support/hadoop/sbin/start-dfs.sh</code>。</p>
+<p>jps命令查看进程：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/27.HDFS进程.png" alt="HDFS进程" title="">
+                </div>
+                <div class="image-caption">HDFS进程</div>
+            </figure>
+<h5 id="Elasticsearch部署"><a href="#Elasticsearch部署" class="headerlink" title="Elasticsearch部署"></a>Elasticsearch部署</h5><h6 id="文件目录-4"><a href="#文件目录-4" class="headerlink" title="文件目录"></a>文件目录</h6><p>es解压后的目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/es目录.png" alt="es目录" title="">
+                </div>
+                <div class="image-caption">es目录</div>
+            </figure>
+<h6 id="配置elasticsearch-yml"><a href="#配置elasticsearch-yml" class="headerlink" title="配置elasticsearch.yml"></a>配置<code>elasticsearch.yml</code></h6><p>这里只需要修改配置文件<code>elasticsearch.yml</code></p>
+<p><code>vi /home/log4x/support/elasticsearch/config/elasticsearch.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="string">node.name:</span> <span class="string">log4x-escluster</span></div><div class="line"><span class="comment">#node.attr.rack: r1</span></div><div class="line"><span class="string">path.data:</span> <span class="string">/home/log4x/data/es</span></div><div class="line"><span class="string">path.logs:</span> <span class="string">/home/log4x/logs/es</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="string">network.host:</span> <span class="number">10.242</span><span class="number">.219</span><span class="number">.49</span></div><div class="line"><span class="string">http.port:</span> <span class="number">9200</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="string">discovery.zen.ping.unicast.hosts:</span> <span class="string">["10.242.219.49"]</span></div></pre></td></tr></table></figure>
+<h6 id="启动进程与数据展示-1"><a href="#启动进程与数据展示-1" class="headerlink" title="启动进程与数据展示"></a>启动进程与数据展示</h6><p>执行<code>/home/log4x/bin/start.es</code>启动es</p>
+<p>在Chrome浏览器上安装elasticsearch-head插件，就能图形化显示es的内容：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/15.es索引显示.png" alt="es索引显示" title="">
+                </div>
+                <div class="image-caption">es索引显示</div>
+            </figure>
+<p>如图，显示了几个索引，索引里面的数据需要通过kafka输送过来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/16.es数据展示.png" alt="es数据展示" title="">
+                </div>
+                <div class="image-caption">es数据展示</div>
+            </figure>
+<p>之前我们埋点设置了APP类型的callType，只要kafka启动，jstorm启动，es里面就有APP类型的数据，查询步骤见上图。</p>
+<h5 id="Zookeeper部署"><a href="#Zookeeper部署" class="headerlink" title="Zookeeper部署"></a>Zookeeper部署</h5><h6 id="创建myid"><a href="#创建myid" class="headerlink" title="创建myid"></a>创建<code>myid</code></h6><p>首先在<code>~/support/data/zk/</code>下创建文件myid，里面写入1。</p>
+<h6 id="文件目录-5"><a href="#文件目录-5" class="headerlink" title="文件目录"></a>文件目录</h6><p>目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/28.zk目录.png" alt="zk目录" title="">
+                </div>
+                <div class="image-caption">zk目录</div>
+            </figure>
+<h6 id="配置zoo-cfg"><a href="#配置zoo-cfg" class="headerlink" title="配置zoo.cfg"></a>配置<code>zoo.cfg</code></h6><p>修改配置文件：<code>vi ~/support/zk/etc/zoo.cfg</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="comment"># the directory where the snapshot is stored.</span></div><div class="line">dataDir=/home/log4x/data/zk</div><div class="line">...</div><div class="line">clientPort=2181</div><div class="line"></div><div class="line">minSessionTimeout=5000</div><div class="line">maxSessionTimeout=10000</div><div class="line">server.1=10.242.219.49:28880:38880</div></pre></td></tr></table></figure>
+<h6 id="进程启动"><a href="#进程启动" class="headerlink" title="进程启动"></a>进程启动</h6><p>执行脚本 <code>~/bin/start-zk.sh</code></p>
+<p>web界面查看（自己部署的zkweb监控）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/29.zkweb界面.png" alt="zkweb界面" title="">
+                </div>
+                <div class="image-caption">zkweb界面</div>
+            </figure>
+<p>之前注册到zk的中间都有显示：jstorm，log4x，hbase，kafka</p>
+<h5 id="LOG4X-WEB部署"><a href="#LOG4X-WEB部署" class="headerlink" title="LOG4X-WEB部署"></a>LOG4X-WEB部署</h5><h6 id="文件目录-6"><a href="#文件目录-6" class="headerlink" title="文件目录"></a>文件目录</h6><p>主目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/30.log4x-web主目录.png" alt="log4x-web主目录" title="">
+                </div>
+                <div class="image-caption">log4x-web主目录</div>
+            </figure>
+<p>其中bin目录放的启停脚本，deploy下方的log4x-web文件，support目录下面放的csfproxy，csfserver，tomcat</p>
+<h6 id="配置tomcat"><a href="#配置tomcat" class="headerlink" title="配置tomcat"></a>配置tomcat</h6><p>由于文件放在tomcat外面，需要配置<code>vi ~/support/log4xweb/support/tomcat/conf/server.xml</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/31.tomcat配置.png" alt="tomcat配置" title="">
+                </div>
+                <div class="image-caption">tomcat配置</div>
+            </figure>
+<p>还要修改log4x-web的服务地址。<code>vi ~/support/log4xweb/deploy/log4x-web/WEB-INF/classes/config.properties</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">service_http_ip=10.242.219.49</div><div class="line">service_http_port=12222</div></pre></td></tr></table></figure>
+<h6 id="配置csfproxy"><a href="#配置csfproxy" class="headerlink" title="配置csfproxy"></a>配置csfproxy</h6><p><code>vi ~/support/log4xweb/support/csfproxy/configext/log4x.properties</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">## file|kafka|msgFrame</div><div class="line">msg.sender=kafka</div><div class="line">msg.sender.trace.topic=CRM-TRACE-TOPIC</div><div class="line">msg.sender.log.topic=CRM-LOG-TOPIC</div><div class="line">msg.sender.batch.size=1</div><div class="line"></div><div class="line">## Kafka settings</div><div class="line">kafka.metadata.broker.list=10.242.219.49:9092</div><div class="line">...</div><div class="line">## logfile settings, if msg.sender=file</div><div class="line">msg.logfile.dir=/home/log4x/support/log4xweb/logs/csfproxy</div><div class="line">msg.logfile.maxFileSize=100</div><div class="line">...</div></pre></td></tr></table></figure>
+<h6 id="配置csfserver"><a href="#配置csfserver" class="headerlink" title="配置csfserver"></a>配置csfserver</h6><p>修改<code>log4x-service.yaml</code></p>
+<p><code>vi ~/support/log4xweb/support/csfserver/configext/log4x-service.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="attr">db:</span></div><div class="line"><span class="string">...</span></div><div class="line">  <span class="string">jdbc.driver:</span> <span class="string">com.mysql.jdbc.Driver</span></div><div class="line">  <span class="string">jdbc.url:</span> <span class="attr">jdbc:mysql://10.242.219.49:3306/log4x?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</span></div><div class="line">  <span class="string">jdbc.username:</span> <span class="string">root</span></div><div class="line">  <span class="string">jdbc.password:</span> <span class="string">root</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="attr">hbase:</span></div><div class="line">  <span class="string">hbase.row.max:</span> <span class="number">500</span></div><div class="line">  <span class="string">hbase.namespace:</span> <span class="string">cx_log4x</span></div><div class="line">  <span class="string">hbase.zookeeper:</span> <span class="number">10.242</span><span class="number">.219</span><span class="number">.49</span><span class="string">:2181</span></div><div class="line">  <span class="string">hbase.zookeeper.client:</span> <span class="string">hbase</span></div><div class="line"><span class="attr">es:</span></div><div class="line"><span class="attr">  cluster:</span></div><div class="line"><span class="bullet">    -</span> <span class="string">es.cluster.name:</span> <span class="string">log4x</span></div><div class="line">      <span class="string">es.url:</span> <span class="attr">http://10.242.219.49:9200</span></div><div class="line">   <span class="string">...</span></div><div class="line">  <span class="string">index.group:</span></div><div class="line"><span class="attr">    - topic:</span> <span class="string">log4x_log</span></div><div class="line"><span class="attr">      cluster:</span> <span class="string">log4x</span></div><div class="line"><span class="attr">    - topic:</span> <span class="string">log4x_perf</span></div><div class="line"><span class="attr">      cluster:</span> <span class="string">log4x</span></div><div class="line"><span class="attr">    - topic:</span> <span class="string">log4x_trace</span></div><div class="line"><span class="attr">      cluster:</span> <span class="string">log4x</span></div><div class="line"><span class="attr">    - topic:</span> <span class="string">log4x_dict_spec_sql</span></div><div class="line"><span class="attr">      cluster:</span> <span class="string">log4x</span></div><div class="line"><span class="string">...</span></div><div class="line"><span class="attr">task:</span></div><div class="line">  <span class="comment">#服务同步任务</span></div><div class="line"><span class="bullet">  -</span> <span class="string">task.name:</span> <span class="string">serviceSync</span></div><div class="line">    <span class="comment">#是否开启</span></div><div class="line">    <span class="string">task.open:</span> <span class="literal">true</span></div><div class="line">    <span class="comment">#周期,每分钟同步一次</span></div><div class="line">    <span class="string">task.cron:</span> <span class="string">"0/30 * * * * ?"</span></div><div class="line">   <span class="string">...</span></div></pre></td></tr></table></figure>
+<p>修改<code>csf.xml</code></p>
+<p><code>vi ~/support/log4xweb/support/csfserver/configext/csf/csf.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Csf</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Category</span> <span class="attr">name</span>=<span class="string">"client"</span> <span class="attr">description</span>=<span class="string">"客户端运行引擎需要的配置"</span>&gt;</span></div><div class="line">	...</div><div class="line">		<span class="tag">&lt;<span class="name">Item</span> <span class="attr">name</span>=<span class="string">"zk.server.list"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">value</span>&gt;</span>10.242.219.49:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">description</span>&gt;</span>多个地址用逗号(,)隔开 <span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">Item</span>&gt;</span></div><div class="line">		...</div><div class="line">	<span class="tag">&lt;/<span class="name">Category</span>&gt;</span></div><div class="line"></div><div class="line">	...</div><div class="line"><span class="tag">&lt;/<span class="name">Csf</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>修改<code>defaults.xml</code></p>
+<p><code>vi ~/support/log4xweb/support/csfserver/configext/system/service/defaults.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 全局默认配置信息 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">defaults</span>&gt;</span></div><div class="line">	...</div><div class="line">	<span class="comment">&lt;!--默认数据源信息 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">datasource</span>&gt;</span></div><div class="line">		<span class="comment">&lt;!--映射每个DAO模块对应的操作数据源 --&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">clazz</span></span></div><div class="line"><span class="tag">			<span class="attr">name</span>=<span class="string">"com.ai.appframe2.complex.datasource.impl.LocalMutilDataSourceImpl"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"tableName"</span> <span class="attr">value</span>=<span class="string">"cfg_db_acct"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">clazz</span>&gt;</span></div><div class="line"></div><div class="line">		<span class="tag">&lt;<span class="name">pool</span> <span class="attr">name</span>=<span class="string">"base"</span> <span class="attr">primary</span>=<span class="string">"true"</span> <span class="attr">type</span>=<span class="string">"SELF"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://10.242.219.49:3306/log4x"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"root"</span> /&gt;</span></div><div class="line">			...</div><div class="line">			...</div><div class="line">	<span class="tag">&lt;/<span class="name">datasource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">defaults</span>&gt;</span></div></pre></td></tr></table></figure>
+<h6 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h6><p><code>cd ~/support/log4xweb/bin</code>，依次启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">./start-csfproxy.sh</div><div class="line">./start-csfserver.sh</div><div class="line">./start-task.sh</div><div class="line">./star-tomcat.sh</div></pre></td></tr></table></figure>
+<h5 id="MySQL部署"><a href="#MySQL部署" class="headerlink" title="MySQL部署"></a>MySQL部署</h5><h6 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h6><p>上面的应用需要用到MySQL数据库，这里讲讲怎么离线部署MySQL数据库。将下载好的<code>mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz</code>解压。目录如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/32.mysql目录.png" alt="mysql目录" title="">
+                </div>
+                <div class="image-caption">mysql目录</div>
+            </figure>
+<p>这里需要创建<code>my.cnf</code>文件。里面需要修改的内容：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="string">[client]</span></div><div class="line"><span class="string">default-character-set=utf8</span></div><div class="line"> </div><div class="line"><span class="string">[mysqld]</span></div><div class="line"><span class="string">datadir=/home/log4x/support/mysql</span></div><div class="line"><span class="string">socket=/home/log4x/data/mysql</span></div><div class="line"><span class="string">user=mysql</span></div><div class="line"><span class="string">port=3306</span></div><div class="line"><span class="string">bind-address=0.0.0.0</span></div><div class="line"><span class="comment">#忽略表名大小写</span></div><div class="line"><span class="string">lower_case_table_names=1</span></div><div class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></div><div class="line"><span class="string">symbolic-links=0</span></div><div class="line"><span class="comment">#default-character-set=utf8</span></div><div class="line"><span class="string">character-set-server=utf8</span></div><div class="line"><span class="string">init_connect='SET</span> <span class="string">NAMES</span> <span class="string">utf8'</span></div><div class="line"> </div><div class="line"><span class="string">[mysql]</span></div><div class="line"><span class="literal">no</span><span class="bullet">-auto-rehash</span></div><div class="line"><span class="string">default-character-set=utf8</span></div><div class="line"> </div><div class="line"><span class="string">[mysqld_safe]</span></div><div class="line"><span class="string">log-error=/home/log4x/logs/mysql/mysqld.log</span></div><div class="line"><span class="string">pid-file=/home/log4x/support/mysql/mysqld.pid</span></div><div class="line"></div><div class="line"><span class="string">sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span></div><div class="line"><span class="string">log_timestamps=SYSTEM</span></div></pre></td></tr></table></figure>
+<p>接下来需要安装，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">添加环境变量</span></div><div class="line">vi ~/.bash_profile</div><div class="line">export MYSQL_HOME=/home/log4x/support/mysql</div><div class="line">PATH=$MYSQL_HOME/bin:$PATH:$HOME/.local/bin:$HOME/bin</div><div class="line">export PATH</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">执行安装</span></div><div class="line">./mysqld --initialize  --user=mysql --basedir=/home/log4x/support/mysql/ --datadir=/home/log4x/data/mysql --explicit_defaults_for_timestamp</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">服务启动(启动成功，会出现mysqld的服务，端口3306)</span></div><div class="line">cd ~/support/mysql/bin/</div><div class="line">./mysqld_safe --defaults-file=/home/log4x/support/mysql/my.cnf &amp;</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">mysql启停</span></div><div class="line">cd ~/support/mysql/bin</div><div class="line">mysqld_safe&amp;  --defaults-file=/app/mysql/mysql/my.cnf &amp;           启动</div><div class="line">mysqladmin shutdown -uroot -proot   停</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">开始不需要密码登陆</span></div><div class="line">[log4x@deploy bin]$ mysql -uroot -p 【注释，在下面的要求你输入密码的时候，你不用管，直接回车键一敲就过去了】</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 48</div><div class="line">Server version: 5.1.41-log Source distribution</div><div class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</div><div class="line"></div><div class="line"><span class="meta">mysql&gt;</span><span class="bash"> use mysql;</span></div><div class="line">Database changed</div><div class="line"><span class="meta">#</span><span class="bash">设置密码</span></div><div class="line"><span class="meta">mysql&gt;</span><span class="bash">update mysql.user <span class="built_in">set</span> authentication_string=password(<span class="string">'root'</span>) <span class="built_in">where</span> user=<span class="string">'root'</span> ;</span></div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">创建用户</span></div><div class="line">CREATE USER 'log4x'@'%' IDENTIFIED BY 'password';</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">创建database</span></div><div class="line">CREATE DATABASE 'log4x'</div><div class="line"></div><div class="line"><span class="meta">#</span><span class="bash">导入数据（举例）</span></div><div class="line">source /home/log4x/support/mysql/sql/log4x_sql/mysql/*.sql</div></pre></td></tr></table></figure>
+<h6 id="创建-amp-插入表数据"><a href="#创建-amp-插入表数据" class="headerlink" title="创建&amp;插入表数据"></a>创建&amp;插入表数据</h6><p>需要插入如下图的表：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/35.mysql脚本.png" alt="mysql脚本" title="">
+                </div>
+                <div class="image-caption">mysql脚本</div>
+            </figure>
+<p>脚本执行顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1. appframe/appframe_create_table.sql</div><div class="line">2. table-mysql.sql</div><div class="line">3. uspa/uspa[1-8]</div><div class="line">4. initialdata.sql</div></pre></td></tr></table></figure>
+<p>进入mysql客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -proot</div><div class="line">use log4x;</div><div class="line">show table;</div></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/36.mysql表整合.png" alt="mysql表整合" title="">
+                </div>
+                <div class="image-caption">mysql表整合</div>
+            </figure>
+<p>上图画红框的为jstorm创建的表，会以天为单位创建。</p>
+<h6 id="实例信息和服务信息的表的配置"><a href="#实例信息和服务信息的表的配置" class="headerlink" title="实例信息和服务信息的表的配置"></a>实例信息和服务信息的表的配置</h6><p>应用有多少个中心，首先就应该在<code>l4x_stats_config</code>表里面就要配多少个中心。这里配置多少个中心，对应log4x-web的界面上的首页-服务监控、服务排行榜、服务视图上就展示多少个中心。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`l4x_stats_config`</span> (<span class="string">`STATS_CONFIG_ID`</span>, <span class="string">`STATS_TYPE_ID`</span>, <span class="string">`STATS_CODE`</span>, <span class="string">`STATS_NAME`</span>, <span class="string">`STATE`</span>, <span class="string">`SYS_CODE`</span>, <span class="string">`STATS_DESC`</span>, <span class="string">`STATS_TYPE_CODE`</span>, <span class="string">`STATS_TYPE_NAME`</span>) <span class="keyword">VALUES</span> (<span class="string">'2'</span>, <span class="string">'1'</span>, <span class="string">'OrderCentre'</span>, <span class="string">'订单中心'</span>, <span class="string">'U'</span>, <span class="string">'CRM'</span>, <span class="string">''</span>, <span class="string">'CEN'</span>, <span class="string">'中心'</span>);</div></pre></td></tr></table></figure>
+<p>log4x提供了一个同步服务信息的功能，会定时将表<code>l4x_svc_cen_XXXX</code>（日期格式为yyyyMMdd）有的，但是<code>l4x_service_info</code>没有记录的服务信息查询出来，然后根据<code>`log4x-service.xml</code>里面serviceSync标签配置的匹配规则，根据serviceCode找到对应的centerCode，然后将这条服务信息插入到<code>l4x_service_info</code>表格中。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`l4x_service_info`</span> (<span class="string">`SERVICE_INFO_ID`</span>, <span class="string">`SERVICE_NAME`</span>, <span class="string">`SERVICE_CODE`</span>, <span class="string">`CENTER_CODE`</span>, <span class="string">`SERVICE_INFO_DESC`</span>, <span class="string">`STATE`</span>, <span class="string">`SYS_CODE`</span>, <span class="string">`SERVICE_TYPE`</span>) <span class="keyword">VALUES</span> (<span class="string">'42'</span>, <span class="string">'OrderCentre.person.ISubscriberQuerySV.queryCentreInfo'</span>, <span class="string">'OrderCentre.person.ISubscriberQuerySV.queryCentreInfo'</span>, <span class="string">'OrderCentre'</span>, <span class="string">'OrderCentre.person.ISubscriberQuerySV.queryCentreInfo'</span>, <span class="string">'U'</span>, <span class="string">'CRM'</span>, <span class="string">'DEFAULT'</span>);</div></pre></td></tr></table></figure>
+<p>需要对哪些应用实例进行监控，就应该在<code>l4x_app_info</code>表中配置这些实例的信息。在这里配置的实例信息，对应log4x-web的界面上的性能数据监控、实例统计都是可以看的到的，其中APP_NAME对应<code>l4x_app_call_XX</code>的TYPE_CODE字段。一般可以拿建设方案里面的主机配置excel表格导出来，导入到app info表里面去。例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`l4x_app_info`</span> (<span class="string">`APP_ID`</span>, <span class="string">`APP_NAME`</span>, <span class="string">`HOST_NAME`</span>, <span class="string">`HOST_IP`</span>, <span class="string">`CENTER_CODE`</span>, <span class="string">`CENTER_NAME`</span>, <span class="string">`GROUP_NAME`</span>, <span class="string">`SYS_CODE`</span>, <span class="string">`SYS_NAME`</span>) <span class="keyword">VALUES</span> (<span class="string">'1'</span>, <span class="string">'app-node01-srv01'</span>, <span class="string">'app-node'</span>, <span class="string">'10.242.219.45'</span>, <span class="string">'ord'</span>, <span class="string">'订单中心'</span>, <span class="string">'app-node01'</span>, <span class="string">'CRM'</span>, <span class="string">'CRM'</span>);</div></pre></td></tr></table></figure>
+<h4 id="界面展示"><a href="#界面展示" class="headerlink" title="界面展示"></a>界面展示</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">log4x 页面访问地址</span></div><div class="line">http://10.242.219.49:8080/log4x-web/home</div><div class="line">admin/log4x123!@#</div></pre></td></tr></table></figure>
+<h5 id="业务办理轨迹查询"><a href="#业务办理轨迹查询" class="headerlink" title="业务办理轨迹查询"></a>业务办理轨迹查询</h5><p>如图显示调用链情况：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/37.业务办理轨迹.gif" alt="调用链显示情况" title="">
+                </div>
+                <div class="image-caption">调用链显示情况</div>
+            </figure>
+<h5 id="服务视图"><a href="#服务视图" class="headerlink" title="服务视图"></a>服务视图</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/38.服务视图.gif" alt="服务运行详情" title="">
+                </div>
+                <div class="image-caption">服务运行详情</div>
+            </figure>
+<h5 id="服务排行榜"><a href="#服务排行榜" class="headerlink" title="服务排行榜"></a>服务排行榜</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/39.服务排行榜.png" alt="服务排行榜" title="">
+                </div>
+                <div class="image-caption">服务排行榜</div>
+            </figure>
+<h5 id="性能数据监控"><a href="#性能数据监控" class="headerlink" title="性能数据监控"></a>性能数据监控</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/40.性能数据监控.png" alt="性能数据监控" title="">
+                </div>
+                <div class="image-caption">性能数据监控</div>
+            </figure>
+<h5 id="日志查询"><a href="#日志查询" class="headerlink" title="日志查询"></a>日志查询</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/41.日志监控.png" alt="日志监控" title="">
+                </div>
+                <div class="image-caption">日志监控</div>
+            </figure>
+<h5 id="SQL统计"><a href="#SQL统计" class="headerlink" title="SQL统计"></a>SQL统计</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/28/Log4X统一日志平台部署记录/42.sql统计.png" alt="sql统计" title="">
+                </div>
+                <div class="image-caption">sql统计</div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-12-03T02:56:42.819Z" itemprop="dateUpdated">2018-12-03 10:56:42</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/11/28/Log4X统一日志平台部署记录/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Log4X/">Log4X</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/日志/">日志</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&source=
+author: made by lvshen
+
+Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Log4X统一日志平台部署记录》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/10/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">浅谈分布式消息技术 Kafka</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/05/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Redis3.0集群搭建</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&source=
+author: made by lvshen
+
+Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Log4X统一日志平台部署记录》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

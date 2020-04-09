@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>《图解http》读书笔记 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="http,tcp">
+    <meta name="description" content="最近花了点时间看了上野 宣的《图解http》,收获良多。本书浅显易懂，小白也能看懂。 我把看书过程中感兴趣的做了一些笔记。">
+<meta name="keywords" content="http,tcp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《图解http》读书笔记">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/03/16/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="最近花了点时间看了上野 宣的《图解http》,收获良多。本书浅显易懂，小白也能看懂。 我把看书过程中感兴趣的做了一些笔记。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=112616906,4032574670&fm=27&gp=0.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3RgJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3gCF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp34D1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp374O.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3oE6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3bCD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3234.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3TUK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp35Hx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp364U.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp3huR.png">
+<meta property="og:updated_time" content="2019-01-17T07:38:12.684Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《图解http》读书笔记">
+<meta name="twitter:description" content="最近花了点时间看了上野 宣的《图解http》,收获良多。本书浅显易懂，小白也能看懂。 我把看书过程中感兴趣的做了一些笔记。">
+<meta name="twitter:image" content="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=112616906,4032574670&fm=27&gp=0.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《图解http》读书笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《图解http》读书笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-16T09:34:10.000Z" itemprop="datePublished" class="page-time">
+  2018-03-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TCP-IP-的分层管理"><span class="post-toc-number">1.</span> <span class="post-toc-text">TCP/IP 的分层管理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#发送端与接收端的数据传输"><span class="post-toc-number">2.</span> <span class="post-toc-text">发送端与接收端的数据传输</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TCP三次握手"><span class="post-toc-number">3.</span> <span class="post-toc-text">TCP三次握手</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#各个协议与http协议"><span class="post-toc-number">4.</span> <span class="post-toc-text">各个协议与http协议</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#URI和URL的区别"><span class="post-toc-number">5.</span> <span class="post-toc-text">URI和URL的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#GET与POST"><span class="post-toc-number">6.</span> <span class="post-toc-text">GET与POST</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HTTP支持的方法"><span class="post-toc-number">7.</span> <span class="post-toc-text">HTTP支持的方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#状态码类别"><span class="post-toc-number">8.</span> <span class="post-toc-text">状态码类别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HTTPS"><span class="post-toc-number">9.</span> <span class="post-toc-text">HTTPS</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《图解http》读书笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-16 17:34:10" datetime="2018-03-16T09:34:10.000Z"  itemprop="datePublished">2018-03-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=112616906,4032574670&fm=27&gp=0.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最近花了点时间看了上野 宣的《图解http》,收获良多。本书浅显易懂，小白也能看懂。</p>
+<p>我把看书过程中感兴趣的做了一些笔记。</p>
+<a id="more"></a>
+<h4 id="TCP-IP-的分层管理"><a href="#TCP-IP-的分层管理" class="headerlink" title="TCP/IP 的分层管理"></a>TCP/IP 的分层管理</h4><p>4层：应用层/传输层/网络层/数据链路层</p>
+<p>好处：如果互联网只由一个协议统筹，某个地方需要改变设计时，就必须把所有部分整体替换掉。</p>
+<p>但如果分层了，只需要把变动的层替换即可。</p>
+<blockquote>
+<p>层次化之后，设计也变得相对简单了。处于应用层上<br>的应用可以只考虑分派给自己的任务，而不需要弄清对方在地球上哪<br>个地方、对方的传输路线是怎样的、是否能确保传输送达等问题</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3RgJ.png" alt="四层协议" title="">
+                </div>
+                <div class="image-caption">四层协议</div>
+            </figure>
+<h4 id="发送端与接收端的数据传输"><a href="#发送端与接收端的数据传输" class="headerlink" title="发送端与接收端的数据传输"></a>发送端与接收端的数据传输</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3gCF.png" alt="数据传输" title="">
+                </div>
+                <div class="image-caption">数据传输</div>
+            </figure>
+<p>说明：发送端层与层之间传输数据时，每经过一层会被打上该层所属的首部的信息。而再接收端层与层传输数据时，每经过一层，会把对应的首部去掉。</p>
+<h4 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h4><p>握手的过程中使用了TCP的标志：SYN（synchronize） 和ACK（acknowledgement）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp34D1.png" alt="三次握手" title="">
+                </div>
+                <div class="image-caption">三次握手</div>
+            </figure>
+<h4 id="各个协议与http协议"><a href="#各个协议与http协议" class="headerlink" title="各个协议与http协议"></a>各个协议与http协议</h4><p>下图详细介绍了IP协议，TCP协议和DNS服务在使用HTTP协议的通信过程中发挥的作用。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp374O.png" alt="ip与http与tcp" title="">
+                </div>
+                <div class="image-caption">ip与http与tcp</div>
+            </figure>
+<h4 id="URI和URL的区别"><a href="#URI和URL的区别" class="headerlink" title="URI和URL的区别"></a>URI和URL的区别</h4><p>URI：统一资源标识符</p>
+<p>URL：统一资源定位符，就是访问web页面在浏览器上输入的网址。</p>
+<p>至于区别，知乎上有人形象比喻：</p>
+<blockquote>
+<p>统一资源标志符URI就是在某一规则下能把一个资源独一无二地标识出来。<br>拿人做例子，假设这个世界上所有人的名字都不能重复，那么名字就是URI的一个实例，通过名字这个字符串就可以标识出唯一的一个人。<br>现实当中名字当然是会重复的，所以身份证号才是URI，通过身份证号能让我们能且仅能确定一个人</p>
+</blockquote>
+<p>上面是URI，看看下面的URL:</p>
+<blockquote>
+<p>那统一资源定位符URL是什么呢。也拿人做例子然后跟HTTP的URL做类比，就可以有：动物住址协议://地球/中国/浙江省/杭州市/西湖区/某大学/14号宿舍楼/525号寝/张三.人可以看到，这个字符串同样标识出了唯一的一个人，起到了URI的作用，所以URL是URI的子集。URL是以描述人的位置来唯一确定一个人的。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3oE6.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>URI用字符串标识某一互联网资源，而URL表示资源的地点。可以说，URL是URI的子集。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3bCD.png" alt="URI格式" title="">
+                </div>
+                <div class="image-caption">URI格式</div>
+            </figure>
+<h4 id="GET与POST"><a href="#GET与POST" class="headerlink" title="GET与POST"></a>GET与POST</h4><p>GET：获取资源</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3234.png" alt="get" title="">
+                </div>
+                <div class="image-caption">get</div>
+            </figure>
+<p>POST：传输实体主体</p>
+<p>POST的主要目的并不是获取响应的主体内容。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3TUK.png" alt="post" title="">
+                </div>
+                <div class="image-caption">post</div>
+            </figure>
+<h4 id="HTTP支持的方法"><a href="#HTTP支持的方法" class="headerlink" title="HTTP支持的方法"></a>HTTP支持的方法</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp35Hx.png" alt="get等" title="">
+                </div>
+                <div class="image-caption">get等</div>
+            </figure>
+<p>如上图，我们一般只用前5个方法。</p>
+<h4 id="状态码类别"><a href="#状态码类别" class="headerlink" title="状态码类别"></a>状态码类别</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp364U.png" alt="状态码类别" title="">
+                </div>
+                <div class="image-caption">状态码类别</div>
+            </figure>
+<h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><p>为了保证服务器与客户端信息传递的安全性，需要在HTTP上再加入<strong>加密处理</strong>和<strong>认证等机制</strong>。添加了这种机制的HTTP称为HTTPS(HTTP Secure)。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp3huR.png" alt="HTTPS" title="">
+                </div>
+                <div class="image-caption">HTTPS</div>
+            </figure>
+<p>除了上面的知识，书中还介绍了一些注入攻击的内容，不过有些技术可能现在已经派不上用场。也就不记录下来了</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:38:12.684Z" itemprop="dateUpdated">2019-01-17 15:38:12</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/03/16/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/03/16/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http/">http</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tcp/">tcp</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/03/16/1/&title=《《图解http》读书笔记》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/03/16/1/&title=《《图解http》读书笔记》 — Lvshen's Blog&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/03/16/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《图解http》读书笔记》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/03/16/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/03/16/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/17/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">MapReduce介绍</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/03/09/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">使用BOOTICE修复双系统引导</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/03/16/1/&title=《《图解http》读书笔记》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/03/16/1/&title=《《图解http》读书笔记》 — Lvshen's Blog&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/03/16/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《图解http》读书笔记》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/03/16/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/03/16/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/03/16/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

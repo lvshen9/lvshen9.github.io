@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>SQL语句优化问题(续) | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="sql,Oracle">
+    <meta name="description" content="话不多说，接着上次的来。 （11）sql语句用大写的，因为oracle总是在解析sql语句时把小写的字母转换成大写的再执行。 （12）避免在索引列上使用NOT，NOT会产生在和在索引列上使用函数相同的影响。 当ORACLE”遇到”NOT,他就会停止使用索引转而执行全表扫描。 （13） 避免在索引列上使用计算，WHERE子句中，如果索引列是函数的一部分，优化器将不使用索引而使用全表扫描。 例如: 1">
+<meta name="keywords" content="sql,Oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL语句优化问题(续)">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/08/26/sql-2/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="话不多说，接着上次的来。 （11）sql语句用大写的，因为oracle总是在解析sql语句时把小写的字母转换成大写的再执行。 （12）避免在索引列上使用NOT，NOT会产生在和在索引列上使用函数相同的影响。 当ORACLE”遇到”NOT,他就会停止使用索引转而执行全表扫描。 （13） 避免在索引列上使用计算，WHERE子句中，如果索引列是函数的一部分，优化器将不使用索引而使用全表扫描。 例如: 1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-26T07:22:14.312Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL语句优化问题(续)">
+<meta name="twitter:description" content="话不多说，接着上次的来。 （11）sql语句用大写的，因为oracle总是在解析sql语句时把小写的字母转换成大写的再执行。 （12）避免在索引列上使用NOT，NOT会产生在和在索引列上使用函数相同的影响。 当ORACLE”遇到”NOT,他就会停止使用索引转而执行全表扫描。 （13） 避免在索引列上使用计算，WHERE子句中，如果索引列是函数的一部分，优化器将不使用索引而使用全表扫描。 例如: 1">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SQL语句优化问题(续)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SQL语句优化问题(续)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-26T03:09:02.000Z" itemprop="datePublished" class="page-time">
+  2017-08-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-sql-2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SQL语句优化问题(续)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-26 11:09:02" datetime="2017-08-26T03:09:02.000Z"  itemprop="datePublished">2017-08-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>话不多说，接着上次的来。</p>
+<p>（11）sql语句用大写的，因为oracle总是在解析sql语句时把小写的字母转换成大写的再执行。</p>
+<p>（12）避免在索引列上使用NOT，NOT会产生在和在索引列上使用函数相同的影响。 当ORACLE”遇到”NOT,他就会停止使用索引转而执行全表扫描。</p>
+<p>（13） 避免在索引列上使用计算，WHERE子句中，如果索引列是函数的一部分，优化器将不使用索引而使用全表扫描。</p>
+<p>例如:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">低效：</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> …<span class="keyword">FROM</span>  DEPT  <span class="keyword">WHERE</span> SAL * <span class="number">12</span> &gt; <span class="number">25000</span>;</div><div class="line"></div><div class="line">高效:</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> …<span class="keyword">FROM</span> DEPT <span class="keyword">WHERE</span> SAL &gt; <span class="number">25000</span>/<span class="number">12</span>;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>（14） 用&gt;=替代&gt;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">高效:</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> *<span class="keyword">FROM</span>  EMP  <span class="keyword">WHERE</span>  DEPTNO &gt;=<span class="number">4</span></div><div class="line"></div><div class="line">低效:</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> *<span class="keyword">FROM</span> EMP <span class="keyword">WHERE</span> DEPTNO &gt;<span class="number">3</span></div></pre></td></tr></table></figure>
+<p>两者的区别在于，前者DBMS将直接跳到第一个DEPT等于4的记录而后者将首先定位到DEPTNO=3的记录并且向前扫描到第一个DEPT大于3的记录。</p>
+<p>（15） 用UNION替换OR (适用于索引列)</p>
+<p>通常情况下, 用UNION替换WHERE子句中的OR将会起到较好的效果. 对索引列使用OR将造成全表扫描. 注意, 以上规则只针对多个索引列有效. 如果有column没有被索引, 查询效率可能会因为你没有选择OR而降低. 在下面的例子中,LOC_ID 和REGION上都建有索引.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">高效:</div><div class="line"></div><div class="line">SELECTLOC_ID , LOC_DESC , REGION</div><div class="line"></div><div class="line">FROMLOCATION</div><div class="line"></div><div class="line">WHERELOC_ID = 10</div><div class="line"></div><div class="line">UNION</div><div class="line"></div><div class="line">SELECTLOC_ID , LOC_DESC , REGION</div><div class="line"></div><div class="line">FROMLOCATION</div><div class="line"></div><div class="line">WHEREREGION = “MELBOURNE”</div><div class="line"></div><div class="line">低效:</div><div class="line"></div><div class="line">SELECTLOC_ID , LOC_DESC , REGION</div><div class="line"></div><div class="line">FROMLOCATION</div><div class="line"></div><div class="line">WHERE LOC_ID= 10 OR REGION = “MELBOURNE”</div></pre></td></tr></table></figure>
+<p>如果你坚持要用OR，那就需要返回记录最少的索引列写在最前面。</p>
+<p>（16） 用IN来替换OR </p>
+<p>这是一条简单易记的规则，但是实际的执行效果还须检验，在ORACLE8i下，两者的执行路径似乎是相同的。　</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">低效:</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span>….FROM LOCATION <span class="keyword">WHERE</span> LOC_ID = <span class="number">10</span> <span class="keyword">OR</span> LOC_ID = <span class="number">20</span> <span class="keyword">OR</span> LOC_ID = <span class="number">30</span></div><div class="line"></div><div class="line">高效</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span>…<span class="keyword">FROM</span> LOCATION <span class="keyword">WHERE</span> LOC_IN  <span class="keyword">IN</span> (<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>);</div></pre></td></tr></table></figure>
+<p>（17） 总是使用索引的第一个列</p>
+<p>如果索引是建立在多个列上，只有在它的第一个列(leading column)被where子句引用时，优化器才会选择使用该索引。这也是一条简单而重要的规则，当仅引用索引的第二个列时，优化器使用了全表扫描而忽略了索引。</p>
+<p>（18） 用WHERE替代ORDER BY</p>
+<p>ORDER BY 子句只在两种严格的条件下使用索引。</p>
+<p>ORDER BY中所有的列必须包含在相同的索引中并保持在索引中的排列顺序。</p>
+<p>ORDER BY中所有的列必须定义为非空。</p>
+<p>WHERE子句使用的索引和ORDER BY子句中所使用的索引不能并列。</p>
+<p>例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">表DEPT包含以下列:</div><div class="line"></div><div class="line">DEPT_CODE   PK NOT NULL</div><div class="line"></div><div class="line">DEPT_DESC   NOT NULL</div><div class="line"></div><div class="line">DEPT_TYPE   NULL</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">低效: (索引不被使用)</div><div class="line"></div><div class="line">SELECTDEPT_CODE FROM  DEPT  ORDER BY  DEPT_TYPE</div><div class="line"></div><div class="line">高效: (使用索引)</div><div class="line"></div><div class="line">SELECTDEPT_CODE  FROM  DEPT  WHERE  DEPT_TYPE &gt; 0</div></pre></td></tr></table></figure>
+<p>（18） 避免改变索引列的类型</p>
+<p>当比较不同数据类型的数据时, ORACLE自动对列进行简单的类型转换。</p>
+<p>假设 EMPNO是一个数值类型的索引列。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>…  <span class="keyword">FROM</span> EMP  <span class="keyword">WHERE</span>  EMPNO = ‘<span class="number">123</span>′</div></pre></td></tr></table></figure>
+<p>实际上,经过ORACLE类型转换, 语句转化为:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>…  <span class="keyword">FROM</span> EMP  <span class="keyword">WHERE</span>  EMPNO = TO_NUMBER(‘<span class="number">123</span>′)</div></pre></td></tr></table></figure>
+<p>幸运的是,类型转换没有发生在索引列上,索引的用途没有被改变.</p>
+<p>现在,假设EMP_TYPE是一个字符类型的索引列.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>…  <span class="keyword">FROM</span> EMP  <span class="keyword">WHERE</span> EMP_TYPE = <span class="number">123</span></div></pre></td></tr></table></figure>
+<p>这个语句被ORACLE转换为:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>…  <span class="keyword">FROM</span> EMP  <span class="keyword">WHERE</span> TO_NUMBER(EMP_TYPE)=<span class="number">123</span></div></pre></td></tr></table></figure>
+<p>因为内部发生的类型转换，这个索引将不会被用到！为了避免ORACLE对你的SQL进行隐式的类型转换， 最好把类型转换用显式表现出来。注意当字符和数值比较时， ORACLE会优先转换数值类型到字符类型。</p>
+<p>（19） 需要当心的WHERE子句:</p>
+<p>某些SELECT 语句中的WHERE子句不使用索引。</p>
+<p>例如，(a)‘!=’ 将不使用索引。记住， 索引只能告诉你什么存在于表中，而不能告诉你什么不存在于表中。(b) ‘||’是字符连接函数， 就象其他函数那样， 停用了索引。(c) ‘+’是数学函数。 就象其他数学函数那样，停用了索引。 (4)相同的索引列不能互相比较，这将会启用全表扫描。</p>
+<p>（20） 避免使用耗费资源的操作</p>
+<p>带有DISTINCT,UNION,MINUS,INTERSECT,ORDERBY的SQL语句会启动SQL引擎</p>
+<p>执行耗费资源的排序(SORT)功能。 DISTINCT需要一次排序操作， 而其他的至少需要执行两次排序。 通常， 带有UNION, MINUS, INTERSECT的SQL语句都可以用其他方式重写。 如果你的数据库的SORT_AREA_SIZE调配得好， 使用UNION , MINUS, INTERSECT也是可以考虑的, 毕竟它们的可读性很强。</p>
+<p>（21） 优化GROUP BY</p>
+<p>提高GROUP BY 语句的效率，可以通过将不需要的记录在GROUP BY 之前过滤掉。下面两个查询返回相同结果但第二个明显就快了许多。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">低效:</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> JOB, <span class="keyword">AVG</span>(SAL)</div><div class="line"></div><div class="line"><span class="keyword">FROM</span> EMP</div><div class="line"></div><div class="line"><span class="keyword">GROUP</span> byJOB</div><div class="line"></div><div class="line"><span class="keyword">HAVING</span> JOB= ‘PRESIDENT’</div><div class="line"></div><div class="line"><span class="keyword">OR</span> JOB =‘MANAGER’</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">高效:</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> JOB, <span class="keyword">AVG</span>(SAL)</div><div class="line"></div><div class="line"><span class="keyword">FROM</span> EMP</div><div class="line"></div><div class="line"><span class="keyword">WHERE</span> JOB =‘PRESIDENT’</div><div class="line"></div><div class="line"><span class="keyword">OR</span> JOB =‘MANAGER’</div><div class="line"></div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">by</span> JOB</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-08-26T07:22:14.312Z" itemprop="dateUpdated">2017-08-26 15:22:14</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/08/26/sql-2/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/08/26/sql-2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/26/sql-2/&title=《SQL语句优化问题(续)》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/26/sql-2/&title=《SQL语句优化问题(续)》 — Lvshen's Blog&source=话不多说，接着上次的来。
+（11）sql语句用大写的，因为oracle总是在解析sql语句时把小写的字母转换成大写的再执行。
+（12）避免在索引列上使用N..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/26/sql-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SQL语句优化问题(续)》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/26/sql-2/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/26/sql-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/26/redis2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Redis面试总结</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/08/25/redis/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">你的项目为甚么要使用Redis</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/08/26/sql-2/&title=《SQL语句优化问题(续)》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/08/26/sql-2/&title=《SQL语句优化问题(续)》 — Lvshen's Blog&source=话不多说，接着上次的来。
+（11）sql语句用大写的，因为oracle总是在解析sql语句时把小写的字母转换成大写的再执行。
+（12）避免在索引列上使用N..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/08/26/sql-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SQL语句优化问题(续)》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/08/26/sql-2/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/08/26/sql-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/08/26/sql-2/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

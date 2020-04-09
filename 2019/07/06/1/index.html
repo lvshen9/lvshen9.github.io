@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>我所用到的Java8 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java8,Stream">
+    <meta name="description" content="进入新公司几个月，陆陆续续使用到了Java8的新技术，其中流使用的最多，在处理集合方面非常方便，下面是是我工作中常用到的Java8的功能。">
+<meta name="keywords" content="Java8,Stream">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我所用到的Java8">
+<meta property="og:url" content="http://lvshen9.gitee.io/2019/07/06/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="进入新公司几个月，陆陆续续使用到了Java8的新技术，其中流使用的最多，在处理集合方面非常方便，下面是是我工作中常用到的Java8的功能。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-06T07:57:33.170Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我所用到的Java8">
+<meta name="twitter:description" content="进入新公司几个月，陆陆续续使用到了Java8的新技术，其中流使用的最多，在处理集合方面非常方便，下面是是我工作中常用到的Java8的功能。">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">我所用到的Java8</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">我所用到的Java8</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-06T04:16:22.000Z" itemprop="datePublished" class="page-time">
+  2019-07-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Lambda表达式和forEach循环"><span class="post-toc-number">1.</span> <span class="post-toc-text">Lambda表达式和forEach循环</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#集合创建"><span class="post-toc-number">2.</span> <span class="post-toc-text">集合创建</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Java8常用的集合操作"><span class="post-toc-number">3.</span> <span class="post-toc-text">Java8常用的集合操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Spring创建对象"><span class="post-toc-number">4.</span> <span class="post-toc-text">Spring创建对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#BigDecimal使用注意"><span class="post-toc-number">5.</span> <span class="post-toc-text">BigDecimal使用注意</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用SecureRandom"><span class="post-toc-number">6.</span> <span class="post-toc-text">使用SecureRandom</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Java8-List转Map"><span class="post-toc-number">7.</span> <span class="post-toc-text">Java8 List转Map</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">我所用到的Java8</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-06 12:16:22" datetime="2019-07-06T04:16:22.000Z"  itemprop="datePublished">2019-07-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>进入新公司几个月，陆陆续续使用到了Java8的新技术，其中流使用的最多，在处理集合方面非常方便，下面是是我工作中常用到的Java8的功能。</p>
+<a id="more"></a>
+<h4 id="Lambda表达式和forEach循环"><a href="#Lambda表达式和forEach循环" class="headerlink" title="Lambda表达式和forEach循环"></a>Lambda表达式和forEach循环</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (CollectionUtils.isNotEmpty(prizes)) &#123;</div><div class="line">   prizes.forEach(x -&gt; &#123;</div><div class="line">      <span class="keyword">if</span> (PrizeType.BOOK.equals(x.getPrizeType())) &#123;</div><div class="line">          books.add(getByActivityId(x.getPrizeId()));</div><div class="line">      &#125;</div><div class="line">       &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当循环遍历的数据很多时（1000条以上），Java8中的for循环新能要强于普通的for循环。</p>
+<h4 id="集合创建"><a href="#集合创建" class="headerlink" title="集合创建"></a>集合创建</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (CollectionUtils.isEmpty(memberList)) &#123;</div><div class="line">    <span class="keyword">return</span> ImmutableList.of();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用Guava的<code>ImmutableList.of()</code>创建的是不可变集合，这样有利于节省空间。</p>
+<h4 id="Java8常用的集合操作"><a href="#Java8常用的集合操作" class="headerlink" title="Java8常用的集合操作"></a>Java8常用的集合操作</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//filter过滤</span></div><div class="line">List&lt;RedeemActivity&gt; redeemActivitiesOfPrize = activities.stream()</div><div class="line">      .filter(x -&gt; activityIdsOfPrize.contains(x.getId())).collect(Collectors.toList());</div><div class="line"></div><div class="line"><span class="comment">//使用流降序排序</span></div><div class="line">userCOS.stream()             .sorted(Comparator.comparing(userCO::getCreateDate).reversed()).collect(Collectors.toList());</div><div class="line"></div><div class="line"><span class="comment">//通过昵称获取userId列表</span></div><div class="line"> List&lt;String&gt; userIds = users.stream().collect(() -&gt; <span class="keyword">new</span> ArrayList&lt;String&gt;(), (list, user) -&gt; list.add(user.getId()), (list1, list2) -&gt; list1.addAll(list2));</div><div class="line"></div><div class="line"> List&lt;String&gt; orderNos = orderStatus.stream().map(OrderDetail::getOrderNo).collect(toList());</div><div class="line"></div><div class="line"><span class="comment">//Optional.ofNullable使用</span></div><div class="line">List&lt;CommodityActivityRule&gt; excludedCommodityActivityRules = Optional.ofNullable(commodityActivityRules)</div><div class="line">				.orElseGet(ArrayList::<span class="keyword">new</span>).stream()</div><div class="line">				<span class="comment">// 排除当前活动</span></div><div class="line">				.filter(commodityActivityRule -&gt; !commodityActivityRule.getActivity().getId().equals(activityId))</div><div class="line">				.collect(Collectors.toList());</div><div class="line"><span class="comment">//对象不为null时使用of,对象可能为null也可能不为null时用ofNullable</span></div><div class="line"><span class="comment">//orElseGet:对象不为null不会重新创建；orElse：对象为不为null也会重新创建</span></div><div class="line"> Optional.of(marketingConfigRepository.listAll(<span class="keyword">new</span> MarketingConfig())).orElseGet(ArrayList::<span class="keyword">new</span>).stream()</div><div class="line">				.filter(marketingConfig -&gt; excludedMarketingConfigTypes.contains(marketingConfig.getType()))</div><div class="line">				.map(MarketingConfig::getId).collect(Collectors.toList());</div><div class="line"><span class="comment">//返回对象的时候可以用</span></div><div class="line">Optional.ofNullable(usageRules).orElseGet(ArrayList::<span class="keyword">new</span>)</div><div class="line"></div><div class="line"><span class="comment">//BigDecimal累加</span></div><div class="line">BigDecimal commodityAmount = orderDetails.stream().map(OrderDetail::getCommodityAmount).reduce(BigDecimal.ZERO, BigDecimal::add);</div><div class="line"></div><div class="line"><span class="comment">//判断Optional里面是否有值</span></div><div class="line">Optional&lt;GradeThresholdInfoCO&gt; nextOptional = gradeThresholdList.stream().filter(x -&gt; x.getLevel() != <span class="keyword">null</span> &amp;&amp; x.getLevel() == level + <span class="number">1</span>).findFirst();</div><div class="line">        <span class="keyword">if</span> (nextOptional.isPresent()) &#123;</div><div class="line">            <span class="keyword">return</span> nextOptional.get();</div><div class="line">        &#125;</div><div class="line"></div><div class="line"><span class="comment">//findFirst()</span></div><div class="line">List&lt;Cookie&gt; targetCookies = Optional.ofNullable(cookies).orElseGet(ArrayList::<span class="keyword">new</span>).stream()</div><div class="line">				.filter(e -&gt; <span class="string">"jsessionid"</span>.equalsIgnoreCase(e.getName())).collect(Collectors.toList());</div><div class="line"></div><div class="line">		log.info(<span class="string">"Cookie名称为：&#123;&#125;的值为:&#123;&#125;"</span>, <span class="string">"jsessionid"</span>,</div><div class="line">				Optional.ofNullable(targetCookies).orElseGet(ArrayList::<span class="keyword">new</span>).get(<span class="number">0</span>).getValue());</div><div class="line"></div><div class="line">		Optional&lt;Cookie&gt; first = Optional.ofNullable(cookies).orElseGet(ArrayList::<span class="keyword">new</span>).stream()</div><div class="line">				.filter(e -&gt; <span class="string">"jsessionid"</span>.equalsIgnoreCase(e.getName())).findFirst();</div><div class="line">		<span class="keyword">if</span> (first.isPresent()) &#123;</div><div class="line">			log.info(<span class="string">"Cookie名称为：&#123;&#125;的值为:&#123;&#125;"</span>, <span class="string">"jsessionid"</span>,</div><div class="line">					first.get().getValue());</div><div class="line">		&#125;</div><div class="line"></div><div class="line"><span class="comment">//流大小比较</span></div><div class="line">Optional&lt;Optional&lt;Integer&gt;&gt; maxLevelOptional = ruleList.stream().map(x -&gt; x.getEarningRuleMap().keySet().stream().max((o1, o2) -&gt; o1.compareTo(o2))).max((o1, o2) -&gt; &#123;</div><div class="line">            Integer value1 = o1.isPresent() ?  o1.get() : <span class="number">0</span>;</div><div class="line">            Integer value2 = o2.isPresent() ?  o2.get() : <span class="number">0</span>;</div><div class="line">            <span class="keyword">return</span> value1.compareTo(value2);</div><div class="line">        &#125;);</div><div class="line"></div><div class="line"><span class="comment">//日期获取最值（最大，最小）</span></div><div class="line">Optional&lt;ActivityVO&gt; max = activityVOS.stream().max(Comparator.comparing(ActivityVO::getEndDate));</div><div class="line">Optional&lt;ActivityVO&gt; min = activityVOS.stream().min(Comparator.comparing(ActivityVO::getStartDate));</div><div class="line">Date maxEndDate = max.get().getEndDate();</div><div class="line">Date minStartDate = min.get().getStartDate();</div><div class="line"></div><div class="line"><span class="comment">//groupingBy分组1</span></div><div class="line"> Map&lt;PrizeType, List&lt;RedeemActivityPrize&gt;&gt; prizeTypeAndPrizesMap = redeemActivityPrize.stream().collect(Collectors.groupingBy(RedeemActivityPrize::getPrizeType));</div><div class="line">        List&lt;RedeemActivityPrize&gt; couponPrizes = prizeTypeAndPrizesMap.get(PrizeType.COUPON);</div><div class="line">        List&lt;RedeemActivityPrize&gt; presentPrizes = prizeTypeAndPrizesMap.get(PrizeType.PRESENT);</div><div class="line"></div><div class="line"><span class="comment">//groupingBy分组2</span></div><div class="line">prizes.stream().collect(Collectors.groupingBy(RedeemActivityPrize::getPrizeId))</div><div class="line">				.forEach((prizeId, activityPrizes) -&gt; &#123;</div><div class="line">					List&lt;String&gt; activityIdsOfPrize = activityPrizes.stream()</div><div class="line">							.map(RedeemActivityPrize::getRedeemActivityId).collect(Collectors.toList());</div><div class="line"></div><div class="line">					List&lt;RedeemActivity&gt; redeemActivitiesOfPrize = activities.stream()</div><div class="line">							.filter(x -&gt; activityIdsOfPrize.contains(x.getId())).collect(Collectors.toList());</div><div class="line"></div><div class="line">					List&lt;RedeemActivityBriefCO&gt; briefCOS = ModelConvertorHelper.convertList(redeemActivitiesOfPrize,</div><div class="line">							RedeemActivityBriefCO.class);</div><div class="line"></div><div class="line">					RedeemUsedPresentCO co = <span class="keyword">new</span> RedeemUsedPresentCO();</div><div class="line">					co.setPresentId(prizeId);</div><div class="line">					co.setActivities(briefCOS);</div><div class="line">					result.add(co);</div><div class="line">				&#125;);</div><div class="line"><span class="comment">//Java8 Function函数的使用</span></div><div class="line"><span class="comment">//T-入参类型，R-出参类型 </span></div><div class="line"> <span class="keyword">private</span> <span class="keyword">static</span> &lt;T, R&gt; <span class="function">List&lt;R&gt; <span class="title">transform</span><span class="params">(List&lt;T&gt; list, Function&lt;T, R&gt; fx)</span> </span>&#123;</div><div class="line">        List&lt;R&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (T element : list) &#123;</div><div class="line">            result.add(fx.apply(element));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">  &#125;</div><div class="line">List&lt;Integer&gt; namesLength = transform(names, String::length);</div><div class="line"></div><div class="line"><span class="comment">//集合添加..</span></div><div class="line">Stream.of(task1, task2, task3, task4, task5).collect(toList())</div><div class="line"></div><div class="line"><span class="comment">//显示前几位的集合数据</span></div><div class="line">tasks.stream().filter(task -&gt; task.getType() == TaskType.READING).sorted(comparing(Task::getCreatedOn)).map(Task::getTitle).</div><div class="line">limit(n).collect(toList());</div><div class="line"></div><div class="line"><span class="comment">//Java8循环遍历</span></div><div class="line">couponIds.forEach(x -&gt; &#123;</div><div class="line">    RedeemActivityPrize presentRedeem = <span class="keyword">new</span> RedeemActivityPrize();</div><div class="line">    presentRedeem.setRedeemActivityId(redeemActivityId);</div><div class="line">    presentRedeem.setPrizeType(PrizeType.COUPON);</div><div class="line">    presentRedeem.setPrizeId(x);</div><div class="line">    redeemActivityPrizeList.add(presentRedeem);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="Spring创建对象"><a href="#Spring创建对象" class="headerlink" title="Spring创建对象"></a>Spring创建对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> ActivityRepository redeemActivityRepository = SpringContextHolder</div><div class="line">        .getBean(ActivityRepository.class);</div></pre></td></tr></table></figure>
+<p>除了@Autowired生成对象，Spring其他生成对象的方式。</p>
+<h4 id="BigDecimal使用注意"><a href="#BigDecimal使用注意" class="headerlink" title="BigDecimal使用注意"></a>BigDecimal使用注意</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">你可能认为java中用new BigDecimal(0.1)创建的BigDecimal应该等于0.1（一个是1的无精度的值，一个是有精度的值），但实际上精确的是等于0.1000000000000000055511151231257827021181583404541015625。这是因为0.1不能被double精确的表示（下面大概描述一下原理）。因此，传入构造函数的值不是精确的等于0.1。</div><div class="line"></div><div class="line">当遇到需要涉及到精确计算的时候，如上面代码所示，要注意该构造函数是一个精确的转换，它无法得到与先调用Double.toString(double)方法将double转换成String，再使用BigDecimal(String)构造函数一样的结果。如果要达到这种结果，应该使用new BigDecimal(String value) 或 BigDecimal.valueof(double value)</div></pre></td></tr></table></figure>
+<h4 id="使用SecureRandom"><a href="#使用SecureRandom" class="headerlink" title="使用SecureRandom"></a>使用SecureRandom</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">由于java.util.Random类依赖于伪随机数生成器，因此该类和相关的java.lang.Math.random（）方法不应用于安全关键应用程序或保护敏感数据。 在这种情况下，应该使用依赖于加密强随机数生成器（RNG）的java.security.SecureRandom类。</div><div class="line"></div><div class="line">PRNG(伪随机数)：</div><div class="line">伪随机数， 计算机不能生成真正的随机数，而是通用一定的方法来模拟随机数。伪随机数有一部分遵守一定的规律，另一部分不遵守任何规律。</div><div class="line"></div><div class="line">RNG(随机数)：</div><div class="line">随机数是由“随机种子”产生的，“随机种子”是一个无符号整形数。</div><div class="line"></div><div class="line">反例：</div><div class="line">Random random = new Random(); // Questionable use of Random</div><div class="line">byte bytes[] = new byte[20];</div><div class="line">random.nextBytes(bytes);</div><div class="line">正例：</div><div class="line">SecureRandom random = new SecureRandom(); </div><div class="line">byte bytes[] = new byte[20];</div></pre></td></tr></table></figure>
+<h4 id="Java8-List转Map"><a href="#Java8-List转Map" class="headerlink" title="Java8 List转Map"></a>Java8 List转Map</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.这里有个实体对象(员工对象)</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</div><div class="line">    <span class="comment">// member variables</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> empId;</div><div class="line">    <span class="keyword">private</span> String empName;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> empAge;</div><div class="line">    <span class="keyword">private</span> String empDesignation;</div><div class="line"><span class="comment">//2.比如式样员工对象的empId作为key，值是员工姓名</span></div><div class="line"> Map&lt;Integer, String&gt; mapOfEmployees = employees.stream().collect(</div><div class="line">        Collectors.toMap(e -&gt; e.getEmpId(),e -&gt; e.getEmpName()));</div><div class="line"><span class="comment">//3.Map的Key是empId，整个对象为Map的值,但如果List中有重复的empId，映射到Map时，Key时不能重复的</span></div><div class="line"> Map&lt;Integer, String&gt; mapOfEmployees = employees.stream().collect(</div><div class="line">     Collectors.toMap(</div><div class="line">         e -&gt; e.getEmpId(), </div><div class="line">         e -&gt; e.getEmpName(), </div><div class="line">         (e1, e2) -&gt; e1 )); <span class="comment">// Merge Function</span></div><div class="line"><span class="comment">//4.将List转换为Map - 使用TreeMap对键进行自然排序</span></div><div class="line"> Map&lt;Integer, String&gt; mapOfEmployees = employees.stream().collect(</div><div class="line">                Collectors.toMap(</div><div class="line">                        e -&gt; e.getEmpId(), </div><div class="line">                        e -&gt; e.getEmpName(), </div><div class="line">                        (e1, e2) -&gt; e1 , <span class="comment">// Merge Function</span></div><div class="line">                        TreeMap&lt;Integer, String&gt;::<span class="keyword">new</span>)); <span class="comment">// Map Supplier</span></div><div class="line"><span class="comment">//如果你的TreeMap实现需要加入比较器，将上面代码中TreeMap&lt;Integer, String&gt;::new替换成：() -&gt; new TreeMap&lt;Integer, String&gt;(new MyComparator())</span></div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-07-06T07:57:33.170Z" itemprop="dateUpdated">2019-07-06 15:57:33</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/07/06/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2019/07/06/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java8/">Java8</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stream/">Stream</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/07/06/1/&title=《我所用到的Java8》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/07/06/1/&title=《我所用到的Java8》 — Lvshen's Blog&source=进入新公司几个月，陆陆续续使用到了Java8的新技术，其中流使用的最多，在处理集合方面非常方便，下面是是我工作中常用到的Java8的功能。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/07/06/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《我所用到的Java8》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/07/06/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/07/06/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/16/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">我所用到的Java8-续</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/26/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">MySQL为什么选择B+Tree做索引</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/07/06/1/&title=《我所用到的Java8》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/07/06/1/&title=《我所用到的Java8》 — Lvshen's Blog&source=进入新公司几个月，陆陆续续使用到了Java8的新技术，其中流使用的最多，在处理集合方面非常方便，下面是是我工作中常用到的Java8的功能。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/07/06/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《我所用到的Java8》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/07/06/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/07/06/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2019/07/06/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

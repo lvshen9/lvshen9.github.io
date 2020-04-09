@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>面向Java开发者的NoSQL选项 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="数据库,NoSQL">
+    <meta name="description" content="英文原文：NoSQL Options for Java Developers  因为了解和喜欢 Java 社区，所以尽管很少有人将 NoSQL 与某种语言绑在一起，我也要为全世界的 Java 开发者写下这篇文章。文中，我将为你展示几种 NoSQL 数据库。之后，我将根据实际在 Github  stars 和 Stack Overflow tags 的项目中的使用情况，选出最常用的五个。并且我会让">
+<meta name="keywords" content="数据库,NoSQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向Java开发者的NoSQL选项">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="英文原文：NoSQL Options for Java Developers  因为了解和喜欢 Java 社区，所以尽管很少有人将 NoSQL 与某种语言绑在一起，我也要为全世界的 Java 开发者写下这篇文章。文中，我将为你展示几种 NoSQL 数据库。之后，我将根据实际在 Github  stars 和 Stack Overflow tags 的项目中的使用情况，选出最常用的五个。并且我会让">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/111927_FCxW_2903254.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/111950_baRY_2903254.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/112016_iGK7_2903254.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/112049_0QJY_2903254.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/112109_xScg_2903254.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/112224_j6Z0_2903254.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/space/2017/1009/112408_LK6Y_2903254.png">
+<meta property="og:updated_time" content="2017-10-27T07:07:18.348Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向Java开发者的NoSQL选项">
+<meta name="twitter:description" content="英文原文：NoSQL Options for Java Developers  因为了解和喜欢 Java 社区，所以尽管很少有人将 NoSQL 与某种语言绑在一起，我也要为全世界的 Java 开发者写下这篇文章。文中，我将为你展示几种 NoSQL 数据库。之后，我将根据实际在 Github  stars 和 Stack Overflow tags 的项目中的使用情况，选出最常用的五个。并且我会让">
+<meta name="twitter:image" content="https://static.oschina.net/uploads/space/2017/1009/111927_FCxW_2903254.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">面向Java开发者的NoSQL选项</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">面向Java开发者的NoSQL选项</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-27T06:42:30.000Z" itemprop="datePublished" class="page-time">
+  2017-10-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#为什么使用-NoSQL"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么使用 NoSQL?</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#选择-NoSQL-的候选项"><span class="post-toc-number">2.</span> <span class="post-toc-text">选择 NoSQL 的候选项</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#aible-的排序技术"><span class="post-toc-number">3.</span> <span class="post-toc-text">aible 的排序技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Indeed-上职位数量"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Indeed 上职位数量</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#GitHub-Stars"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">GitHub Stars</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Stack-Overflow-标签"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">Stack Overflow 标签</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Docker-Pulls"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">Docker Pulls</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NoSQL-选项矩阵"><span class="post-toc-number">4.</span> <span class="post-toc-text">NoSQL 选项矩阵</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NoSQL-选项概述"><span class="post-toc-number">5.</span> <span class="post-toc-text">NoSQL 选项概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MongoDB"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">MongoDB</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Redis"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">Redis</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Cassandra"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">Cassandra</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Neo4j"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">Neo4j</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#PostgreSQL-JSON"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">PostgreSQL JSON</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结束语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结束语</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-面向-Java-开发者的-NoSQL-选项"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">面向Java开发者的NoSQL选项</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-27 14:42:30" datetime="2017-10-27T06:42:30.000Z"  itemprop="datePublished">2017-10-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>英文原文：<a href="https://dzone.com/articles/nosql-options-for-java-developers" target="_blank" rel="external">NoSQL Options for Java Developers</a></p>
+</blockquote>
+<p>因为了解和喜欢 Java 社区，所以尽管很少有人将 NoSQL 与某种语言绑在一起，我也要为全世界的 Java 开发者写下这篇文章。文中，我将为你展示几种 NoSQL 数据库。之后，我将根据实际在 Github  stars 和 Stack Overflow tags 的项目中的使用情况，选出最常用的五个。并且我会让你知道它们是否支持 Spring Data 和 SpringBoot。</p>
+<h4 id="为什么使用-NoSQL"><a href="#为什么使用-NoSQL" class="headerlink" title="为什么使用 NoSQL?"></a>为什么使用 NoSQL?</h4><p>NoSQL 数据库帮助许多互联网公司通过<strong>最终一致性实现高可拓展性</strong>。因为 NoSQL 数据库通常分布在多台机器上，而且有一些延迟，所以它只保证所有的实例最终都是一致的。最终一致性服务通常被称为 BASE（基本可用，软状态，最终一致性）服务，这点与传统的 ACID 正好相反。</p>
+<h4 id="选择-NoSQL-的候选项"><a href="#选择-NoSQL-的候选项" class="headerlink" title="选择 NoSQL 的候选项"></a>选择 NoSQL 的候选项</h4><p>定义前五名可能很困难。最近许多人都在尝试这个。请参考本文结尾处的研究和注释部分。</p>
+<p>八月中旬，我在推特上告诉我的粉丝，我正在写这篇文章。我询问了关于 NoSQL 数据库的正面或负面的评述，收到了人们的反馈，其中有希望我涵盖的一些选项。</p>
+<p>我收到许多建议，以下按字母顺序列出：</p>
+<a id="more"></a>
+<ol>
+<li>ArangoDB</li>
+<li>Cassandra</li>
+<li>Couchbase</li>
+<li>DynamoDB</li>
+<li>FaunaDB</li>
+<li>Hazelcast</li>
+<li>MongoDB</li>
+<li>Neo4j</li>
+<li>PostgreSQL JSON</li>
+<li>Redis</li>
+<li>(JetBrains) Xodus</li>
+</ol>
+<p>人们还提到 Hibernate OGM（NoSQL 的 JPA）和 NoSQLUnit 来作为帮助访问和测试 NoSQL 数据库的工具。</p>
+<p>请注意，我没有收到需要将 CouchDB，HBase，Elasticsearch 或 Solr 包括在内的任何请求。 由于 CouchDB 和 Couchbase 的名称相似，它们经常被混淆，但是它们是完全不一样的。 由于 CouchDB 是一个文件存储数据库，我将其包括在我的排名中。 我还添加了 HBase，因为它在 ITBusinessEdge，KDnuggets 和 DB-Engines 被提到过（在研究和注释部分）。 我没有将 Elasticsearch 或 Solr 包括在内，因为我相信这些并不常用作主数据存储。</p>
+<h4 id="aible-的排序技术"><a href="#aible-的排序技术" class="headerlink" title="aible 的排序技术"></a>aible 的排序技术</h4><p>我用 Indeed 上职位数量、GitHub 上 star 数量、Stack Overflow 标签数和 Docker 上 pull 的数量作为指标去开发我的 TOP5 NoSQL 数据库排名系统。</p>
+<h5 id="Indeed-上职位数量"><a href="#Indeed-上职位数量" class="headerlink" title="Indeed 上职位数量"></a>Indeed 上职位数量</h5><p> 我在 Indeed Jobs 上不区分地域搜索，结果除了 Amazon 的 DynamoDB 显示出的是排行榜的竞争者外，并没有新奇发现。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/111927_FCxW_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>NOTE</strong>：把“PostgreSQL JSON”做为搜索条件很难得到准确的结果，因为很多招聘信息把“PostgreSQL” 作为一个要求，而不是它对 NoSQL 的支持。因此我搜索“postgres + json”。Xodus 是一家公司的名字，所以我添加“JetBrains”关键字来保证结果的准确。</p>
+<h5 id="GitHub-Stars"><a href="#GitHub-Stars" class="headerlink" title="GitHub Stars"></a>GitHub Stars</h5><p>我搜索并找到了 5 个顶级（Star 最多）的 NoSQL 项目，分别是 Redis，MongoDB，ArangoDB，Neo4j 和 Cassandra。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/111950_baRY_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>注意:</strong> Cassandra, HBase 和 PostgreSQL 是镜像库。DynamoDB, Couchbase 和 FaunaDB 没有服务在 GitHub 上，因此，我统计他们的时候是基于他们的 Java 驱动。统计每个项目的 Java 驱动项目的星星数量是个好办法，但是 <a href="https://redis.io/clients#java" target="_blank" rel="external">Redis 只有 11 颗星</a>。</p>
+<p>你可以使用 Tim Qian 的 <a href="https://github.com/timqian/star-history" target="_blank" rel="external">历史 star 项目</a>来查看这 5 个项目的 star 增长情况。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/112016_iGK7_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="Stack-Overflow-标签"><a href="#Stack-Overflow-标签" class="headerlink" title="Stack Overflow 标签"></a>Stack Overflow 标签</h5><p>我在 StackOverflow 中搜索了上述每一个数据库的 tag，发现 MongoDB 和 PostgreSQL 是最受欢迎的，接下来是 Neo4j, Cassandra 和 Redis.</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/112049_0QJY_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="Docker-Pulls"><a href="#Docker-Pulls" class="headerlink" title="Docker Pulls"></a>Docker Pulls</h5><p>我在 Docker Hub 上搜索了相关的镜像，可以看到少部分数据库有 1000 万以上的 Docker Pull，Neo4j 有 500 万以上，其他的大多数也有 100 多万， FaunaDB 和 JetBrains Xodus 暂时没有可用的镜像</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/112109_xScg_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>综合来看，这些数据和我的排名关系并不大，我觉得可能有两个原因，数据并不精确而且对于每一个数据库，并没有所谓标准的镜像</p>
+<h4 id="NoSQL-选项矩阵"><a href="#NoSQL-选项矩阵" class="headerlink" title="NoSQL 选项矩阵"></a>NoSQL 选项矩阵</h4><p>我创建了一个结合了职位数、星数和标签数的矩阵表格。我根据它们在每个类别的排名授予 1-5 分。如果一个选项没有进入前五，就得零分。结果排名前五的是 MongoDB、Redis、Cassandra、Neo4j 和 PostgreSQL，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>NoSQL选项</th>
+<th>职位</th>
+<th>星</th>
+<th>标签</th>
+<th>合计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MongoDB</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>3</td>
+<td>5</td>
+<td>1</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Cassandra</td>
+<td>4</td>
+<td>1</td>
+<td>2</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Neo4j</td>
+<td>0</td>
+<td>2</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>ArangoDB</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>DynamoDB</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Couchbase</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>CouchDB</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Hazelcast</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>JetBrains Xodus</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>FaunaDB</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://db-engines.com/en/ranking" target="_blank" rel="external">DB-Engines</a> 排名的前五个选项是 PostgreSQL、MongoDB、Cassandra、Redis 和 HBase。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/112224_j6Z0_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>两个表格的前五排名非常接近！</p>
+<h4 id="NoSQL-选项概述"><a href="#NoSQL-选项概述" class="headerlink" title="NoSQL 选项概述"></a>NoSQL 选项概述</h4><p>由于我做出的前五个排名结果非常接近于 DB-Engines 的结果，所以我将使用我的前五个结果。下面是对每一个的概述，以及关于它们的 Spring Boot 支持的信息。</p>
+<p>你可能会问“为什么是 Spring Boot？” 我的答案很简单：因为 Spring Boot 采用率很高。根据 <a href="http://redmonk.com/fryan/2017/06/22/language-framework-popularity-a-look-at-java-june-2017/" target="_blank" rel="external">Redmonk 对 Java 框架的最近的观察</a>， Spring Boot 采用率从 2016 年 9 月到 2017 年 6 月增长了 76%。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://static.oschina.net/uploads/space/2017/1009/112408_LK6Y_2903254.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>自 6 月以来的增长速度并没有减缓：<a href="https://twitter.com/PieterHumphrey/status/905131222094929920" target="_blank" rel="external"> 到 2017 年 8月 Maven 下载量是 2220 万</a>。</p>
+<h5 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h5><p>MongoDB 在 2007 年由 DoubleClick、 ShopWiki 和 Gilt Groupe 的高级技术人员建立。它的源码在 <a href="https://github.com/mongodb/mongo" target="_blank" rel="external">GitHub</a> 上，使用的是 Apache 和 GNU-APGL 许可证。它的众多大客户包括 Adobe、 eBay 和 eHarmony。</p>
+<ul>
+<li><strong>在 start.spring.io 上是否可用？</strong> 是的，包括用于测试的嵌入式 MongoDB 。</li>
+<li><strong>是否能在 Spring Data 上获得支持？</strong> 是的，通过 <a href="https://projects.spring.io/spring-data-mongodb/" target="_blank" rel="external">Spring Data MongoDB</a>。</li>
+<li><strong>加分项：</strong> 为 Hibernate OGM、 NoSQLUnit 和 <a href="http://www.jhipster.tech/" target="_blank" rel="external">JHipster</a> 所支持。</li>
+</ul>
+<h5 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h5><p>Redis 代表 REmote Dictionary Server（远程字典服务器），由 <a href="http://invece.org/" target="_blank" rel="external">Salvatore Sanfilippo</a> 开创。它最初发布于 2009 年 4 月 10 日根据 <a href="https://redis.io/" target="_blank" rel="external">redis.io</a> 的描述，Redis 是采用 BSD 许可证的内存式数据结构存储，可以被用作数据库、缓存和消息代理。 <a href="https://redis.io/topics/whos-using-redis" target="_blank" rel="external">使用 Redis 的知名企业</a> 包括 Twitter、 GitHub、 Snapchat 和 Craigslist。</p>
+<ul>
+<li><strong>是否在 start.spring.io 上可用？</strong> 是。</li>
+<li><strong>是否为 Spring Data 所支持？</strong> 是的，通过 <a href="https://projects.spring.io/spring-data-redis/" target="_blank" rel="external">Spring Data Redis</a>。</li>
+<li><strong>加分项：</strong> 为 NoSQLUnit 所支持。Hibernate ORM 支持正在进行中。</li>
+</ul>
+<h5 id="Cassandra"><a href="#Cassandra" class="headerlink" title="Cassandra"></a>Cassandra</h5><p><a href="http://cassandra.apache.org/" target="_blank" rel="external">Cassandra</a> 是“一个管理结构化数据的分布式存储系统，其设计的目的是支持扩展到大数量级的商用服务器，并避免单点的失败” (引至 <a href="https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919" target="_blank" rel="external">“Cassandra – 在 P2P 网络中的一种结构化存储系统”</a>  在 Facebook 的工程博客上)。Facebook 最初开发 Cassandra 用于支持其收件箱的搜索功能。它的创始人，Avinash Lakshman (Amazon DynamoDB 的一位创始者) 和 Prashant Malik 在 2008 年七月把它作为开源项目发布。在 2009 年 3 月，Cassandra 成为了 Apache 的孵化器项目并在 2010 年 2 月成为了最高等级的项目。</p>
+<p>除了 Facebook 之外， Cassandra 还帮助了许多企业实现网络规模的扩展。 <a href="http://cassandra.apache.org/" target="_blank" rel="external">关于其可扩展性的介绍在其主页上有很多惊人的数字</a>。</p>
+<blockquote>
+<p>其中一个最大的产品部署者是苹果公司，有超过 75000 个节点存储超过 10PB 的数据。其他大的 Cassandra 使用者包括 Netflix (2500 节点，420 TB，每天超过万亿的请求量)，中国的搜索引擎宜搜 (270 节点，300 TB，每天超过 8 亿请求)，eBay (超过 100 节点， 250 TB)。</p>
+</blockquote>
+<ul>
+<li><strong>start.spring.io 中是否支持?</strong> 是。</li>
+<li><strong>Spring Data 中是否支持?</strong> 是，通过 <a href="https://projects.spring.io/spring-data-cassandra" target="_blank" rel="external">Spring Data Cassandra</a>.</li>
+<li><strong>福利:</strong> NoSQLUnit 和 JHipster 已支持，Hibernate ORM 的支持正在进行中。</li>
+</ul>
+<h5 id="Neo4j"><a href="#Neo4j" class="headerlink" title="Neo4j"></a>Neo4j</h5><p>Neo4j 可以作为基于 GPL3 许可的“社区版”使用，带有 Affero GPL 下的一些扩展。社区版被限制只能在一个节点上运行，并且不包括对集群或热备份的支持。Neo4J 的“企业版”支持横向扩展，内存页缓存和热备份。可以试用 30 天，没有提供定价。</p>
+<p>Neo4j 是众所周知的图数据库，所有内容都是以一个边，节点，或者一个属性的方式存储。版本 1.0 在 2010 年二月份发布，自此以来由 Neo4j 公司开发。它的<a href="https://neo4j.com/customers/" target="_blank" rel="external">大客户</a>包括 Walmart, Airbnb, Monsanto, 和eBay.</p>
+<ul>
+<li><strong>是否在 start.spring.io上可以使用？</strong>是。</li>
+<li>Spring Data 是否支持 Neo4j ？ 是的，通过 <a href="https://projects.spring.io/spring-data-neo4j" target="_blank" rel="external">Spring Data Neo4j</a>.</li>
+<li>加分项：Hibernate ORM 和 NoSQLUnit 也支持 Neo4j</li>
+</ul>
+<h5 id="PostgreSQL-JSON"><a href="#PostgreSQL-JSON" class="headerlink" title="PostgreSQL JSON"></a>PostgreSQL JSON</h5><p>PostgreSQL 是一种传统的关系数据库管理系统（RDBMS），它通过其本地的 JSON 支持（在版本 9.2 中添加）来支持 NoSQL。 在 9.4 中，他们添加了对二进制 JSON（也称为<a href="https://www.postgresql.org/docs/current/static/datatype-json.html" target="_blank" rel="external">JSONB</a>）和索引的支持。</p>
+<p>Leigh Halliday 在 2017 年 6 月的博文中解释了<a href="https://blog.codeship.com/unleash-the-power-of-storing-json-in-postgres/" target="_blank" rel="external">如何释放在 </a><a href="https://blog.codeship.com/unleash-the-power-of-storing-json-in-postgres/" target="_blank" rel="external">Postgres</a> 中存储 JSON 的功能。Halliday进一步展示了如何使用 Ruby on Rails。 一篇来自 Umair Shahid 的博文展示了<a href="https://blog.2ndquadrant.com/processing-json/" target="_blank" rel="external">如何使用 Java 处理 PostgreSQL JSON 和 JSONB 数据</a>。</p>
+<p>我不确定 PostgreSQL 及其 JSON 支持是否应该被包括在推荐的 NoSQL 选项中。 但如果你已经在使用 PostgreSQL，并希望使你的数据架构能更自由流畅，那可以尝试这么做。 正如 <a href="https://www.compose.com/articles/could-postgresql-9-5-be-your-next-json-database/" target="_blank" rel="external">Dj Walker-Morgan 所说</a>：“PostgreSQL 9.5 不是你的下一个会选 JSON 数据库，但它是一个非常好的关系数据库，具有完整的 JSON 特性。”</p>
+<ul>
+<li><strong>在 start.spring.io 是否可用？</strong>是的。</li>
+<li><strong>是否由 Spring 数据支撑？</strong>是的，通过 <a href="https://projects.spring.io/spring-data-jpa/" target="_blank" rel="external">Spring Data JPA</a>。</li>
+</ul>
+<h4 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h4><p>我对这个分析的结果感觉很满意，作为 <a href="http://www.jhipster.tech/" target="_blank" rel="external">JHipster</a> 项目的提交者，我非常清楚该团队的实力，并认为它对 MongoDB 和 Cassandra 的支持就是对它们最好的认可。并且<a href="https://github.com/jhipster/generator-jhipster/issues/6086" target="_blank" rel="external">增加对 Couchbase 的</a>支持的工作也在进行中。</p>
+<p>此外，我还与我熟知的 Java 和 NoSQL 社区中几位专家分享了这一情况，并向他们询问了以下问题：</p>
+<ol>
+<li>您是否同意我选出的前 5 个 NoSQL 选项（MongoDB，Redis，Cassandra，Neo4j 和 PostgreSQL 及其 JSON 支持）？</li>
+<li>在生产中使用这些数据库有什么好的坏的故事或经验分享吗？</li>
+<li>在这些数据库中，有没有特别难以开始使用或者在长期使用过程中难以维护的？</li>
+<li>你最喜欢的 NoSQL 数据库是什么？</li>
+<li>还有什么你想分享的？</li>
+</ol>
+<p>我将在几周后公布采访结果。届时我将会在博客中更新。如果你是 NoSQL 数据库的专家，欢迎与我取得联系！我很乐意将您的答案纳入面试。你只需发送消息到 Twitter 的 <a href="https://twitter.com/mraible" target="_blank" rel="external">@mraible</a> 或 <a href="mailto:matt.raible@okta.com" target="_blank" rel="external">matt.raible@okta.com</a>。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-10-27T07:07:18.348Z" itemprop="dateUpdated">2017-10-27 15:07:18</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/10/27/面向-Java-开发者的-NoSQL-选项/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NoSQL/">NoSQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/&title=《面向Java开发者的NoSQL选项》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/&title=《面向Java开发者的NoSQL选项》 — Lvshen's Blog&source=
+英文原文：NoSQL Options for Java Developers
+
+因为了解和喜欢 Java 社区，所以尽管很少有人将 NoSQL 与某种语..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《面向Java开发者的NoSQL选项》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/30/quickstart/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Wade+Taperstry快速开发</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/25/红黑树学习/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">红黑树学习</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/&title=《面向Java开发者的NoSQL选项》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/&title=《面向Java开发者的NoSQL选项》 — Lvshen's Blog&source=
+英文原文：NoSQL Options for Java Developers
+
+因为了解和喜欢 Java 社区，所以尽管很少有人将 NoSQL 与某种语..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《面向Java开发者的NoSQL选项》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/10/27/面向-Java-开发者的-NoSQL-选项/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

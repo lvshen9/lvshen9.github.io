@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>死锁的那点事儿 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="多线程,死锁">
+    <meta name="description" content="本文我们将研究什么是死锁以及怎么避免死锁  什么死锁简单来说，多线程在高并发访问系统资源时，出于安全目的，会给线程枷锁。然而在线程安全的同时会带来一个头疼的问题，死锁。那么，什么是死锁，就是多个线程在竞争系统资源时产生的一种僵局，若无外力作用，线程将无法推进。 比如，两人相向过独木桥，都要等对方过来，才能过去。这样的结果是谁都过不去，白白消耗了时间。 为什么会产生死锁1) 系统资源的竞争通常系统">
+<meta name="keywords" content="多线程,死锁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="死锁的那点事儿">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="本文我们将研究什么是死锁以及怎么避免死锁  什么死锁简单来说，多线程在高并发访问系统资源时，出于安全目的，会给线程枷锁。然而在线程安全的同时会带来一个头疼的问题，死锁。那么，什么是死锁，就是多个线程在竞争系统资源时产生的一种僵局，若无外力作用，线程将无法推进。 比如，两人相向过独木桥，都要等对方过来，才能过去。这样的结果是谁都过不去，白白消耗了时间。 为什么会产生死锁1) 系统资源的竞争通常系统">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://c.biancheng.net/cpp/uploads/allimg/140630/1-140630152010348.jpg">
+<meta property="og:image" content="http://ovdkcl9ae.bkt.clouddn.com/17-9-3/85437537.jpg">
+<meta property="og:updated_time" content="2017-09-04T08:56:55.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="死锁的那点事儿">
+<meta name="twitter:description" content="本文我们将研究什么是死锁以及怎么避免死锁  什么死锁简单来说，多线程在高并发访问系统资源时，出于安全目的，会给线程枷锁。然而在线程安全的同时会带来一个头疼的问题，死锁。那么，什么是死锁，就是多个线程在竞争系统资源时产生的一种僵局，若无外力作用，线程将无法推进。 比如，两人相向过独木桥，都要等对方过来，才能过去。这样的结果是谁都过不去，白白消耗了时间。 为什么会产生死锁1) 系统资源的竞争通常系统">
+<meta name="twitter:image" content="http://c.biancheng.net/cpp/uploads/allimg/140630/1-140630152010348.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">死锁的那点事儿</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">死锁的那点事儿</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-02T13:14:54.000Z" itemprop="datePublished" class="page-time">
+  2017-09-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#什么死锁"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么死锁</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#为什么会产生死锁"><span class="post-toc-number">2.</span> <span class="post-toc-text">为什么会产生死锁</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-系统资源的竞争"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1) 系统资源的竞争</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-进程推进顺序非法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2) 进程推进顺序非法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-死锁产生的必要条件"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3) 死锁产生的必要条件</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#怎样避免死锁"><span class="post-toc-number">3.</span> <span class="post-toc-text">怎样避免死锁</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#加锁顺序"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">加锁顺序</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#加锁时限"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">加锁时限</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#死锁检测"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">死锁检测</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-死锁的那点事儿"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">死锁的那点事儿</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-09-02 21:14:54" datetime="2017-09-02T13:14:54.000Z"  itemprop="datePublished">2017-09-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本文我们将研究什么是死锁以及怎么避免死锁</p>
+</blockquote>
+<h4 id="什么死锁"><a href="#什么死锁" class="headerlink" title="什么死锁"></a>什么死锁</h4><p>简单来说，多线程在高并发访问系统资源时，出于安全目的，会给线程枷锁。然而在线程安全的同时会带来一个头疼的问题，死锁。那么，什么是死锁，就是多个线程在竞争系统资源时产生的一种僵局，若无外力作用，线程将无法推进。</p>
+<p>比如，两人相向过独木桥，都要等对方过来，才能过去。这样的结果是谁都过不去，白白消耗了时间。</p>
+<h4 id="为什么会产生死锁"><a href="#为什么会产生死锁" class="headerlink" title="为什么会产生死锁"></a>为什么会产生死锁</h4><h5 id="1-系统资源的竞争"><a href="#1-系统资源的竞争" class="headerlink" title="1) 系统资源的竞争"></a>1) 系统资源的竞争</h5><p>通常系统中拥有的不可剥夺资源，其数量不足以满足多个进程运行的需要，使得进程在 运行过程中，会因争夺资源而陷入僵局，如磁带机、打印机等。只有对不可剥夺资源的竞争 才可能产生死锁，对可剥夺资源的竞争是不会引起死锁的。</p>
+<a id="more"></a>
+<h5 id="2-进程推进顺序非法"><a href="#2-进程推进顺序非法" class="headerlink" title="2) 进程推进顺序非法"></a>2) 进程推进顺序非法</h5><p>进程在运行过程中，请求和释放资源的顺序不当，也同样会导致死锁。例如，并发进程 P1、P2分别保持了资源R1、R2，当进程P1申请资源R2，而进程P2申请资源R1时，两者都会因为所需资源被占用而阻塞。</p>
+<p>信号使用不当也会造成死锁。进程间彼此相互等待对方发来的消息，结果也会使得这 些进程间无法继续向前推进。例如，进程A等待进程B发的消息，进程B又在等待进程A 发的消息，<strong>可以看出进程A和B不是因为竞争同一资源，而是在等待对方的资源导致死锁。</strong></p>
+<h5 id="3-死锁产生的必要条件"><a href="#3-死锁产生的必要条件" class="headerlink" title="3) 死锁产生的必要条件"></a>3) 死锁产生的必要条件</h5><p>产生死锁必须同时满足以下四个条件，只要其中任一条件不成立，死锁就不会发生。</p>
+<ul>
+<li><strong>互斥条件：进程要求对所分配的资源（如打印机）进行排他性控制，即在一段时间内某资源仅为一个进程所占有。此时若有其他进程请求该资源，则请求进程只能等待。</strong></li>
+<li><strong>不剥夺条件：进程所获得的资源在未使用完毕之前，不能被其他进程强行夺走，即只能由获得该资源的进程自己来释放（只能是主动释放)。</strong></li>
+<li><strong>请求和保持条件：进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。</strong></li>
+<li><strong>循环等待条件：存在一种进程资源的循环等待链，链中每一个进程已获得的资源同时被链中下一个进程所请求。即存在一个处于等待状态的进程集合{Pl, P2, …, Pn}，其中Pi等待的资源被P(i+1)占有（i=0, 1, …, n-1)，Pn等待的资源被P0占有，如图2-15所示。</strong></li>
+</ul>
+<p>直观上看，循环等待条件似乎和死锁的定义一样，其实不然。按死锁定义构成等待环所 要求的条件更严，它要求Pi等待的资源必须由P(i+1)来满足，而循环等待条件则无此限制。 例如，系统中有两台输出设备，P0占有一台，PK占有另一台，且K不属于集合{0, 1, …, n}。</p>
+<p>Pn等待一台输出设备，它可以从P0获得，也可能从PK获得。因此，虽然Pn、P0和其他 一些进程形成了循环等待圈，但PK不在圈内，若PK释放了输出设备，则可打破循环等待, 如图2-16所示。因此循环等待只是死锁的必要条件。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://c.biancheng.net/cpp/uploads/allimg/140630/1-140630152010348.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>资源分配图含圈而系统又不一定有死锁的原因是同类资源数大于1。但若系统中每类资源都只有一个资源，则资源分配图含圈就变成了系统出现死锁的充分必要条件。</p>
+<blockquote>
+<p>这是一段死锁的代码</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**  </span></div><div class="line"><span class="comment">  *一个简单的死锁类  </span></div><div class="line"><span class="comment">  *当DeadLock类的对象flag==1时（td1），先锁定o1,睡眠500毫秒  </span></div><div class="line"><span class="comment">  *而td1在睡眠的时候另一个flag==0的对象（td2）线程启动，先锁定o2,睡眠500毫秒  </span></div><div class="line"><span class="comment">  *td1睡眠结束后需要锁定o2才能继续执行，而此时o2已被td2锁定；  </span></div><div class="line"><span class="comment">  *td2睡眠结束后需要锁定o1才能继续执行，而此时o1已被td1锁定；  </span></div><div class="line"><span class="comment">  *td1、td2相互等待，都需要得到对方锁定的资源才能继续执行，从而死锁。  </span></div><div class="line"><span class="comment">  */</span>    </div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeadLock</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;    </div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> flag = <span class="number">1</span>;    </div><div class="line">    <span class="comment">//静态对象是类的所有对象共享的    </span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object o1 = <span class="keyword">new</span> Object(), o2 = <span class="keyword">new</span> Object();    </div><div class="line">    <span class="meta">@Override</span>    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;    </div><div class="line">      System.out.println(<span class="string">"flag="</span> + flag);    </div><div class="line">      <span class="keyword">if</span> (flag == <span class="number">1</span>) &#123;    </div><div class="line">        <span class="keyword">synchronized</span> (o1) &#123;    </div><div class="line">          <span class="keyword">try</span> &#123;    </div><div class="line">              Thread.sleep(<span class="number">500</span>);    </div><div class="line">          &#125; <span class="keyword">catch</span> (Exception e) &#123;    </div><div class="line">              e.printStackTrace();    </div><div class="line">          &#125;    </div><div class="line">          <span class="keyword">synchronized</span> (o2) &#123;    </div><div class="line">            System.out.println(<span class="string">"1"</span>);    </div><div class="line">          &#125;    </div><div class="line">        &#125;    </div><div class="line">      &#125;    </div><div class="line">      <span class="keyword">if</span> (flag == <span class="number">0</span>) &#123;    </div><div class="line">        <span class="keyword">synchronized</span> (o2) &#123;    </div><div class="line">          <span class="keyword">try</span> &#123;    </div><div class="line">            Thread.sleep(<span class="number">500</span>);    </div><div class="line">          &#125; <span class="keyword">catch</span> (Exception e) &#123;    </div><div class="line">            e.printStackTrace();    </div><div class="line">          &#125;    </div><div class="line">          <span class="keyword">synchronized</span> (o1) &#123;    </div><div class="line">            System.out.println(<span class="string">"0"</span>);    </div><div class="line">          &#125;    </div><div class="line">        &#125;    </div><div class="line">      &#125;    </div><div class="line">    &#125;    </div><div class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;    </div><div class="line">         DeadLock td1 = <span class="keyword">new</span> DeadLock();    </div><div class="line">         DeadLock td2 = <span class="keyword">new</span> DeadLock();    </div><div class="line">         td1.flag = <span class="number">1</span>;    </div><div class="line">         td2.flag = <span class="number">0</span>;    </div><div class="line">         <span class="comment">//td1,td2都处于可执行状态，但JVM线程调度先执行哪个线程是不确定的。    </span></div><div class="line">         <span class="comment">//td2的run()可能在td1的run()之前运行    </span></div><div class="line">         <span class="keyword">new</span> Thread(td1).start();    </div><div class="line">         <span class="keyword">new</span> Thread(td2).start();    </div><div class="line">       &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="怎样避免死锁"><a href="#怎样避免死锁" class="headerlink" title="怎样避免死锁"></a>怎样避免死锁</h4><p>在有些情况下死锁是可以避免的。三种用于避免死锁的技术：</p>
+<ol>
+<li>加锁顺序（线程按照一定的顺序加锁）</li>
+<li>加锁时限（线程尝试获取锁的时候加上一定的时限，超过时限则放弃对该锁的请求，并释放自己占有的锁）</li>
+<li>死锁检测</li>
+</ol>
+<h5 id="加锁顺序"><a href="#加锁顺序" class="headerlink" title="加锁顺序"></a>加锁顺序</h5><p>当多个线程需要相同的一些锁，但是按照不同的顺序加锁，死锁就很容易发生。</p>
+<p>如果能确保所有的线程都是按照相同的顺序获得锁，那么死锁就不会发生。看下面这个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Thread 1:</div><div class="line">  lock A </div><div class="line">  lock B</div><div class="line"></div><div class="line">Thread 2:</div><div class="line">   wait for A</div><div class="line">   lock C (when A locked)</div><div class="line"></div><div class="line">Thread 3:</div><div class="line">   wait for A</div><div class="line">   wait for B</div><div class="line">   wait for C</div></pre></td></tr></table></figure>
+<p>如果一个线程（比如线程3）需要一些锁，那么它必须按照确定的顺序获取锁。它只有获得了从顺序上排在前面的锁之后，才能获取后面的锁。</p>
+<p>例如，线程2和线程3只有在获取了锁A之后才能尝试获取锁C(译者注：获取锁A是获取锁C的必要条件)。因为线程1已经拥有了锁A，所以线程2和3需要一直等到锁A被释放。然后在它们尝试对B或C加锁之前，必须成功地对A加了锁。</p>
+<p>按照顺序加锁是一种有效的死锁预防机制。但是，这种方式需要你事先知道所有可能会用到的锁(译者注：并对这些锁做适当的排序)，但总有些时候是无法预知的。</p>
+<h5 id="加锁时限"><a href="#加锁时限" class="headerlink" title="加锁时限"></a>加锁时限</h5><p>另外一个可以避免死锁的方法是在尝试获取锁的时候加一个超时时间，这也就意味着在尝试获取锁的过程中若超过了这个时限该线程则放弃对该锁请求。若一个线程没有在给定的时限内成功获得所有需要的锁，则会进行回退并释放所有已经获得的锁，然后等待一段随机的时间再重试。这段随机的等待时间让其它线程有机会尝试获取相同的这些锁，并且让该应用在没有获得锁的时候可以继续运行(译者注：加锁超时后可以先继续运行干点其它事情，再回头来重复之前加锁的逻辑)。</p>
+<p>以下是一个例子，展示了两个线程以不同的顺序尝试获取相同的两个锁，在发生超时后回退并重试的场景：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Thread 1 locks A</div><div class="line">Thread 2 locks B</div><div class="line"></div><div class="line">Thread 1 attempts to lock B but is blocked</div><div class="line">Thread 2 attempts to lock A but is blocked</div><div class="line"></div><div class="line">Thread 1&apos;s lock attempt on B times out</div><div class="line">Thread 1 backs up and releases A as well</div><div class="line">Thread 1 waits randomly (e.g. 257 millis) before retrying.</div><div class="line"></div><div class="line">Thread 2&apos;s lock attempt on A times out</div><div class="line">Thread 2 backs up and releases B as well</div><div class="line">Thread 2 waits randomly (e.g. 43 millis) before retrying.</div></pre></td></tr></table></figure>
+<p>在上面的例子中，线程2比线程1早200毫秒进行重试加锁，因此它可以先成功地获取到两个锁。这时，线程1尝试获取锁A并且处于等待状态。当线程2结束时，线程1也可以顺利的获得这两个锁（除非线程2或者其它线程在线程1成功获得两个锁之前又获得其中的一些锁）。</p>
+<p>需要注意的是，由于存在锁的超时，所以我们不能认为这种场景就一定是出现了死锁。也可能是因为获得了锁的线程（导致其它线程超时）需要很长的时间去完成它的任务。</p>
+<p>此外，如果有非常多的线程同一时间去竞争同一批资源，就算有超时和回退机制，还是可能会导致这些线程重复地尝试但却始终得不到锁。如果只有两个线程，并且重试的超时时间设定为0到500毫秒之间，这种现象可能不会发生，但是如果是10个或20个线程情况就不同了。因为这些线程等待相等的重试时间的概率就高的多（或者非常接近以至于会出现问题）。</p>
+<p>(译者注：超时和重试机制是为了避免在同一时间出现的竞争，但是当线程很多时，其中两个或多个线程的超时时间一样或者接近的可能性就会很大，因此就算出现竞争而导致超时后，由于超时时间一样，它们又会同时开始重试，导致新一轮的竞争，带来了新的问题。)</p>
+<p>这种机制存在一个问题，在<a href="http://lib.csdn.net/base/java" target="_blank" rel="external">Java</a>中不能对synchronized同步块设置超时时间。你需要创建一个自定义锁，或使用Java5中java.util.concurrent包下的工具。写一个自定义锁类不复杂，但超出了本文的内容。后续的Java并发系列会涵盖自定义锁的内容。</p>
+<h5 id="死锁检测"><a href="#死锁检测" class="headerlink" title="死锁检测"></a>死锁检测</h5><p>死锁检测是一个更好的死锁预防机制，它主要是针对那些不可能实现按序加锁并且锁超时也不可行的场景。</p>
+<p>每当一个线程获得了锁，会在线程和锁相关的<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">数据结构</a>中（map、graph等等）将其记下。除此之外，每当有线程请求锁，也需要记录在这个数据结构中。</p>
+<p>当一个线程请求锁失败时，这个线程可以遍历锁的关系图看看是否有死锁发生。例如，线程A请求锁7，但是锁7这个时候被线程B持有，这时线程A就可以检查一下线程B是否已经请求了线程A当前所持有的锁。如果线程B确实有这样的请求，那么就是发生了死锁（线程A拥有锁1，请求锁7；线程B拥有锁7，请求锁1）。</p>
+<p>当然，死锁一般要比两个线程互相持有对方的锁这种情况要复杂的多。线程A等待线程B，线程B等待线程C，线程C等待线程D，线程D又在等待线程A。线程A为了检测死锁，它需要递进地检测所有被B请求的锁。从线程B所请求的锁开始，线程A找到了线程C，然后又找到了线程D，发现线程D请求的锁被线程A自己持有着。这是它就知道发生了死锁。</p>
+<p>下面是一幅关于四个线程（A,B,C和D）之间锁占有和请求的关系图。像这样的数据结构就可以被用来检测死锁。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://ovdkcl9ae.bkt.clouddn.com/17-9-3/85437537.jpg" alt="检测死锁" title="">
+                </div>
+                <div class="image-caption">检测死锁</div>
+            </figure>
+<p>那么当检测出死锁时，这些线程该做些什么呢？</p>
+<p>一个可行的做法是释放所有锁，回退，并且等待一段随机的时间后重试。这个和简单的加锁超时类似，不一样的是只有死锁已经发生了才回退，而不会是因为加锁的请求超时了。虽然有回退和等待，但是如果有大量的线程竞争同一批锁，它们还是会重复地死锁（编者注：原因同超时类似，不能从根本上减轻竞争）。</p>
+<p>一个更好的方案是给这些线程设置优先级，让一个（或几个）线程回退，剩下的线程就像没发生死锁一样继续保持着它们需要的锁。如果赋予这些线程的优先级是固定不变的，同一批线程总是会拥有更高的优先级。为避免这个问题，可以在死锁发生的时候设置随机的优先级。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-09-04T08:56:55.349Z" itemprop="dateUpdated">2017-09-04 16:56:55</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/09/02/死锁的那点事儿/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/死锁/">死锁</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/&title=《死锁的那点事儿》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/&title=《死锁的那点事儿》 — Lvshen's Blog&source=
+本文我们将研究什么是死锁以及怎么避免死锁
+
+什么死锁简单来说，多线程在高并发访问系统资源时，出于安全目的，会给线程枷锁。然而在线程安全的同时会带来一个头..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《死锁的那点事儿》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/03/You-don-t-know-Js/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">You don&#39;t know Js</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/01/How-to-learning-Shiro-2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">How to learning Shiro(2)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/&title=《死锁的那点事儿》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/&title=《死锁的那点事儿》 — Lvshen's Blog&source=
+本文我们将研究什么是死锁以及怎么避免死锁
+
+什么死锁简单来说，多线程在高并发访问系统资源时，出于安全目的，会给线程枷锁。然而在线程安全的同时会带来一个头..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《死锁的那点事儿》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/09/02/死锁的那点事儿/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

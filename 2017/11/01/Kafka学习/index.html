@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>Kafka学习 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Kafka,消息">
+    <meta name="description" content="转：大数据时代：Kafka 如何做到 1 秒发布百万条消息  说起 Kafka 的第一个突出特定就是“快”，而且是那种变态的“快”。据最新的数据：每天利用 Kafka 处理的消息超过1万亿条，在峰值时每秒钟会发布超过百万条消息，就算是在内存和 CPU 都不高的情况下，Kafka 的速度最高可以达到每秒十万条数据，并且还能持久化存储。那么，Kafka 是如何做到的呢？  分布式消息系统 Kafka">
+<meta name="keywords" content="Kafka,消息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka学习">
+<meta property="og:url" content="http://lvshen9.gitee.io/2017/11/01/Kafka学习/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="转：大数据时代：Kafka 如何做到 1 秒发布百万条消息  说起 Kafka 的第一个突出特定就是“快”，而且是那种变态的“快”。据最新的数据：每天利用 Kafka 处理的消息超过1万亿条，在峰值时每秒钟会发布超过百万条消息，就算是在内存和 CPU 都不高的情况下，Kafka 的速度最高可以达到每秒十万条数据，并且还能持久化存储。那么，Kafka 是如何做到的呢？  分布式消息系统 Kafka">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1tyR.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1Yl9.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1JSJ.png">
+<meta property="og:updated_time" content="2019-01-17T07:19:11.524Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka学习">
+<meta name="twitter:description" content="转：大数据时代：Kafka 如何做到 1 秒发布百万条消息  说起 Kafka 的第一个突出特定就是“快”，而且是那种变态的“快”。据最新的数据：每天利用 Kafka 处理的消息超过1万亿条，在峰值时每秒钟会发布超过百万条消息，就算是在内存和 CPU 都不高的情况下，Kafka 的速度最高可以达到每秒十万条数据，并且还能持久化存储。那么，Kafka 是如何做到的呢？  分布式消息系统 Kafka">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kp1tyR.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Kafka学习</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Kafka学习</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-01T01:36:03.000Z" itemprop="datePublished" class="page-time">
+  2017-11-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Kafka-简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">Kafka 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#kafka-有如下特性："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">kafka 有如下特性：</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Kafka-架构"><span class="post-toc-number">2.</span> <span class="post-toc-text">Kafka 架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#kafka-相关名词解释如下："><span class="post-toc-number">2.1.</span> <span class="post-toc-text">kafka 相关名词解释如下：</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Kafka-应用场景"><span class="post-toc-number">3.</span> <span class="post-toc-text">Kafka 应用场景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#消息队列"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">消息队列</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#行为跟踪"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">行为跟踪</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#元信息监控"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">元信息监控</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#日志收集"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">日志收集</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#流处理"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">流处理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#事件源"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">事件源</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#持久性日志（commit-log）"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">持久性日志（commit log）</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Kafka学习"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Kafka学习</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-01 09:36:03" datetime="2017-11-01T01:36:03.000Z"  itemprop="datePublished">2017-11-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>转：<a href="https://mp.weixin.qq.com/s/49584wAC1sbx-erjpiWswA" target="_blank" rel="external">大数据时代：Kafka 如何做到 1 秒发布百万条消息</a></p>
+</blockquote>
+<p>说起 Kafka 的第一个突出特定就是“快”，而且是那种变态的“快”。据最新的数据：每天利用 Kafka 处理的消息超过1万亿条，在峰值时每秒钟会发布超过百万条消息，就算是在内存和 CPU 都不高的情况下，Kafka 的速度最高可以达到每秒十万条数据，并且还能持久化存储。那么，Kafka 是如何做到的呢？</p>
+<blockquote>
+<p><strong>分布式消息系统 Kafka</strong></p>
+<p><strong>授权协议：</strong>Apache</p>
+<p><strong>开发语言：</strong>Scala</p>
+<p><strong>操作系统：</strong>跨平台</p>
+<p><strong>开发厂商：</strong>Apache</p>
+<p><strong>Github：</strong><a href="https://github.com/apache/kafka" target="_blank" rel="external">https://github.com/apache/kafka</a> ★6120</p>
+</blockquote>
+<a id="more"></a>
+<h4 id="Kafka-简介"><a href="#Kafka-简介" class="headerlink" title="Kafka 简介"></a><strong>Kafka 简介</strong></h4><p>Kafka 是一种分布式的，基于发布/订阅的消息系统。原本开发自 LinkedIn，用作 LinkedIn 的活动流（Activity Stream）和运营数据处理管道（Pipeline）的基础。之后成为 Apache 项目的一部分，主要用于处理活跃的流式数据。</p>
+<h5 id="kafka-有如下特性："><a href="#kafka-有如下特性：" class="headerlink" title="kafka 有如下特性："></a><strong>kafka 有如下特性：</strong></h5><p>● 通过$O(1)$的磁盘数据结构提供消息的持久化，这种结构对于即使数以TB的消息存储也能够保持长时间的稳定性能。</p>
+<p>● 高吞吐量：即使是非常普通的硬件kafka也可以支持每秒数十万的消息。</p>
+<p>● 支持通过kafka服务器和消费机集群来分区消息。</p>
+<p>● 支持Hadoop并行数据加载。</p>
+<h4 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a><strong>Kafka 架构</strong></h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1tyR.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>Kafka 的整体架构非常简单，是显式分布式架构，producer、broker（kafka）和consumer都可以有多个。Producer，consumer 实现 Kafka 注册的接口，数据从 producer 发送到broker，broker 承担一个中间缓存和分发的作用。broker 分发注册到系统中的consumer。broker 的作用类似于缓存，即活跃的数据和离线处理系统之间的缓存。</p>
+<h5 id="kafka-相关名词解释如下："><a href="#kafka-相关名词解释如下：" class="headerlink" title="kafka 相关名词解释如下："></a><strong>kafka 相关名词解释如下：</strong></h5><p><strong>1、producer：</strong>消息生产者，发布消息到 kafka 集群的终端或服务。</p>
+<p><strong>2、broker：</strong>kafka 集群中包含的服务器。</p>
+<p><strong>3、topic：</strong>每条发布到 kafka 集群的消息属于的类别，即 kafka 是面向 topic 的。</p>
+<p><strong>4、partition：</strong>partition 是物理上的概念，每个 topic 包含一个或多个 partition。kafka 分配的单位是 partition。</p>
+<p><strong>5、consumer：</strong>从 kafka 集群中消费消息的终端或服务。</p>
+<p><strong>6、Consumer group：</strong>high-level consumer API 中，每个 consumer 都属于一个 consumer group，每条消息只能被 consumer group 的一个 Consumer 消费，但可以被多个 consumer group 消费。</p>
+<p><strong>7、replica：</strong>partition 的副本，保障 partition 的高可用。</p>
+<p><strong>8、leader：</strong>replica 中的一个角色， producer 和 consumer 只跟 leader 交互。</p>
+<p><strong>9、follower：</strong>replica 中的一个角色，从 leader 中复制数据。</p>
+<p><strong>10、controller：</strong>kafka 集群中的其中一个服务器，用来进行 leader election 以及 各种 failover。</p>
+<p><strong>11、zookeeper：</strong>kafka 通过 zookeeper 来存储集群的 meta 信息。</p>
+<p>Kafka 有四个核心的 API。客户端和服务器端的通信，是基于简单，高性能，且与编程语言无关的 TCP 协议。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1Yl9.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>因为每条消息都被 append 到该 Partition 中，属于顺序写磁盘，因此效率非常高（经验证，顺序写磁盘效率比随机写内存还要高，这是 Kafka 高吞吐率的一个很重要的保证）。 Kafka 集群分区日志如下所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1JSJ.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>每个分区是一个有序的，不可变的记录序列，不断附加到结构化的提交日志中。每个分区中的记录都被分配一个顺序的 id 号，称为唯一标识分区中每个记录的偏移量。</p>
+<h4 id="Kafka-应用场景"><a href="#Kafka-应用场景" class="headerlink" title="Kafka 应用场景"></a><strong>Kafka 应用场景</strong></h4><h5 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a><strong>消息队列</strong></h5><p>比起大多数的消息系统来说，Kafka 有更好的吞吐量，内置的分区，冗余及容错性，这让 Kafka 成为了一个很好的大规模消息处理应用的解决方案。消息系统一般吞吐量相对较低，但是需要更小的端到端延时，并尝尝依赖于 Kafka 提供的强大的持久性保障。在这个领域，Kafka足以媲美传统消息系统，如 ActiveMR 或 RabbitMQ。</p>
+<h5 id="行为跟踪"><a href="#行为跟踪" class="headerlink" title="行为跟踪"></a><strong>行为跟踪</strong></h5><p>Kafka 的另一个应用场景是跟踪用户浏览页面、搜索及其他行为，以发布-订阅的模式实时记录到对应的 Topic 里。那么这些结果被订阅者拿到后，就可以做进一步的实时处理，或实时监控，或放到 hadoop 离线数据仓库里处理。</p>
+<h5 id="元信息监控"><a href="#元信息监控" class="headerlink" title="元信息监控"></a><strong>元信息监控</strong></h5><p>作为操作记录的监控模块来使用，即汇集记录一些操作信息，可以理解为运维性质的数据监控吧。</p>
+<h5 id="日志收集"><a href="#日志收集" class="headerlink" title="日志收集"></a><strong>日志收集</strong></h5><p>日志收集方面，其实开源产品有很多，包括 Scribe、Apache Flume。很多人使用 Kafka 代替日志聚合（log aggregation）。日志聚合一般来说是从服务器上收集日志文件，然后放到一个集中的位置（文件服务器或 HDFS）进行处理。然而 Kafka 忽略掉文件的细节，将其更清晰地抽象成一个个日志或事件的消息流。这就让 Kafka 处理过程延迟更低，更容易支持多数据源和分布式数据处理。比起以日志为中心的系统比如 Scribe 或者 Flume 来说，Kafka 提供同样高效的性能和因为复制导致的更高的耐用性保证，以及更低的端到端延迟。</p>
+<h5 id="流处理"><a href="#流处理" class="headerlink" title="流处理"></a><strong>流处理</strong></h5><p>这个场景可能比较多，也很好理解。保存收集流数据，以提供之后对接的Storm或其他流式计算框架进行处理。很多用户会将那些从原始 Topic 来的数据进行阶段性处理，汇总，扩充或者以其他的方式转换到新的 Topic 下再继续后面的处理。例如一个文章推荐的处理流程，可能是先从 RSS 数据源中抓取文章的内容，然后将其丢入一个叫做“文章”的topic中；后续操作可能是需要对这个内容进行清理，比如回复正常数据或者删除重复数据，最后再将内容匹配的结果返还给用户。这就在一个独立的 Topic 之外，产生了一系列的实时数据处理的流程。Strom 和 Samza 是非常著名的实现这种类型数据转换的框架。</p>
+<h5 id="事件源"><a href="#事件源" class="headerlink" title="事件源"></a><strong>事件源</strong></h5><p>事件源是一种应用程序设计的方式，该方式的状态转移被记录为按时间顺序排序的记录序列。Kafka可以存储大量的日志数据，这使得它成为一个对这种方式的应用来说绝佳的后台。比如动态汇总（News feed）。</p>
+<h5 id="持久性日志（commit-log）"><a href="#持久性日志（commit-log）" class="headerlink" title="持久性日志（commit log）"></a><strong>持久性日志（commit log）</strong></h5><p>Kafka 可以为一种外部的持久性日志的分布式系统提供服务。这种日志可以在节点间备份数据，并为故障节点数据回复提供一种重新同步的机制。Kafka中日志压缩功能为这种用法提供了条件。在这种用法中，Kafka 类似于 Apache BookKeeper 项目。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T07:19:11.524Z" itemprop="dateUpdated">2019-01-17 15:19:11</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2017/11/01/Kafka学习/" target="_blank" rel="external">http://lvshen9.gitee.io/2017/11/01/Kafka学习/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kafka/">Kafka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/消息/">消息</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/&title=《Kafka学习》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/&title=《Kafka学习》 — Lvshen's Blog&source=
+转：大数据时代：Kafka 如何做到 1 秒发布百万条消息
+
+说起 Kafka 的第一个突出特定就是“快”，而且是那种变态的“快”。据最新的数据：每天利..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/11/01/Kafka学习/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kafka学习》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/11/02/Paxos算法学习/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Paxos算法学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/30/quickstart/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Wade+Taperstry快速开发</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/&title=《Kafka学习》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/&title=《Kafka学习》 — Lvshen's Blog&source=
+转：大数据时代：Kafka 如何做到 1 秒发布百万条消息
+
+说起 Kafka 的第一个突出特定就是“快”，而且是那种变态的“快”。据最新的数据：每天利..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2017/11/01/Kafka学习/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kafka学习》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2017/11/01/Kafka学习/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2017/11/01/Kafka学习/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>JStorm学习 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JStorm,大数据">
+    <meta name="description" content="JStorm运用场景JStorm处理数据的方式是基于消息的流水线处理， 因此特别适合无状态计算，也就是计算单元的依赖的数据全部在接受的消息中可以找到， 并且最好一个数据流不依赖另外一个数">
+<meta name="keywords" content="JStorm,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JStorm学习">
+<meta property="og:url" content="http://lvshen9.gitee.io/2018/05/25/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="JStorm运用场景JStorm处理数据的方式是基于消息的流水线处理， 因此特别适合无状态计算，也就是计算单元的依赖的数据全部在接受的消息中可以找到， 并且最好一个数据流不依赖另外一个数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1AJg.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1io8.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1kFS.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/17/kp1eQs.png">
+<meta property="og:updated_time" content="2019-01-17T06:54:42.988Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JStorm学习">
+<meta name="twitter:description" content="JStorm运用场景JStorm处理数据的方式是基于消息的流水线处理， 因此特别适合无状态计算，也就是计算单元的依赖的数据全部在接受的消息中可以找到， 并且最好一个数据流不依赖另外一个数">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/17/kp1AJg.jpg">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JStorm学习</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JStorm学习</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-25T01:57:20.000Z" itemprop="datePublished" class="page-time">
+  2018-05-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JStorm运用场景"><span class="post-toc-number">1.</span> <span class="post-toc-text">JStorm运用场景</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Hadoop与JStorm的区别"><span class="post-toc-number">2.</span> <span class="post-toc-text">Hadoop与JStorm的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JStorm组件"><span class="post-toc-number">3.</span> <span class="post-toc-text">JStorm组件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#spout"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">spout</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#bolt"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">bolt</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#tuple"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">tuple</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#基于消息的流水线系统"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">基于消息的流水线系统</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JVM中的jstorm进程"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">JVM中的jstorm进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Jstorm相关角色"><span class="post-toc-number">4.</span> <span class="post-toc-text">Jstorm相关角色</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Storm原理"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Storm原理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#组件接口"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">组件接口</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调度执行"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">调度执行</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#消息之间的通信"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">消息之间的通信</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ack机制"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">ack机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#源码分析"><span class="post-toc-number">5.</span> <span class="post-toc-text">源码分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Spout"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">Spout</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Bolt"><span class="post-toc-number">6.</span> <span class="post-toc-text">Bolt</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JStorm学习</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-25 09:57:20" datetime="2018-05-25T01:57:20.000Z"  itemprop="datePublished">2018-05-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1AJg.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="JStorm运用场景"><a href="#JStorm运用场景" class="headerlink" title="JStorm运用场景"></a>JStorm运用场景</h4><p><code>JStorm</code>处理数据的方式是基于消息的流水线处理， 因此特别<strong>适合无状态计算</strong>，也就是计算单元的依赖的数据全部在接受的消息中可以找到， 并且最好一个数据流不依赖另外一个数据流。</p>
+<p>因此，常常用于</p>
+<a id="more"></a>
+<ul>
+<li><strong>日志分析</strong>，从日志中分析出特定的数据，并将分析的结果存入外部存储器如数据库。目前，主流日志分析技术就使用JStorm或Storm</li>
+<li><strong>管道系统</strong>， 将一个数据从一个系统传输到另外一个系统， 比如将数据库同步到Hadoop</li>
+<li><strong>消息转化器</strong>， 将接受到的消息按照某种格式进行转化，存储到另外一个系统如消息中间件</li>
+<li><strong>统计分析器</strong>， 从日志或消息中，提炼出某个字段，然后做count或sum计算，最后将统计值存入外部存储器。中间处理过程可能更复杂。</li>
+</ul>
+<h4 id="Hadoop与JStorm的区别"><a href="#Hadoop与JStorm的区别" class="headerlink" title="Hadoop与JStorm的区别"></a>Hadoop与JStorm的区别</h4><p>hadoop的MR，提交到hadoop的<code>MR job</code>，执行完就结束了，进程就退出了，而一个JStorm任务（JStorm中称为topology），是7*24小时永远在运行的，除非用户主动kill。JStorm之所以能源源不断的运行，是由于当Worker失效或机器出现故障时， 自动分配新的Worker替换失效Worker。使得JStorm具有良好的健壮性。</p>
+<h4 id="JStorm组件"><a href="#JStorm组件" class="headerlink" title="JStorm组件"></a>JStorm组件</h4><h5 id="spout"><a href="#spout" class="headerlink" title="spout"></a>spout</h5><p>spout代表输入的数据源（kafka，DB，HBase，HDFS）</p>
+<h5 id="bolt"><a href="#bolt" class="headerlink" title="bolt"></a>bolt</h5><p>bolt代表处理逻辑，bolt收到消息之后，对消息做处理（即执行用户的业务逻辑），处理完以后，既可以将处理后的消息继续发送到下游的bolt，这样会形成一个处理流水线（pipeline，不过更精确的应该是个有向图）；也可以直接结束。</p>
+<p>通常一个流水线的最后一个bolt，会做一些数据的存储工作，比如将<strong>实时计算出来的数据写入DB、HBase</strong>等，以供前台业务进行查询和展现。</p>
+<h5 id="tuple"><a href="#tuple" class="headerlink" title="tuple"></a>tuple</h5><p>在JStorm中有对于流stream的抽象，流是一个不间断的无界的连续tuple，注意JStorm在建模事件流时，把流中的事件抽象为tuple即元组。</p>
+<p>一个tuple就是一个值列表value list，list中的每个value都有一个name，并且该value可以是基本类型，字符类型，字节数组等，当然也可以是其他可序列化的类型。拓扑的每个节点都要说明它所发射出的元组的字段的name，其他节点只需要订阅该name就可以接收处理。</p>
+<blockquote>
+<p>可以抽象为：spout是一个水龙头，tuple就是水龙头流出的水，bolt就是一个水处理器。spout源头接收其他中间件吐出的数据，数据装配为tuple，流向bolt进行数据处理。处理后的数据存入数据库了。</p>
+</blockquote>
+<h5 id="基于消息的流水线系统"><a href="#基于消息的流水线系统" class="headerlink" title="基于消息的流水线系统"></a>基于消息的流水线系统</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1io8.jpg" alt="流水线系统" title="">
+                </div>
+                <div class="image-caption">流水线系统</div>
+            </figure>
+<h5 id="JVM中的jstorm进程"><a href="#JVM中的jstorm进程" class="headerlink" title="JVM中的jstorm进程"></a>JVM中的jstorm进程</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1kFS.png" alt="JVM中的JStorm进程" title="">
+                </div>
+                <div class="image-caption">JVM中的JStorm进程</div>
+            </figure>
+<h4 id="Jstorm相关角色"><a href="#Jstorm相关角色" class="headerlink" title="Jstorm相关角色"></a>Jstorm相关角色</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">–Nimbus：资源调度角色</div><div class="line">–Supervisor：接受nimubs 任务安排，启动任务</div><div class="line">–Worker：进程 </div><div class="line">–Executor：执行线程</div><div class="line">–Task：执行逻辑单元</div></pre></td></tr></table></figure>
+<h5 id="Storm原理"><a href="#Storm原理" class="headerlink" title="Storm原理"></a>Storm原理</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/01/17/kp1eQs.png" alt="Storm原理" title="">
+                </div>
+                <div class="image-caption">Storm原理</div>
+            </figure>
+<h5 id="组件接口"><a href="#组件接口" class="headerlink" title="组件接口"></a>组件接口</h5><p>JStorm框架对spout组件定义了一个接口：<code>nextTuple</code>，顾名思义，就是获取下一条消息。执行时，可以理解成JStorm框架会不停地调这个接口，以从数据源拉取数据并往bolt发送数据。</p>
+<p>同时，bolt组件定义了一个接口：<code>execute</code>，这个接口就是用户用来处理业务逻辑的地方。</p>
+<p>每一个topology，既可以有多个spout，代表同时从多个数据源接收消息，也可以多个bolt，来执行不同的业务逻辑。</p>
+<h5 id="调度执行"><a href="#调度执行" class="headerlink" title="调度执行"></a>调度执行</h5><p>接下来就是topology的调度和执行原理，对一个topology，JStorm最终会调度成一个或多个worker，每个worker即为一个真正的操作系统执行进程，分布到一个集群的一台或者多台机器上并行执行。</p>
+<p>而每个worker中，又可以有多个task，分别代表一个执行线程。每个task就是上面提到的组件(component)的实现，要么是spout要么是bolt。</p>
+<blockquote>
+<p>一个topology对应多个worker；每个worker，对应多个task；每个task，需要靠spout或bolt实现</p>
+</blockquote>
+<h5 id="消息之间的通信"><a href="#消息之间的通信" class="headerlink" title="消息之间的通信"></a>消息之间的通信</h5><blockquote>
+<p>spout与bolt，bolt与bolt之间是怎么通信的？</p>
+</blockquote>
+<p>首先，从spout发送消息的时候，JStorm会计算出消息要发送的目标task id列表，然后看目标task id是在本进程中，还是其他进程中，如果是本进程中，那么就可以直接走进程内部通信（如直接将这个消息放入本进程中目标task的执行队列中）；如果是跨进程，那么JStorm会使用netty来将消息发送到目标task中。</p>
+<h5 id="ack机制"><a href="#ack机制" class="headerlink" title="ack机制"></a>ack机制</h5><p>用于判断spout发出的消息是否被成功处理，或失败处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">在规定的时间内，spout收到Acker的ack响应，即认为该tuple 被后续bolt成功处理</div><div class="line">在规定的时间内，没有收到Acker的ack响应tuple，就触发fail动作，即认为该tuple处理失败，</div><div class="line">或者收到Acker发送的fail响应tuple，也认为失败，触发fail动作</div></pre></td></tr></table></figure>
+<h4 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h4><p>源码围绕Spout和Bolt构建</p>
+<h5 id="Spout"><a href="#Spout" class="headerlink" title="Spout"></a>Spout</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ISpout</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">open</span><span class="params">(Map conf, TopologyContext context, SpoutOutputCollector collector)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">activate</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">deactivate</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">nextTuple</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">ack</span><span class="params">(Object msgId)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">fail</span><span class="params">(Object msgId)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中注意：</p>
+<ul>
+<li>spout对象必须是继承Serializable， 因此要求spout内所有数据结构必须是可序列化的</li>
+<li>spout可以有构造函数，但构造函数只执行一次，是在提交任务时，创建spout对象，因此在task分配到具体worker之前的初始化工作可以在此处完成，一旦完成，初始化的内容将携带到每一个task内（因为提交任务时将spout序列化到文件中去，在worker起来时再将spout从文件中反序列化出来）。</li>
+<li>open是当task起来后执行的初始化动作</li>
+<li>close是当task被shutdown后执行的动作</li>
+<li>activate 是当task被激活时，触发的动作</li>
+<li>deactivate 是task被deactive时，触发的动作</li>
+<li>nextTuple 是spout实现核心， nextuple完成自己的逻辑，即每一次取消息后，用collector 将消息emit出去。</li>
+<li>ack， 当spout收到一条ack消息时，触发的动作</li>
+<li>fail， 当spout收到一条fail消息时，触发的动作</li>
+</ul>
+<h4 id="Bolt"><a href="#Bolt" class="headerlink" title="Bolt"></a>Bolt</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBolt</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">prepare</span><span class="params">(Map stormConf, TopologyContext context, OutputCollector collector)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Tuple input)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">cleanup</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>prepare是当task起来后执行的初始化动作</li>
+<li>cleanup是当task被shutdown后执行的动作</li>
+<li>execute是bolt实现核心， 完成自己的逻辑，即接受每一次取消息后，处理完，有可能用collector 将产生的新消息emit出去。 ** 在executor中，当程序处理一条消息时，需要执行collector.ack， 在executor中，当程序无法处理一条消息时或出错时，需要执行collector.fail。</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-01-17T06:54:42.988Z" itemprop="dateUpdated">2019-01-17 14:54:42</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2018/05/25/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/05/25/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JStorm/">JStorm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/大数据/">大数据</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/05/25/1/&title=《JStorm学习》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/05/25/1/&title=《JStorm学习》 — Lvshen's Blog&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/05/25/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JStorm学习》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/05/25/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/05/25/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/30/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Windows端免密ssh登陆Linux服务器</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/23/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">《Java8实战》学习笔记(一)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/05/25/1/&title=《JStorm学习》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/05/25/1/&title=《JStorm学习》 — Lvshen's Blog&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/05/25/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JStorm学习》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/05/25/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/05/25/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/05/25/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

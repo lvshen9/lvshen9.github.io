@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <meta name="sogou_site_verification" content="true">
+    
+    
+    
+    <title>MySQL为什么选择B+Tree做索引 | Lvshen&#39;s Blog | This is My World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="MySQL,索引,B+Tree">
+    <meta name="description" content="MySQL为什么选择B+Tree? 理解MySQL索引的几个原则 索引是什么？是为了加速对表中数据行的检索而创建的一种分散存储的数据结构。                                                                                              工作机制              如上图：以id创建索引，索引数据结构里">
+<meta name="keywords" content="MySQL,索引,B+Tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL为什么选择B+Tree做索引">
+<meta property="og:url" content="http://lvshen9.gitee.io/2019/05/26/1/index.html">
+<meta property="og:site_name" content="Lvshen&#39;s Blog">
+<meta property="og:description" content="MySQL为什么选择B+Tree? 理解MySQL索引的几个原则 索引是什么？是为了加速对表中数据行的检索而创建的一种分散存储的数据结构。                                                                                              工作机制              如上图：以id创建索引，索引数据结构里">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAvy6O.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAvBfx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAvrp6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAv20H.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAvbng.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAvhtI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAvgne.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/05/26/VAv7jS.png">
+<meta property="og:updated_time" content="2019-05-26T03:13:16.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL为什么选择B+Tree做索引">
+<meta name="twitter:description" content="MySQL为什么选择B+Tree? 理解MySQL索引的几个原则 索引是什么？是为了加速对表中数据行的检索而创建的一种分散存储的数据结构。                                                                                              工作机制              如上图：以id创建索引，索引数据结构里">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/05/26/VAvy6O.png">
+    
+    <link rel="shortcut icon" href="/img/mylogo.jpg">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">我的技术小房间</h5>
+          <a href="mailto:https://lvshen9.github.io" title="https://lvshen9.github.io" class="mail">https://lvshen9.github.io</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/collection"  >
+                <i class="icon icon-lg icon-apple"></i>
+                Collection
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://lvshen9.github.io/" target="_blank" >
+                <i class="icon icon-lg icon-wordpress"></i>
+                Blog
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/lvshen9" target="_blank" >
+                <i class="icon icon-lg icon-github-alt"></i>
+                GitHub
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MySQL为什么选择B+Tree做索引</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MySQL为什么选择B+Tree做索引</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-26T02:31:24.000Z" itemprop="datePublished" class="page-time">
+  2019-05-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#索引是什么？"><span class="post-toc-number">1.</span> <span class="post-toc-text">索引是什么？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#二叉查找树"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">二叉查找树</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#平衡二叉查找树"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">平衡二叉查找树</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#多路平衡二叉树（B树）"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">多路平衡二叉树（B树）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#B-Tree"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">B+Tree</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MySQL文件存储"><span class="post-toc-number">2.</span> <span class="post-toc-text">MySQL文件存储</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#InnoDB引擎存储节点的规则"><span class="post-toc-number">3.</span> <span class="post-toc-text">InnoDB引擎存储节点的规则</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MySQL为什么选择B+Tree做索引</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-26 10:31:24" datetime="2019-05-26T02:31:24.000Z"  itemprop="datePublished">2019-05-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术/">技术</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>MySQL为什么选择B+Tree?</p>
+<p>理解MySQL索引的几个原则</p>
+<h4 id="索引是什么？"><a href="#索引是什么？" class="headerlink" title="索引是什么？"></a>索引是什么？</h4><p>是为了<strong>加速</strong>对表中数据行的检索而创建的一种<strong>分散</strong>存储的数据结构。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAvy6O.png" alt="工作机制" title="">
+                </div>
+                <div class="image-caption">工作机制</div>
+            </figure>
+<p>如上图：以id创建索引，索引数据结构里存储了索引键（关键字）以及对应的值（地址值），当搜寻id=101的数据时，直接找到对应的地址0x123456。时间复杂度为O(1)。</p>
+<a id="more"></a>
+<h5 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h5><p>时间复杂度O($log_2n$)</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAvBfx.png" alt="二叉查找树" title="">
+                </div>
+                <div class="image-caption">二叉查找树</div>
+            </figure>
+<p>二叉树测试地址：</p>
+<p><a href="https://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">https://www.cs.usfca.edu/~galles/visualization/BST.html</a></p>
+<p>二叉树缺点：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAvrp6.png" alt="二叉树缺点" title="">
+                </div>
+                <div class="image-caption">二叉树缺点</div>
+            </figure>
+<h5 id="平衡二叉查找树"><a href="#平衡二叉查找树" class="headerlink" title="平衡二叉查找树"></a>平衡二叉查找树</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAv20H.png" alt="平衡二叉查找树" title="">
+                </div>
+                <div class="image-caption">平衡二叉查找树</div>
+            </figure>
+<p>每一个节点与子节点的高度差不能大于1。</p>
+<p>平衡二叉树测试地址：</p>
+<p><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">https://www.cs.usfca.edu/~galles/visualization/AVLtree.html</a></p>
+<p>二叉树缺陷：</p>
+<p>搜索时IO次数过多，节点数据内太多。</p>
+<h5 id="多路平衡二叉树（B树）"><a href="#多路平衡二叉树（B树）" class="headerlink" title="多路平衡二叉树（B树）"></a>多路平衡二叉树（B树）</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAvbng.png" alt="多路平衡二叉树" title="">
+                </div>
+                <div class="image-caption">多路平衡二叉树</div>
+            </figure>
+<p>多路平衡二叉树测试地址：</p>
+<p><a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html" target="_blank" rel="external">https://www.cs.usfca.edu/~galles/visualization/BTree.html</a></p>
+<p>经常变化的字段不要建索引，对B树的维护不好。B树的合并和分裂对性能有损耗。</p>
+<h5 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B+Tree"></a>B+Tree</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAvhtI.png" alt="B+Tree" title="">
+                </div>
+                <div class="image-caption">B+Tree</div>
+            </figure>
+<p>左闭合区间，id从小到大的递增。数据变动可能是最右边的变动 。</p>
+<p>MySQL使用B+Tree的原因：</p>
+<ol>
+<li>B+Tree扫库、扫表能力更强。</li>
+<li>B+Tree的磁盘读写能力更强。</li>
+<li>B+Tree的排序能力更强。</li>
+<li>B+Tree的传效率更稳定。</li>
+</ol>
+<h4 id="MySQL文件存储"><a href="#MySQL文件存储" class="headerlink" title="MySQL文件存储"></a>MySQL文件存储</h4><p>两种类型的表：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAvgne.png" alt="两种类型的表" title="">
+                </div>
+                <div class="image-caption">两种类型的表</div>
+            </figure>
+<p>两种表的存储文件类型：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://s2.ax1x.com/2019/05/26/VAv7jS.png" alt="存储的文件" title="">
+                </div>
+                <div class="image-caption">存储的文件</div>
+            </figure>
+<p>索引用Hash算法的缺点：</p>
+<p>1.无法范围查询</p>
+<p>2.无法排序</p>
+<h4 id="InnoDB引擎存储节点的规则"><a href="#InnoDB引擎存储节点的规则" class="headerlink" title="InnoDB引擎存储节点的规则"></a>InnoDB引擎存储节点的规则</h4><p>InnoDB采取的⽅式是：将数据划分为若⼲个⻚，以⻚作为磁盘和内存之间交互的基本单位，InnoDB 中⻚的⼤⼩⼀般为 16 KB。也就是在⼀般情况下，⼀次最少从磁盘中读取16KB的内容到内存中，⼀次最少把内存中的16KB内容刷新到磁盘中</p>
+<p>我们的实际⽤户记录其实都存放在B+树的最底层的节点上，这些节点也被称为叶⼦节点或叶节点，其余⽤来存放⽬录项的节点称为⾮叶⼦节点或者内节点，其中B+树最上边的那个节点也称为根节点。</p>
+<p>假设所有存放⽤户记录的叶⼦节点代表的数据⻚可以存放100条⽤户记录，所有存放⽬录项记录的内节点<br>代表的数据⻚可以存放1000条⽬录项记录，那么：</p>
+<ul>
+<li>如果B+树只有1层，也就是只有1个⽤于存放⽤户记录的节点， 最多能存放100条记录。</li>
+<li>如果B+树有2层，最多能存放1000×100=100000条记录。</li>
+<li>如果B+树有3层，最多能存放1000×1000×100=100000000条记录。</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-05-26T03:13:16.050Z" itemprop="dateUpdated">2019-05-26 11:13:16</time>
+</span><br>
+
+
+        
+        原文链接：<a href="/2019/05/26/1/" target="_blank" rel="external">http://lvshen9.gitee.io/2019/05/26/1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://lvshen9.gitee.io">
+            <img src="/img/avatar.jpg" alt="我的技术小房间">
+            我的技术小房间
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/B-Tree/">B+Tree</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/索引/">索引</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/05/26/1/&title=《MySQL为什么选择B+Tree做索引》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/05/26/1/&title=《MySQL为什么选择B+Tree做索引》 — Lvshen's Blog&source=MySQL为什么选择B+Tree?
+理解MySQL索引的几个原则
+索引是什么？是为了加速对表中数据行的检索而创建的一种分散存储的数据结构。
+
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/05/26/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL为什么选择B+Tree做索引》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/05/26/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/05/26/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/06/1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">我所用到的Java8</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/04/14/1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">我的一次微服务实战-SpringCloud学习</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "dy9kXHwg5jQUlLryQmpjWRlM-gzGzoHsz",
+            appKey: "P9Nh39Ol0JbMMiYqNGHEP3ml",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="https://lvshen9.github.io/blog2/pay/weixin.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="https://lvshen9.github.io/blog2/pay/weixin.jpg" data-alipay="https://lvshen9.github.io/blog2/pay/zhifu.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>我的技术小房间 &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2019/05/26/1/&title=《MySQL为什么选择B+Tree做索引》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2019/05/26/1/&title=《MySQL为什么选择B+Tree做索引》 — Lvshen's Blog&source=MySQL为什么选择B+Tree?
+理解MySQL索引的几个原则
+索引是什么？是为了加速对表中数据行的检索而创建的一种分散存储的数据结构。
+
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2019/05/26/1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL为什么选择B+Tree做索引》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2019/05/26/1/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2019/05/26/1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2019/05/26/1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
