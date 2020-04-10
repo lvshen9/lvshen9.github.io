@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     
 
     
@@ -23,60 +23,60 @@
     
     
     <meta name="keywords" content="日志,Log4X">
-    <meta name="baidu-site-verification" content="VIVNdSiMZm" />
+    <meta name="baidu-site-verification" content="VIVNdSiMZm">
     <meta name="description" content="author: made by lvshen  Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。">
 <meta name="keywords" content="日志,Log4X">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Log4X统一日志平台部署记录">
-<meta property="og:url" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/index.html">
+<meta property="og:url" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/index.html">
 <meta property="og:site_name" content="Lvshen&#39;s Blog">
 <meta property="og:description" content="author: made by lvshen  Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/7综合图.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/架构图.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/9.log4x日志开关.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/10.log4x其他配置.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/11.agent目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/12.埋点要点.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/13.埋点打包.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/14.log4x-agent.json文件配置.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/log4x安装目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/中间件目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/33.jdk目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/34.环境变量文件.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/17.kafka目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/kafka消费者数据查询.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/18.kafka的web监控.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/19.JStorm目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/20.jstorm进程.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/21.JStormUI.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/22.HBase目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/23.HBase进程.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/24.Hbase表.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/25.hbase的web界面.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/26.hadoop目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/27.HDFS进程.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/es目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/15.es索引显示.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/16.es数据展示.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/28.zk目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/29.zkweb界面.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/30.log4x-web主目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/31.tomcat配置.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/32.mysql目录.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/35.mysql脚本.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/36.mysql表整合.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/37.业务办理轨迹.gif">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/38.服务视图.gif">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/39.服务排行榜.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/40.性能数据监控.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/41.日志监控.png">
-<meta property="og:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/42.sql统计.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/7综合图.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/架构图.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/9.log4x日志开关.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/10.log4x其他配置.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/11.agent目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/12.埋点要点.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/13.埋点打包.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/14.log4x-agent.json文件配置.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/log4x安装目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/中间件目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/33.jdk目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/34.环境变量文件.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/17.kafka目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/kafka消费者数据查询.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/18.kafka的web监控.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/19.JStorm目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/20.jstorm进程.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/21.JStormUI.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/22.HBase目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/23.HBase进程.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/24.Hbase表.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/25.hbase的web界面.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/26.hadoop目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/27.HDFS进程.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/es目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/15.es索引显示.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/16.es数据展示.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/28.zk目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/29.zkweb界面.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/30.log4x-web主目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/31.tomcat配置.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/32.mysql目录.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/35.mysql脚本.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/36.mysql表整合.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/37.业务办理轨迹.gif">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/38.服务视图.gif">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/39.服务排行榜.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/40.性能数据监控.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/41.日志监控.png">
+<meta property="og:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/42.sql统计.png">
 <meta property="og:updated_time" content="2018-12-03T02:56:42.820Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Log4X统一日志平台部署记录">
 <meta name="twitter:description" content="author: made by lvshen  Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记中存储、分析以及运用的日志管理平台。">
-<meta name="twitter:image" content="http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/7综合图.png">
+<meta name="twitter:image" content="https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/7综合图.png">
     
     <link rel="shortcut icon" href="/img/mylogo.jpg">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
@@ -223,7 +223,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Log4X平台介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">Log4X平台介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#web页面展示"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">web页面展示</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#架构图"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">架构图</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#APP应用端部署"><span class="post-toc-number">2.</span> <span class="post-toc-text">APP应用端部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加jar包"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">添加jar包</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#修改配置文件log4j-properties"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">修改配置文件log4j.properties</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#新增log4x-yaml"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">新增log4x.yaml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#app用户配置"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">app用户配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#app应用埋点"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">app应用埋点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点规则"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">埋点规则</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点示例"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">埋点示例</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点要点"><span class="post-toc-number">2.5.3.</span> <span class="post-toc-text">埋点要点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#log4x-agent-json文件配置"><span class="post-toc-number">2.5.4.</span> <span class="post-toc-text">log4x-agent.json文件配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#中间件部署"><span class="post-toc-number">3.</span> <span class="post-toc-text">中间件部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#版本要求"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">版本要求</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#软件安装目录"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">软件安装目录</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#support目录"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">support目录</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JDK部署"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">JDK部署</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Kafka部署"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Kafka部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录"><span class="post-toc-number">3.5.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置server-properties"><span class="post-toc-number">3.5.2.</span> <span class="post-toc-text">配置server.properties</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程与数据展示"><span class="post-toc-number">3.5.3.</span> <span class="post-toc-text">启动进程与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JStorm部署"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">JStorm部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-1"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置-bash-profile"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">配置.bash_profile</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置storm-yaml"><span class="post-toc-number">3.6.3.</span> <span class="post-toc-text">配置storm.yaml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置log4x-jstorm-yaml"><span class="post-toc-number">3.6.4.</span> <span class="post-toc-text">配置log4x.jstorm.yaml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程"><span class="post-toc-number">3.6.5.</span> <span class="post-toc-text">启动进程</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#安装JStormUI"><span class="post-toc-number">3.6.6.</span> <span class="post-toc-text">安装JStormUI</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HBase部署"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">HBase部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-2"><span class="post-toc-number">3.7.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hbase-site-xml"><span class="post-toc-number">3.7.2.</span> <span class="post-toc-text">配置hbase-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hbase-env-sh"><span class="post-toc-number">3.7.3.</span> <span class="post-toc-text">配置hbase-env.sh</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#进程启动与数据展示"><span class="post-toc-number">3.7.4.</span> <span class="post-toc-text">进程启动与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Hadoop部署"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">Hadoop部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-3"><span class="post-toc-number">3.8.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置core-site-xml"><span class="post-toc-number">3.8.2.</span> <span class="post-toc-text">配置core-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hdfs-site-xml"><span class="post-toc-number">3.8.3.</span> <span class="post-toc-text">配置hdfs-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程-1"><span class="post-toc-number">3.8.4.</span> <span class="post-toc-text">启动进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Elasticsearch部署"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">Elasticsearch部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-4"><span class="post-toc-number">3.9.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置elasticsearch-yml"><span class="post-toc-number">3.9.2.</span> <span class="post-toc-text">配置elasticsearch.yml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程与数据展示-1"><span class="post-toc-number">3.9.3.</span> <span class="post-toc-text">启动进程与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Zookeeper部署"><span class="post-toc-number">3.10.</span> <span class="post-toc-text">Zookeeper部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建myid"><span class="post-toc-number">3.10.1.</span> <span class="post-toc-text">创建myid</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-5"><span class="post-toc-number">3.10.2.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置zoo-cfg"><span class="post-toc-number">3.10.3.</span> <span class="post-toc-text">配置zoo.cfg</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#进程启动"><span class="post-toc-number">3.10.4.</span> <span class="post-toc-text">进程启动</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#LOG4X-WEB部署"><span class="post-toc-number">3.11.</span> <span class="post-toc-text">LOG4X-WEB部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-6"><span class="post-toc-number">3.11.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置tomcat"><span class="post-toc-number">3.11.2.</span> <span class="post-toc-text">配置tomcat</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置csfproxy"><span class="post-toc-number">3.11.3.</span> <span class="post-toc-text">配置csfproxy</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置csfserver"><span class="post-toc-number">3.11.4.</span> <span class="post-toc-text">配置csfserver</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动脚本"><span class="post-toc-number">3.11.5.</span> <span class="post-toc-text">启动脚本</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MySQL部署"><span class="post-toc-number">3.12.</span> <span class="post-toc-text">MySQL部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#初始化配置"><span class="post-toc-number">3.12.1.</span> <span class="post-toc-text">初始化配置</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建-amp-插入表数据"><span class="post-toc-number">3.12.2.</span> <span class="post-toc-text">创建&插入表数据</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#实例信息和服务信息的表的配置"><span class="post-toc-number">3.12.3.</span> <span class="post-toc-text">实例信息和服务信息的表的配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#界面展示"><span class="post-toc-number">4.</span> <span class="post-toc-text">界面展示</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#业务办理轨迹查询"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">业务办理轨迹查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#服务视图"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">服务视图</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#服务排行榜"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">服务排行榜</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#性能数据监控"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">性能数据监控</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#日志查询"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">日志查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SQL统计"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">SQL统计</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Log4X平台介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">Log4X平台介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#web页面展示"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">web页面展示</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#架构图"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">架构图</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#APP应用端部署"><span class="post-toc-number">2.</span> <span class="post-toc-text">APP应用端部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加jar包"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">添加jar包</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#修改配置文件log4j-properties"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">修改配置文件log4j.properties</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#新增log4x-yaml"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">新增log4x.yaml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#app用户配置"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">app用户配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#app应用埋点"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">app应用埋点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点规则"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">埋点规则</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点示例"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">埋点示例</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#埋点要点"><span class="post-toc-number">2.5.3.</span> <span class="post-toc-text">埋点要点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#log4x-agent-json文件配置"><span class="post-toc-number">2.5.4.</span> <span class="post-toc-text">log4x-agent.json文件配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#中间件部署"><span class="post-toc-number">3.</span> <span class="post-toc-text">中间件部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#版本要求"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">版本要求</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#软件安装目录"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">软件安装目录</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#support目录"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">support目录</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JDK部署"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">JDK部署</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Kafka部署"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Kafka部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录"><span class="post-toc-number">3.5.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置server-properties"><span class="post-toc-number">3.5.2.</span> <span class="post-toc-text">配置server.properties</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程与数据展示"><span class="post-toc-number">3.5.3.</span> <span class="post-toc-text">启动进程与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#JStorm部署"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">JStorm部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-1"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置-bash-profile"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">配置.bash_profile</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置storm-yaml"><span class="post-toc-number">3.6.3.</span> <span class="post-toc-text">配置storm.yaml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置log4x-jstorm-yaml"><span class="post-toc-number">3.6.4.</span> <span class="post-toc-text">配置log4x.jstorm.yaml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程"><span class="post-toc-number">3.6.5.</span> <span class="post-toc-text">启动进程</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#安装JStormUI"><span class="post-toc-number">3.6.6.</span> <span class="post-toc-text">安装JStormUI</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HBase部署"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">HBase部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-2"><span class="post-toc-number">3.7.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hbase-site-xml"><span class="post-toc-number">3.7.2.</span> <span class="post-toc-text">配置hbase-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hbase-env-sh"><span class="post-toc-number">3.7.3.</span> <span class="post-toc-text">配置hbase-env.sh</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#进程启动与数据展示"><span class="post-toc-number">3.7.4.</span> <span class="post-toc-text">进程启动与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Hadoop部署"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">Hadoop部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-3"><span class="post-toc-number">3.8.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置core-site-xml"><span class="post-toc-number">3.8.2.</span> <span class="post-toc-text">配置core-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置hdfs-site-xml"><span class="post-toc-number">3.8.3.</span> <span class="post-toc-text">配置hdfs-site.xml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程-1"><span class="post-toc-number">3.8.4.</span> <span class="post-toc-text">启动进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Elasticsearch部署"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">Elasticsearch部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-4"><span class="post-toc-number">3.9.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置elasticsearch-yml"><span class="post-toc-number">3.9.2.</span> <span class="post-toc-text">配置elasticsearch.yml</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动进程与数据展示-1"><span class="post-toc-number">3.9.3.</span> <span class="post-toc-text">启动进程与数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Zookeeper部署"><span class="post-toc-number">3.10.</span> <span class="post-toc-text">Zookeeper部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建myid"><span class="post-toc-number">3.10.1.</span> <span class="post-toc-text">创建myid</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-5"><span class="post-toc-number">3.10.2.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置zoo-cfg"><span class="post-toc-number">3.10.3.</span> <span class="post-toc-text">配置zoo.cfg</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#进程启动"><span class="post-toc-number">3.10.4.</span> <span class="post-toc-text">进程启动</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#LOG4X-WEB部署"><span class="post-toc-number">3.11.</span> <span class="post-toc-text">LOG4X-WEB部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#文件目录-6"><span class="post-toc-number">3.11.1.</span> <span class="post-toc-text">文件目录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置tomcat"><span class="post-toc-number">3.11.2.</span> <span class="post-toc-text">配置tomcat</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置csfproxy"><span class="post-toc-number">3.11.3.</span> <span class="post-toc-text">配置csfproxy</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#配置csfserver"><span class="post-toc-number">3.11.4.</span> <span class="post-toc-text">配置csfserver</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#启动脚本"><span class="post-toc-number">3.11.5.</span> <span class="post-toc-text">启动脚本</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MySQL部署"><span class="post-toc-number">3.12.</span> <span class="post-toc-text">MySQL部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#初始化配置"><span class="post-toc-number">3.12.1.</span> <span class="post-toc-text">初始化配置</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#创建-amp-插入表数据"><span class="post-toc-number">3.12.2.</span> <span class="post-toc-text">创建&amp;插入表数据</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#实例信息和服务信息的表的配置"><span class="post-toc-number">3.12.3.</span> <span class="post-toc-text">实例信息和服务信息的表的配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#界面展示"><span class="post-toc-number">4.</span> <span class="post-toc-text">界面展示</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#业务办理轨迹查询"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">业务办理轨迹查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#服务视图"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">服务视图</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#服务排行榜"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">服务排行榜</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#性能数据监控"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">性能数据监控</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#日志查询"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">日志查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SQL统计"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">SQL统计</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -674,12 +674,12 @@
 
 
         
-        原文链接：<a href="/2018/11/28/Log4X统一日志平台部署记录/" target="_blank" rel="external">http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/</a>
+        原文链接：<a href="/2018/11/28/Log4X统一日志平台部署记录/" target="_blank" rel="external">https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/</a>
         
     </div>
     
     <footer>
-        <a href="http://lvshen9.gitee.io">
+        <a href="https://lvshen9.gitee.io">
             <img src="/img/avatar.jpg" alt="我的技术小房间">
             我的技术小房间
         </a>
@@ -705,7 +705,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&pic=https://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -715,7 +715,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&source=
 author: made by lvshen
 
 Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记..." data-title=" QQ">
@@ -723,17 +723,17 @@ Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。�
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Log4X统一日志平台部署记录》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Log4X统一日志平台部署记录》 — Lvshen's Blog&url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&via=https://lvshen9.gitee.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -886,7 +886,7 @@ Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。�
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&pic=http://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&pic=https://lvshen9.gitee.io/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -896,7 +896,7 @@ Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。�
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&title=《Log4X统一日志平台部署记录》 — Lvshen's Blog&source=
 author: made by lvshen
 
 Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。针对分布式系统环境下的分散日志，进行记..." data-title=" QQ">
@@ -904,17 +904,17 @@ Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。�
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Log4X统一日志平台部署记录》 — Lvshen's Blog&url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&via=http://lvshen9.gitee.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Log4X统一日志平台部署记录》 — Lvshen's Blog&url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/&via=https://lvshen9.gitee.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -925,7 +925,7 @@ Log4X平台介绍Log4X是负责实现日志采集、分析、展示的产品。�
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lvshen9.gitee.io/2018/11/28/Log4X统一日志平台部署记录/" alt="微信分享二维码">
 </div>
 
 
